@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>DeepSeek 余额与消耗 · 曼城十号梅西</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%234d6bfe'/><stop offset='1' stop-color='%235b8cff'/></linearGradient></defs><rect width='100' height='100' rx='26' fill='url(%23g)'/><path d='M50 20 C40 34 30 42 30 56 a20 20 0 0 0 40 0 C70 42 60 34 50 20 Z' fill='white'/></svg>">
+<style>
+  :root{
+    --bg:#080b12;
+    --panel:#0e1420;
+    --panel2:#131b2a;
+    --line:#1d2637;
+    --line2:#26314a;
+    --ink:#e9eff9;
+    --ink2:#98a7bf;
+    --ink3:#66748d;
+    --up:#f6465d;
+    --down:#2ebd85;
+    --accent:#5b8cff;
+    --ds:#4d6bfe;
+    --amber:#f0b90b;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(1000px 520px at 10% -14%, rgba(77,107,254,.16), transparent 62%),
+      radial-gradient(880px 460px at 94% -8%, rgba(240,185,11,.07), transparent 58%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.65;
+    display:flex;flex-direction:column;
+  }
+  .wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+  .num{font-variant-numeric:tabular-nums}
+
+  header{padding:34px 0 6px}
+  .back{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ink2);
+    transition:color .2s ease,gap .2s ease}
+  .back:hover{color:var(--ink);gap:10px}
+  .tag{font-size:11.5px;letter-spacing:.28em;font-weight:700;margin-top:26px;
+    background:linear-gradient(90deg,#4d6bfe,#f0b90b);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  h1{font-size:clamp(26px,4.4vw,40px);font-weight:750;letter-spacing:-.01em;margin-top:10px;line-height:1.2}
+  .lede{margin-top:12px;font-size:14.5px;color:var(--ink2)}
+
+  main{flex:1 1 auto;padding:26px 0 70px}
+
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px 22px}
+  .kpi .k{font-size:11.5px;letter-spacing:.14em;font-weight:700;color:var(--ink3)}
+  .kpi .v{font-size:27px;font-weight:750;letter-spacing:-.02em;margin-top:8px;font-variant-numeric:tabular-nums}
+  .kpi .s{font-size:12px;color:var(--ink3);margin-top:4px}
+  .kpi .v.warm{color:var(--amber)}
+  .kpi .v.cool{color:var(--accent)}
+  .kpi .v.warn{color:var(--up)}
+  .kpi .v.ok{color:var(--down)}
+
+  section.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;
+    padding:22px 24px 18px;margin-top:22px}
+  .card-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .card-head h2{font-size:17px;font-weight:700;letter-spacing:.01em}
+  .card-head .hint{font-size:12px;color:var(--ink3)}
+  .chart{margin-top:14px;line-height:0}
+  .chart svg{display:block;width:100%;height:auto}
+
+  .list{margin-top:12px;border-top:1px solid var(--line)}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:11px 2px;border-bottom:1px solid var(--line);font-size:13.5px}
+  .row .d{color:var(--ink2);font-variant-numeric:tabular-nums}
+  .row .b{font-weight:650;font-variant-numeric:tabular-nums}
+  .row .u{font-weight:650;font-variant-numeric:tabular-nums}
+  .row .u.used{color:var(--amber)}
+  .row .u.recharge{color:var(--down)}
+  .row .u.na{color:var(--ink3)}
+  .row.hd{font-size:11.5px;letter-spacing:.12em;font-weight:700;color:var(--ink3);border-bottom:1px solid var(--line2)}
+  .empty{padding:36px 0;text-align:center;color:var(--ink3);font-size:13.5px}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 40px;
+    font-size:12.5px;color:var(--ink3);text-align:center;background:rgba(10,14,22,.6)}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ink3);margin-right:6px;vertical-align:1px}
+  .dot.ok{background:var(--down)}
+  .dot.err{background:var(--up)}
+  @media (max-width:820px){
+    header{padding:22px 0 4px}
+    .wrap{padding:0 18px}
+    .kpi .v{font-size:23px}
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <a class="back" href="./home3.html">&#8592; 曼城十号梅西</a>
+  <div class="tag">DEEPSEEK API USAGE</div>
+  <h1>DeepSeek 余额与消耗</h1>
+  <p class="lede">每日 00:00 自动记录余额 · 数据云端同步 · <span id="cloudState"><span class="dot"></span>连接中</span></p>
+</header>
+
+<main class="wrap">
+
+  <div class="kpis">
+    <div class="kpi"><div class="k">当前余额</div><div class="v cool" id="kBal">&#8212;</div><div class="s" id="kBalSub">&#8212;</div></div>
+    <div class="kpi"><div class="k">过去 24 小时使用</div><div class="v warm" id="kUsed">&#8212;</div><div class="s" id="kUsedSub">&#8212;</div></div>
+    <div class="kpi"><div class="k">日均消耗</div><div class="v" id="kAvg">&#8212;</div><div class="s" id="kAvgSub">&#8212;</div></div>
+    <div class="kpi"><div class="k">预计可用</div><div class="v" id="kDays">&#8212;</div><div class="s">按日均消耗推算</div></div>
+  </div>
+
+  <section class="card">
+    <div class="card-head"><h2>余额变化</h2><span class="hint" id="hintBal">有记录以来</span></div>
+    <div class="chart" id="chartBal"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>每日使用量</h2><span class="hint">相邻两次记录（各为 00:00）之间的余额差 · 单位：元</span></div>
+    <div class="chart" id="chartUse"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>记录明细</h2><span class="hint" id="hintRec"></span></div>
+    <div id="recList"></div>
+  </section>
+
+</main>
+
+<footer>曼城十号梅西 · 数据与记录仅作个人观察</footer>
+
+<script src="./assets/workbuddy-cloud-sdk.js"></script>
+<script src="./assets/wb-cloud-v2.js"></script>
+
+<script>
+(function () {
+  "use strict";
+
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+
+  function mark(state, txt) {
+    var el = document.getElementById("cloudState");
+    if (!el) return;
+    el.innerHTML = '<span class="dot ' + state + '"></span>' + txt;
+  }
+
+  /* 从云端读取 deepseek:<日期> 记录 */
+  function rows() {
+    var out = [];
+    var d = (window.WB && WB.ready) ? WB.data : {};
+    for (var k in d) {
+      if (!Object.prototype.hasOwnProperty.call(d, k)) continue;
+      if (k.indexOf("deepseek:") !== 0) continue;
+      var v = d[k];
+      if (!v || typeof v !== "object" || typeof v.bal !== "number") continue;
+      out.push({ date: k.slice(9), bal: v.bal, top: v.top, grt: v.grt, ts: v.ts });
+    }
+    out.sort(function (a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
+    /* 相邻两天的余额差 = 期间使用额（负数表示充值） */
+    for (var i = 1; i < out.length; i++) {
+      out[i].used = +(out[i - 1].bal - out[i].bal).toFixed(2);
+    }
+    return out;
+  }
+
+  function fmtY(v) {
+    if (v === null || v === undefined || isNaN(v)) return "\u2014";
+    return "\u00A5" + v.toFixed(2);
+  }
+  function fmtAx(v) {
+    var a = Math.abs(v);
+    return "\u00A5" + (a >= 1000 ? Math.round(v) : (a >= 100 ? v.toFixed(0) : v.toFixed(1)));
+  }
+  function fmtDay(date) {
+    var p = date.split("-");
+    return parseInt(p[1], 10) + "/" + parseInt(p[2], 10);
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  /* 通用折线图 */
+  function lineChart(el, pts, color, gradId, yFmt) {
+    if (!el) return;
+    if (!pts.length) { el.innerHTML = '<div class="empty">还没有记录，明天 00:00 后出现第一个数据点。</div>'; return; }
+    var W = 1000, H = 320, L = 74, R = 20, T = 20, B = 40;
+    var vals = pts.map(function (p) { return p.v; });
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+    if (hi === lo) { hi = lo + Math.max(1, hi * 0.02); lo = lo - Math.max(1, hi * 0.02); }
+    var padY = (hi - lo) * 0.16;
+    lo -= padY; hi += padY;
+    var span = hi - lo;
+    var x = function (i) { return L + (W - L - R) * (pts.length < 2 ? 0.5 : i / (pts.length - 1)); };
+    var y = function (v) { return T + (H - T - B) * (1 - (v - lo) / span); };
+
+    var line = pts.map(function (p, i) { return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(p.v).toFixed(1); }).join(" ");
+    var area = "";
+    if (pts.length >= 2) {
+      area = line + " L " + x(pts.length - 1).toFixed(1) + " " + (H - B) + " L " + x(0).toFixed(1) + " " + (H - B) + " Z";
+    }
+
+    var grid = "";
+    for (var g = 0; g <= 4; g++) {
+      var v = lo + span * g / 4, yy = y(v);
+      grid += '<line x1="' + L + '" y1="' + yy.toFixed(1) + '" x2="' + (W - R) + '" y2="' + yy.toFixed(1) +
+        '" stroke="#1d2637" stroke-dasharray="4 5"/>' +
+        '<text x="' + (L - 10) + '" y="' + (yy + 4).toFixed(1) + '" text-anchor="end" font-size="11" fill="#66748d">' +
+        yFmt(v) + '</text>';
+    }
+
+    var step = Math.max(1, Math.ceil(pts.length / 9));
+    var ticks = "";
+    pts.forEach(function (p, i) {
+      if (i % step !== 0 && i !== pts.length - 1) return;
+      ticks += '<text x="' + x(i).toFixed(1) + '" y="' + (H - 12) + '" text-anchor="middle" font-size="11" fill="#66748d">' +
+        fmtDay(p.d) + '</text>';
+    });
+
+    var dots = "";
+    if (pts.length <= 40) {
+      pts.forEach(function (p, i) {
+        if (i !== pts.length - 1 && pts.length > 12 && i % step !== 0) return;
+        dots += '<circle cx="' + x(i).toFixed(1) + '" cy="' + y(p.v).toFixed(1) + '" r="2.6" fill="' + color + '"/>';
+      });
+    }
+    var last = pts[pts.length - 1];
+    dots += '<circle cx="' + x(pts.length - 1).toFixed(1) + '" cy="' + y(last.v).toFixed(1) + '" r="4.2" fill="' + color + '"/>';
+
+    el.innerHTML =
+      '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><linearGradient id="' + gradId + '" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="' + color + '" stop-opacity=".26"/>' +
+      '<stop offset="1" stop-color="' + color + '" stop-opacity="0"/></linearGradient></defs>' +
+      grid +
+      (area ? '<path d="' + area + '" fill="url(#' + gradId + ')"/>' : "") +
+      (pts.length >= 2 ? '<path d="' + line + '" fill="none" stroke="' + color + '" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>' : "") +
+      dots + ticks + '</svg>';
+  }
+
+  /* 柱状图：每日使用量 */
+  function barChart(el, pts) {
+    if (!el) return;
+    if (!pts.length) { el.innerHTML = '<div class="empty">至少需要两天的记录才能算出每日使用量。</div>'; return; }
+    var W = 1000, H = 300, L = 74, R = 20, T = 24, B = 40;
+    var vals = pts.map(function (p) { return p.v; });
+    var lo = Math.min.apply(null, vals.concat([0]));
+    var hi = Math.max.apply(null, vals.concat([0]));
+    if (hi === lo) hi = lo + 1;
+    var span = hi - lo;
+    var y = function (v) { return T + (H - T - B) * (1 - (v - lo) / span); };
+    var bw = (W - L - R) / pts.length;
+    var barW = Math.min(54, Math.max(6, bw * 0.52));
+
+    var out = "", grid = "";
+    for (var g = 0; g <= 4; g++) {
+      var v = lo + span * g / 4, yy = y(v);
+      grid += '<line x1="' + L + '" y1="' + yy.toFixed(1) + '" x2="' + (W - R) + '" y2="' + yy.toFixed(1) +
+        '" stroke="#1d2637" stroke-dasharray="4 5"/>' +
+        '<text x="' + (L - 10) + '" y="' + (yy + 4).toFixed(1) + '" text-anchor="end" font-size="11" fill="#66748d">' +
+        fmtAx(v) + '</text>';
+    }
+    out += grid;
+    out += '<line x1="' + L + '" y1="' + y(0).toFixed(1) + '" x2="' + (W - R) + '" y2="' + y(0).toFixed(1) +
+      '" stroke="#3a4a6d" stroke-width="1.2"/>';
+
+    var step = Math.max(1, Math.ceil(pts.length / 12));
+    pts.forEach(function (p, i) {
+      var cx = L + bw * i + bw / 2;
+      var y0 = y(0), y1 = y(p.v);
+      var top = Math.min(y0, y1), h = Math.max(1.5, Math.abs(y1 - y0));
+      var color = p.v > 0 ? "#f0b90b" : (p.v < 0 ? "#2ebd85" : "#3a4a6d");
+      out += '<rect x="' + (cx - barW / 2).toFixed(1) + '" y="' + top.toFixed(1) + '" width="' + barW.toFixed(1) +
+        '" height="' + h.toFixed(1) + '" rx="3" fill="' + color + '" opacity=".88"/>';
+      if (p.v !== 0 && (i % step === 0 || i === pts.length - 1)) {
+        out += '<text x="' + cx.toFixed(1) + '" y="' + (p.v > 0 ? top - 7 : top + h + 15).toFixed(1) +
+          '" text-anchor="middle" font-size="11" fill="' + color + '">' + fmtAx(p.v) + '</text>';
+      }
+      if (i % step === 0 || i === pts.length - 1) {
+        out += '<text x="' + cx.toFixed(1) + '" y="' + (H - 12) + '" text-anchor="middle" font-size="11" fill="#66748d">' +
+          fmtDay(p.d) + '</text>';
+      }
+    });
+
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">' + out + '</svg>';
+  }
+
+  function render() {
+    var r = rows();
+    var last = r.length ? r[r.length - 1] : null;
+
+    /* KPI */
+    var e;
+    e = document.getElementById("kBal");
+    if (e) {
+      e.textContent = last ? fmtY(last.bal) : "\u2014";
+      e.className = "v " + (last && last.bal < 50 ? "warn" : "cool");
+    }
+    e = document.getElementById("kBalSub");
+    if (e) e.textContent = last ? ("记录于 " + last.date + " 00:00 后") : "暂无记录";
+
+    e = document.getElementById("kUsed");
+    if (e) {
+      if (last && typeof last.used === "number") {
+        e.textContent = (last.used >= 0 ? fmtY(last.used) : "\u2212" + fmtY(-last.used));
+        e.className = "v " + (last.used >= 0 ? "warm" : "ok");
+      } else { e.textContent = "\u2014"; e.className = "v"; }
+    }
+    e = document.getElementById("kUsedSub");
+    if (e) e.textContent = (last && typeof last.used === "number")
+      ? (last.used >= 0 ? "较前一日余额的减少额" : "余额上升（充值）")
+      : "需至少两天记录";
+
+    var useds = r.filter(function (x) { return typeof x.used === "number" && x.used >= 0; }).map(function (x) { return x.used; });
+    var avg = useds.length ? (useds.reduce(function (a, b) { return a + b; }, 0) / useds.length) : null;
+    /* 用首末余额差 / 跨度天数 更稳（避免充值日拉偏均值） */
+    if (r.length >= 2) {
+      var d0 = new Date(r[0].date + "T00:00:00"), d1 = new Date(r[r.length - 1].date + "T00:00:00");
+      var days = Math.round((d1 - d0) / 86400000);
+      var net = r[0].bal - r[r.length - 1].bal;
+      if (days > 0 && net >= 0) avg = net / days;
+      else if (days > 0) avg = null;
+    }
+    e = document.getElementById("kAvg");
+    if (e) e.textContent = (avg !== null && avg > 0) ? fmtY(avg) : "\u2014";
+    e = document.getElementById("kAvgSub");
+    if (e) e.textContent = (avg !== null && avg > 0) ? ("基于 " + r.length + " 天记录") : "记录不足";
+
+    e = document.getElementById("kDays");
+    if (e) e.textContent = (avg && avg > 0 && last) ? ("约 " + Math.floor(last.bal / avg) + " 天") : "\u2014";
+
+    /* 图表 */
+    lineChart(document.getElementById("chartBal"),
+      r.map(function (x) { return { d: x.date, v: x.bal }; }), "#4d6bfe", "gBal", fmtAx);
+
+    barChart(document.getElementById("chartUse"),
+      r.filter(function (x) { return typeof x.used === "number"; }).map(function (x) { return { d: x.date, v: x.used }; }));
+
+    /* 明细 */
+    var list = document.getElementById("recList");
+    if (list) {
+      if (!r.length) {
+        list.innerHTML = '<div class="empty">暂无记录。定时任务每天 00:00 写入一次，明天开始出现数据。</div>';
+      } else {
+        var html = '<div class="list"><div class="row hd"><span class="d">日期</span><span>b/额度</span><span>当日使用</span></div>';
+        for (var i = r.length - 1; i >= 0; i--) {
+          var x = r[i];
+          var u = (typeof x.used === "number")
+            ? (x.used > 0 ? '<span class="u used">' + fmtY(x.used) + '</span>'
+              : (x.used < 0 ? '<span class="u recharge">充值 ' + fmtY(-x.used) + '</span>'
+                : '<span class="u na">¥0.00</span>'))
+            : '<span class="u na">\u2014</span>';
+          html += '<div class="row"><span class="d">' + esc(x.date) + '</span>' +
+            '<span class="b">' + fmtY(x.bal) + '</span>' + u + '</div>';
+        }
+        html += '</div>';
+        list.innerHTML = html;
+      }
+    }
+    e = document.getElementById("hintRec");
+    if (e) e.textContent = r.length ? (r.length + " 条记录 · 每日 00:00 自动写入") : "";
+    e = document.getElementById("hintBal");
+    if (e) e.textContent = r.length ? ("有记录以来 · 共 " + r.length + " 天") : "有记录以来";
+  }
+
+  render();
+  if (window.WB) {
+    WB.onReady(function () {
+      mark(WB.error ? "err" : "ok", WB.error ? "云端连接失败（显示本机缓存）" : "云端已同步");
+      render();
+    });
+    if (WB.ready) mark(WB.error ? "err" : "ok", WB.error ? "云端连接失败（显示本机缓存）" : "云端已同步");
+  } else {
+    mark("err", "云端未就绪");
+  }
+
+  /* 返回主页时带时间戳，绕过缓存 */
+  Array.prototype.forEach.call(document.querySelectorAll('a[href$=".html"]'), function (a) {
+    var h = a.getAttribute("href");
+    if (h && h.indexOf("?") < 0) a.setAttribute("href", h + "?t=" + Date.now());
+  });
+})();
+</script>
+
+
+
+
+
+
+
+
+
+<!-- VER-BLOCK -->
+<script>var PAGE_VER="20260924004653";</script>
+<script>
+/* 版本自检 + 地址栏净化：
+   1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
+   2) 本机若见过更新的版本（localStorage.wbBuild），立即切到带时间戳的最新地址——无需联网；
+   3) 否则与服务器 version.json 核对版本，旧版自动跳转；
+   4) 确认自己是最新版时，抹掉地址栏 ?t= 参数。
+   防循环：同一目标版本最多连续跳 5 次，跳到最新版后计数清零。 */
+(function () {
+  var HOMES = ["index.html", "home.html", "home2.html", "home3.html"];
+  var origPath = location.pathname;
+  var nm = origPath.split("/").pop() || "index.html";
+  var isHome = HOMES.indexOf(nm) >= 0;
+  var hadParam = /[?&]t=\d{10,}/.test(location.href);
+  function cleanUrl() {
+    try {
+      var u = new URL(location.href);
+      u.searchParams.delete("t");
+      var qs = u.searchParams.toString();
+      var path = isHome ? "/" : origPath;
+      history.replaceState(null, "", path + (qs ? "?" + qs : "") + u.hash);
+    } catch (e) {}
+  }
+  function hop(target) {
+    var now = Date.now(), n = 0, t0 = 0, tv = "";
+    try {
+      var parts = (localStorage.getItem("wbHop") || "").split("|");
+      tv = parts[0] || ""; n = +(parts[1] || 0) || 0; t0 = +(parts[2] || 0) || 0;
+    } catch (e) {}
+    if (tv !== String(target) || now - t0 > 600000) { n = 0; }
+    if (n >= 5) return false;
+    try { localStorage.setItem("wbHop", String(target) + "|" + (n + 1) + "|" + now); } catch (e) {}
+    location.replace(origPath + "?t=" + now);
+    return true;
+  }
+  function ok() {
+    try { localStorage.removeItem("wbHop"); } catch (e) {}
+    if (hadParam || isHome) cleanUrl();
+  }
+  if (!/^https?:$/.test(location.protocol) || typeof PAGE_VER === "undefined") return;
+  if (isHome) cleanUrl();
+  var myVer = parseInt(PAGE_VER, 10) || 0;
+  var seen = 0;
+  try { seen = parseInt(localStorage.getItem("wbBuild") || "0", 10) || 0; } catch (e) {}
+  if (seen > myVer) { hop(seen); return; }
+  if (myVer > seen) { try { localStorage.setItem("wbBuild", String(myVer)); } catch (e) {} }
+  fetch("./version.json?t=" + Date.now(), { cache: "no-store" })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      var latest = j && j[nm];
+      if (!latest || latest === PAGE_VER) { ok(); return; }
+      try { localStorage.setItem("wbBuild", String(latest)); } catch (e) {}
+      hop(latest);
+    })
+    .catch(function () { if (hadParam) cleanUrl(); });
+})();
+</script>
+<!-- /VER-BLOCK -->
+
+</body>
+</html>

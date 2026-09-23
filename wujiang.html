@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>婺江路片区实时追踪 · 曼城十号梅西</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23f6f5f0'/><path d='M22 72 L46 34 L60 58 L78 30' stroke='%233f7a6b' stroke-width='9' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<style>
+  :root{
+    --bg:#f6f5f0;
+    --card:#ffffff;
+    --line:#e4e0d5;
+    --line2:#d9d4c5;
+    --ink:#211f1a;
+    --ink2:#6b665c;
+    --ink3:#9a9284;
+    --red:#c0503a;
+    --gold:#c99a2e;
+    --green:#3f7a6b;
+    --gray:#8a8577;
+    --serif:"Songti SC","SimSun","Noto Serif SC",Georgia,serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.65;
+    min-height:100vh;
+  }
+  .wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 26px}
+  a{color:inherit;text-decoration:none}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ---------- 顶栏 ---------- */
+  .top{position:sticky;top:0;z-index:40;background:rgba(246,245,240,.88);
+    backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--line)}
+  .top-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;
+    min-height:60px;padding:11px 26px;flex-wrap:wrap}
+  .back{font-size:13px;color:var(--ink2);transition:color .18s ease}
+  .back:hover{color:var(--ink)}
+  .top-right{display:flex;align-items:center;gap:12px}
+  .pill{font-size:11.5px;padding:4px 11px;border-radius:999px;background:#eceae2;
+    border:1px solid var(--line);color:var(--ink2);letter-spacing:.02em}
+  .btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:10px;
+    border:1px solid var(--line2);background:var(--card);color:var(--ink);
+    font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;
+    transition:transform .18s ease,box-shadow .18s ease}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px -10px rgba(33,31,26,.4)}
+  .btn .ic{display:inline-block;line-height:1}
+  .btn.spin .ic{animation:spin .9s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:52px 0 6px}
+  .tagrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .tag{font-size:11.5px;letter-spacing:.24em;font-weight:700;color:var(--green)}
+  .code{font-size:11.5px;letter-spacing:.18em;color:var(--ink3)}
+  .hero h1{font-family:var(--serif);font-size:clamp(28px,4.6vw,44px);font-weight:700;
+    letter-spacing:.01em;margin-top:14px;line-height:1.22}
+  .hero .lede{font-family:var(--serif);font-size:clamp(19px,2.6vw,26px);color:var(--ink);
+    margin-top:14px;letter-spacing:.01em}
+  .hero .desc{margin-top:12px;font-size:14.5px;color:var(--ink2);max-width:60ch}
+
+  /* ---------- 观察范围 ---------- */
+  .scope{margin-top:30px}
+  .scope-card{display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;
+    background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 24px}
+  .scope-card .big{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:.02em}
+  .scope-card .k{font-size:11.5px;letter-spacing:.14em;color:var(--ink3);font-weight:650}
+  .edges{flex:1 1 380px}
+  .edge-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
+  .edge-list span{font-size:12.5px;color:var(--ink2);background:#f2f1ea;border:1px solid var(--line);
+    border-radius:8px;padding:5px 11px}
+
+  /* ---------- 统计 ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+  .stat .n{font-family:var(--serif);font-size:34px;font-weight:700;line-height:1.1;letter-spacing:-.01em}
+  .stat .t{font-size:13.5px;font-weight:650;margin-top:8px}
+  .stat .s{font-size:12px;color:var(--ink3);margin-top:3px}
+
+  /* ---------- 区块标题 ---------- */
+  .sec{margin-top:46px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+  .idx{font-size:11px;letter-spacing:.18em;font-weight:700;color:var(--ink3)}
+  .sec-head h2{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:.01em}
+  .legend{display:flex;gap:16px;margin-left:auto;flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2)}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .d-red{background:var(--red)}
+  .d-gold{background:var(--gold)}
+  .d-green{background:var(--green)}
+
+  /* ---------- 地图 + 进展 ---------- */
+  .map-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:start}
+  .map-box{background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:14px;overflow:hidden}
+  .map-wrap{position:relative;line-height:0;border-radius:12px;overflow:hidden;
+    border:1px solid var(--line);background:#eef0ee}
+  .map-img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+  .pins{position:absolute;inset:0}
+  .pin{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:5px;
+    cursor:grab;touch-action:none;z-index:2}
+  .pin:active{cursor:grabbing}
+  .pin .dot{width:20px;height:20px;border-radius:50%;border:2px solid #fff;flex:none;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;color:#fff;line-height:1;
+    box-shadow:0 2px 8px rgba(0,0,0,.35);transition:transform .16s ease,box-shadow .16s ease}
+  .pin .lbl{font-size:10.5px;font-weight:650;color:#2b2924;background:rgba(255,255,255,.95);
+    border:1px solid rgba(0,0,0,.09);border-radius:5px;padding:1px 6px;white-space:nowrap;
+    opacity:0;transform:translateX(-4px);transition:opacity .18s ease,transform .18s ease;
+    pointer-events:none;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+  .pin:hover .lbl,.pin.on .lbl,.pin.drag .lbl{opacity:1;transform:translateX(0)}
+  .pin.drag .dot{transform:scale(1.3)}
+  .pin.on .dot{box-shadow:0 0 0 3px rgba(255,255,255,.95),0 0 0 6px rgba(33,31,26,.45)}
+  .pin.pulse .dot{animation:pinpulse 1.05s ease-out 1}
+  @keyframes pinpulse{0%{box-shadow:0 0 0 0 rgba(33,31,26,.5),0 2px 8px rgba(0,0,0,.35)}
+    100%{box-shadow:0 0 0 18px rgba(33,31,26,0),0 2px 8px rgba(0,0,0,.35)}}
+
+  .map-foot{margin-top:12px;display:flex;align-items:center;justify-content:space-between;
+    gap:12px;flex-wrap:wrap}
+  .map-note{font-size:12px;color:var(--ink3)}
+  .map-tip{font-size:11.5px;color:var(--ink3)}
+  .map-tip button{font-size:11.5px;font-weight:650;color:var(--green);background:transparent;
+    border:0;cursor:pointer;font-family:inherit;padding:0;margin-left:8px}
+  .map-tip button:hover{text-decoration:underline}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
+  .panel-head{font-size:11.5px;letter-spacing:.16em;font-weight:700;color:var(--ink3);
+    padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+  .pi{display:block;width:100%;text-align:left;background:transparent;border:0;border-radius:12px;
+    padding:12px 12px;cursor:pointer;font-family:inherit;color:inherit;
+    border-bottom:1px dashed var(--line);transition:background .18s ease}
+  .pi:last-child{border-bottom:0}
+  .pi:hover{background:#f7f6f1}
+  .pi.on{background:#f1efe7}
+  .pi-top{display:flex;align-items:center;gap:9px}
+  .pi-idx{width:18px;height:18px;border-radius:50%;flex:none;color:#fff;font-size:10.5px;
+    font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1}
+  .kind{font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:6px;flex:none}
+  .kind.demolish{color:var(--red);background:rgba(192,80,58,.09)}
+  .kind.sell{color:#9c7714;background:rgba(201,154,46,.12)}
+  .kind.build{color:var(--green);background:rgba(63,122,107,.1)}
+  .kind.done{color:var(--gray);background:rgba(138,133,119,.12)}
+  .pi-name{font-size:14px;font-weight:650;letter-spacing:.01em}
+  .pi-loc{display:block;font-size:12px;color:var(--ink3);margin-top:5px;padding-left:27px}
+
+  /* ---------- 新增动态 ---------- */
+  .disc-card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:26px 24px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .disc-card .n{font-family:var(--serif);font-size:40px;font-weight:700;line-height:1;color:var(--ink3)}
+  .disc-card .t{font-size:14.5px;font-weight:600}
+  .disc-card .s{font-size:12.5px;color:var(--ink3);margin-top:3px}
+  .disc-count{font-size:12.5px;color:var(--ink3);margin-bottom:14px}
+  .disc-list{display:flex;flex-direction:column;gap:12px}
+  .disc-item{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:18px 22px;display:grid;grid-template-columns:118px 1fr;gap:18px;align-items:start;
+    transition:border-color .2s ease,box-shadow .2s ease}
+  .disc-item:hover{border-color:var(--line2);box-shadow:0 16px 32px -28px rgba(33,31,26,.5)}
+  .disc-item .dm{font-size:12px;color:var(--ink3);line-height:1.65}
+  .disc-item .dm b{display:block;color:var(--ink2);font-weight:650;font-size:12.5px}
+  .disc-item h3{font-family:var(--serif);font-size:16px;font-weight:700;line-height:1.45}
+  .disc-item p{margin-top:7px;font-size:13px;color:var(--ink2);line-height:1.7}
+
+  /* ---------- 项目档案 ---------- */
+  .filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}
+  .filters button{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:999px;
+    border:1px solid var(--line2);background:var(--card);color:var(--ink2);
+    font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .18s ease}
+  .filters button em{font-style:normal;font-size:11.5px;color:var(--ink3)}
+  .filters button:hover{border-color:#c9c3b3}
+  .filters button.on{background:var(--ink);border-color:var(--ink);color:#f6f5f0}
+  .filters button.on em{color:rgba(246,245,240,.6)}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;
+    display:flex;flex-direction:column;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+  .pcard:hover{transform:translateY(-3px);border-color:var(--line2);
+    box-shadow:0 22px 40px -30px rgba(33,31,26,.5)}
+  .pcard.flash{border-color:var(--ink);box-shadow:0 0 0 3px rgba(33,31,26,.08)}
+  .ptop{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .pcard h3{font-family:var(--serif);font-size:17px;font-weight:700;margin-top:12px;line-height:1.4}
+  .kv{display:grid;grid-template-columns:40px 1fr;gap:8px;margin-top:12px}
+  .kv .kk{font-size:12px;color:var(--ink3)}
+  .kv .vv{font-size:12.5px;color:var(--ink2);line-height:1.65}
+  .pd{margin-top:12px;font-size:13px;color:var(--ink2);line-height:1.7}
+  .pfoot{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);flex-wrap:wrap}
+  .upd{font-size:11.5px;color:var(--ink3)}
+  .maplink{font-size:12.5px;font-weight:650;color:var(--green);background:transparent;border:0;
+    cursor:pointer;font-family:inherit;padding:0}
+  .maplink:hover{text-decoration:underline}
+  .empty{padding:40px;text-align:center;color:var(--ink3);font-size:14px;
+    border:1px dashed var(--line2);border-radius:16px;background:var(--card)}
+
+  footer{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;text-align:center;
+    font-size:12.5px;color:var(--ink2);background:#f2f1ea}
+  footer .dim{color:var(--ink3);margin-top:5px;font-size:12px}
+
+  .toast{position:fixed;left:50%;bottom:32px;transform:translate(-50%,16px);opacity:0;
+    background:var(--ink);color:#f6f5f0;padding:12px 20px;border-radius:12px;font-size:13.5px;
+    pointer-events:none;transition:opacity .24s ease,transform .24s ease;z-index:90;
+    max-width:86vw;text-align:center;box-shadow:0 20px 40px -22px rgba(0,0,0,.6)}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+
+  @media (max-width:1080px){
+    .map-grid{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 18px}
+    .top-inner{padding:10px 18px}
+    .hero{padding:34px 0 4px}
+    .stat{padding:16px 18px}
+    .stat .n{font-size:28px}
+    .cards{grid-template-columns:1fr}
+    .scope-card{padding:16px 18px}
+    .pin .dot{width:23px;height:23px;font-size:12px}
+    .disc-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="back" href="./home3.html">&#8592; 曼城十号梅西</a>
+    <div class="top-right">
+      <span class="pill">打开即刷新</span>
+      <button class="btn" id="refreshBtn"><span class="ic">&#8635;</span>刷新进展</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <div class="tagrow">
+    <span class="tag">LOCAL DEVELOPMENT WATCH · 2026</span>
+    <span class="code num">HANGZHOU / WJ-01</span>
+  </div>
+  <h1>婺江路片区实时追踪</h1>
+  <p class="lede">把一块地的变化，留在时间里</p>
+  <p class="desc">以婺江路为中心，持续记录片区内地块的拆迁、出售与建设进展。</p>
+</section>
+
+<section class="wrap scope">
+  <div class="scope-card">
+    <div>
+      <div class="k">观察范围</div>
+      <div class="big num">WJ-01</div>
+    </div>
+    <div class="edges">
+      <div class="k">四至边界 · 杭州上城区望江单元</div>
+      <div class="edge-list">
+        <span>北 · 望江路</span>
+        <span>南 · 钱江路</span>
+        <span>西 · 贴沙河</span>
+        <span>东 · 清江路</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap stats">
+  <div class="stat"><div class="n num" id="sTotal">7</div><div class="t">跟踪项目</div><div class="s">片区扫描中</div></div>
+  <div class="stat"><div class="n num" id="sDemo">1</div><div class="t">拆迁进展</div><div class="s">实时跟踪</div></div>
+  <div class="stat"><div class="n num" id="sSell">2</div><div class="t">出售／储备</div><div class="s">规划及土拍</div></div>
+  <div class="stat"><div class="n num" id="sBuild">4</div><div class="t">建设中</div><div class="s">含迁建、完工与开售</div></div>
+</section>
+
+<section class="wrap sec">
+  <div class="sec-head">
+    <span class="idx">AREA MAP / 01</span>
+    <h2>片区地图</h2>
+    <div class="legend">
+      <span><i class="dot d-red"></i>拆迁</span>
+      <span><i class="dot d-gold"></i>出让</span>
+      <span><i class="dot d-green"></i>建设</span>
+    </div>
+  </div>
+  <div class="map-grid">
+    <div class="map-box">
+      <div class="map-wrap" id="mapWrap">
+        <img class="map-img" src="./assets/wujiang-map-v4.jpg" alt="婺江路片区地图底图" id="mapImg">
+        <div class="pins" id="pins"></div>
+      </div>
+      <div class="map-foot">
+        <div class="map-note">底图：你的片区地图截图 · 刷新于 <span class="num" id="refTime">--:--</span></div>
+        <div class="map-tip">点位可拖动校准<button id="resetPins" type="button">恢复默认</button></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">LIVE RESEARCH / 02 · 最新公开进展</div>
+      <div id="plist"></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec">
+  <div class="sec-head">
+    <span class="idx">AREA DISCOVERY / 03</span>
+    <h2>区域新增动态</h2>
+  </div>
+  <div class="disc-count">共 <span class="num" id="discN">0</span> 条 · 来源：公开新闻与政府公告</div>
+  <div class="disc-list" id="discList"></div>
+</section>
+
+<section class="wrap sec">
+  <div class="sec-head">
+    <span class="idx">PROJECT REGISTER / 04</span>
+    <h2>项目档案</h2>
+  </div>
+  <div class="filters" id="filters">
+    <button data-f="all" class="on">全部 <em id="cntAll">7</em></button>
+    <button data-f="demolish">拆迁 <em id="cntDemolish">1</em></button>
+    <button data-f="sell">出售 <em id="cntSell">2</em></button>
+    <button data-f="build">建设 <em id="cntBuild">4</em></button>
+    <button data-f="done">已完成 <em id="cntDone">0</em></button>
+  </div>
+  <div class="cards" id="cards"></div>
+  <div class="empty" id="empty" style="display:none">该分类下暂无项目。</div>
+</section>
+
+<footer>
+  <div>婺江路片区周报 · 私人观察记录</div>
+  <div class="dim">现场观察／公开信息 · 以正式公告为准</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var POS_KEY = "wujiang-pin-pos-v1";
+
+  var KIND_TXT = { demolish: "拆迁", sell: "出售", build: "建设", done: "已完成" };
+  var KIND_CLS = { demolish: "demolish", sell: "sell", build: "build", done: "done" };
+  var PIN_COLOR = { demolish: "#c0503a", sell: "#c99a2e", build: "#3f7a6b", done: "#8a8577" };
+
+  // px / py 为相对底图（1224x1048）的百分比位置，可拖动校准
+  var PROJECTS = [
+    {
+      id: "p1", kind: "demolish", px: 57.8, py: 66.0,
+      name: "望江片居住区二期联建房",
+      loc: "婺江路地铁站旁（原汽车南站旧址一带）",
+      desc: "即婺江路二弄 2/4/6/8/10 幢「绿房子」（外立面淡绿色）。拆除工程公示工期 2026.06.10—09.30，最后几户已基本谈妥，计划 9 月 30 日前完成拆除。",
+      upd: "2026.09 · 潮新闻"
+    },
+    {
+      id: "p2", kind: "build", px: 25.8, py: 73.0,
+      name: "中海海潮TOD（杭政储出【2025】22号）",
+      loc: "始板桥直街与婺江路交会处，东至规划莫邪塘路、南至规划婺江路、西至始板桥直街、北至甘王路",
+      desc: "位于片区西北侧，规划与在建同步推进，持续跟踪公示与施工节点。",
+      upd: "更新于 2026.08.23"
+    },
+    {
+      id: "p3", kind: "sell", px: 66.4, py: 57.0,
+      name: "望江单元SC0402-B1/B2-14地块",
+      loc: "规划望清路—望北路—婺江路北侧一带",
+      desc: "CID 新篇章如何书写：望江新城两宗地块为企业预留「创新席位」。",
+      upd: "2026/5/20 · 浙江在线"
+    },
+    {
+      id: "p4", kind: "build", px: 45.5, py: 49.0,
+      name: "新世界·城市艺术中心（K11）",
+      loc: "新开河—海潮路—近江路—婺江路范围",
+      desc: "东至新开河、南至规划婺江路、西至规划海潮路、北至规划近江路，约 74 万㎡；江明月朗园已交付，购物艺术中心预计 2027 年四季度逐步开业。",
+      upd: "2026.09 · 潮新闻"
+    },
+    {
+      id: "p5", kind: "build", px: 40.5, py: 79.0,
+      name: "杭州地铁18号线莫邪塘站",
+      loc: "莫邪塘站（海潮路与婺江路交叉口附近）",
+      desc: "2026.07.30 公开信息显示，车站主体结构完成约 85%，转入二次结构施工。",
+      upd: "更新于 2026.08.23"
+    },
+    {
+      id: "p6", kind: "build", px: 52.8, py: 72.0,
+      name: "浙江第四广播转播台外迁及仁和迁建工程",
+      loc: "原址：秋涛路266-1号；新址：余杭区仁和街道",
+      desc: "原址为上城区秋涛路266-1号。2025 年迁建工程设计完成招标，中标人为中国联合工程有限公司；2026.06 发布迁建工程涉及 220kV 线路迁改环评公示，现阶段持续跟踪原址腾退及余杭区仁和街道新址建设。",
+      upd: "更新于 2026.06.17"
+    },
+    {
+      id: "p7", kind: "sell", px: 75.0, py: 80.0,
+      name: "望江单元SC0302-B1/B2-13A地块",
+      loc: "秋涛路—银鼓路—沙地路—婺江路范围",
+      desc: "CID 新篇章如何书写：望江新城两宗地块为企业预留「创新席位」。",
+      upd: "2026/5/20 · 浙江在线"
+    },
+    {
+      id: "p8", kind: "build", px: 82.4, py: 76.0,
+      name: "毛戈平总部大楼（SC0402-B1/B2/S2-15）",
+      loc: "婺江路与秋涛路交界处（杭政储出[2023]188 号地块）",
+      desc: "2023.12 以 59269 万元竞得，2024.10.29 奠基；2026.08 处于关键结构施工阶段，A 区第一、二道支撑已拆除完毕，地下室夹层与顶板结构施工推进中。规划两栋 14 层办公楼 + 4 层商业裙楼，建筑高度 63.99 米。",
+      upd: "2026.08.21 · 腾讯新闻"
+    }
+  ];
+
+  // 区域新增动态（由定时任务从公开渠道收集后更新此处）
+  var DISCOVERIES = [
+    {
+      date: "2026.08.21", src: "腾讯新闻",
+      title: "毛戈平总部大楼进入关键结构施工阶段",
+      text: "望江新城婺江路与秋涛路交界处，A 区第一、二道支撑已全部拆除完毕，地下室夹层与顶板结构施工稳步推进；规划两栋 14 层办公楼 + 4 层商业裙楼。"
+    },
+    {
+      date: "2026.09", src: "潮新闻",
+      title: "望江片二期「绿房子」拆除进入收尾",
+      text: "婺江路二弄 2/4/6/8/10 幢拆除工程公示工期至 2026.09.30，最后几户已基本谈妥，近期搬离后即实施拆除；隔壁秋涛路 266-1 号暂未列入拆迁。"
+    },
+    {
+      date: "2026 年度计划", src: "上城区政府",
+      title: "望江新城十年征迁收官，路网建设推进",
+      text: "望江街道 2026 年度工作计划：完成回迁安置结算，推进甘王路、婺江路等道路路网建设，建成全市首个「生态廊桥」。"
+    },
+    {
+      date: "2026.04", src: "公开汇总",
+      title: "望江新城、海潮片区旧改进入收尾攻坚",
+      text: "核心区域已 100% 完成签约腾退，已腾空地块启动场地平整与管线迁改；拟 2027 年底安置房与配套全面交付。"
+    }
+  ];
+
+  var DEFAULT_POS = {};
+  PROJECTS.forEach(function (p) { DEFAULT_POS[p.id] = { x: p.px, y: p.py }; });
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function loadPos() {
+    try { return JSON.parse(localStorage.getItem(POS_KEY) || "{}") || {}; } catch (e) { return {}; }
+  }
+  function savePos(obj) {
+    try { localStorage.setItem(POS_KEY, JSON.stringify(obj)); } catch (e) {}
+  }
+  function posOf(id) {
+    var o = loadPos();
+    return o[id] || DEFAULT_POS[id];
+  }
+  function nameOf(id) {
+    var p = PROJECTS.filter(function (x) { return x.id === id; })[0];
+    return p ? p.name : "";
+  }
+
+  /* ---------- 地图点位 ---------- */
+  function renderPins() {
+    var box = document.getElementById("pins");
+    box.innerHTML = PROJECTS.map(function (p, i) {
+      var pos = posOf(p.id);
+      return '<div class="pin" data-id="' + p.id + '" style="left:' + pos.x + '%;top:' + pos.y + '%">' +
+        '<span class="dot" style="background:' + PIN_COLOR[p.kind] + '">' + (i + 1) + '</span>' +
+        '<span class="lbl">' + esc(p.name) + '</span>' +
+        '</div>';
+    }).join("");
+  }
+
+  /* ---------- 最新公开进展 ---------- */
+  function renderList() {
+    document.getElementById("plist").innerHTML = PROJECTS.map(function (p, i) {
+      return '<button class="pi" data-id="' + p.id + '">' +
+        '<span class="pi-top">' +
+          '<span class="pi-idx" style="background:' + PIN_COLOR[p.kind] + '">' + (i + 1) + '</span>' +
+          '<span class="kind ' + KIND_CLS[p.kind] + '">' + KIND_TXT[p.kind] + '</span>' +
+          '<span class="pi-name">' + esc(p.name) + '</span>' +
+        '</span>' +
+        '<span class="pi-loc">' + esc(p.loc) + '</span>' +
+        '</button>';
+    }).join("");
+  }
+
+  /* ---------- 项目档案 ---------- */
+  var filter = "all";
+
+  function renderCards() {
+    var list = PROJECTS.filter(function (p) { return filter === "all" || p.kind === filter; });
+    document.getElementById("cards").innerHTML = list.map(function (p) {
+      var idx = PROJECTS.indexOf(p) + 1;
+      return '<article class="pcard" data-card="' + p.id + '">' +
+        '<div class="ptop">' +
+          '<span class="kind ' + KIND_CLS[p.kind] + '">' + idx + ' · ' + KIND_TXT[p.kind] + '</span>' +
+          '<span class="upd num">' + esc(p.upd) + '</span>' +
+        '</div>' +
+        '<h3>' + esc(p.name) + '</h3>' +
+        '<div class="kv"><span class="kk">位置</span><span class="vv">' + esc(p.loc) + '</span></div>' +
+        '<p class="pd">' + esc(p.desc) + '</p>' +
+        '<div class="pfoot"><button class="maplink" data-map="' + p.id + '">地图定位 &#8594;</button></div>' +
+        '</article>';
+    }).join("");
+    document.getElementById("empty").style.display = list.length ? "none" : "block";
+  }
+
+  function counts() {
+    var c = { all: PROJECTS.length, demolish: 0, sell: 0, build: 0, done: 0 };
+    PROJECTS.forEach(function (p) { c[p.kind] = (c[p.kind] || 0) + 1; });
+    document.getElementById("cntAll").textContent = c.all;
+    document.getElementById("cntDemolish").textContent = c.demolish;
+    document.getElementById("cntSell").textContent = c.sell;
+    document.getElementById("cntBuild").textContent = c.build;
+    document.getElementById("cntDone").textContent = c.done;
+    document.getElementById("sTotal").textContent = c.all;
+    document.getElementById("sDemo").textContent = c.demolish;
+    document.getElementById("sSell").textContent = c.sell;
+    document.getElementById("sBuild").textContent = c.build;
+  }
+
+  /* ---------- 区域新增动态 ---------- */
+  function renderDisc() {
+    document.getElementById("discN").textContent = DISCOVERIES.length;
+    var box = document.getElementById("discList");
+    if (!DISCOVERIES.length) {
+      box.innerHTML = '<div class="disc-card"><div class="n num">0</div><div>' +
+        '<div class="t">本次未发现新的公开项目动态</div>' +
+        '<div class="s">持续比对公开渠道，有新进展会出现在这里</div></div></div>';
+      return;
+    }
+    box.innerHTML = DISCOVERIES.map(function (d) {
+      return '<article class="disc-item">' +
+        '<div class="dm"><b>' + esc(d.src) + '</b>' + esc(d.date) + '</div>' +
+        '<div><h3>' + esc(d.title) + '</h3><p>' + esc(d.text) + '</p></div>' +
+        '</article>';
+    }).join("");
+  }
+
+  /* ---------- 高亮联动 ---------- */
+  function focusProject(id) {
+    var pin = document.querySelector('.pin[data-id="' + id + '"]');
+    if (pin) {
+      pin.classList.add("pulse");
+      setTimeout(function () { pin.classList.remove("pulse"); }, 1100);
+    }
+    var se = document.querySelector('.pi[data-id="' + id + '"]');
+    if (se) se.classList.add("on");
+    document.querySelectorAll(".pcard").forEach(function (el) {
+      el.classList.toggle("flash", el.getAttribute("data-card") === id);
+    });
+  }
+
+  /* ---------- 拖动校准 ---------- */
+  function initDrag() {
+    var wrap = document.getElementById("mapWrap");
+    var box = document.getElementById("pins");
+
+    box.addEventListener("pointerdown", function (e) {
+      var pin = e.target.closest(".pin");
+      if (!pin) return;
+      e.preventDefault();
+
+      var id = pin.getAttribute("data-id");
+      var rect = wrap.getBoundingClientRect();
+      var moved = false;
+      try { pin.setPointerCapture(e.pointerId); } catch (err) {}
+
+      function onMove(ev) {
+        var dx = ev.clientX - (rect.left + rect.width * parseFloat(pin.style.left) / 100);
+        var dy = ev.clientY - (rect.top + rect.height * parseFloat(pin.style.top) / 100);
+        if (!moved && Math.abs(dx) + Math.abs(dy) < 6) return;
+        moved = true;
+        pin.classList.add("drag");
+        var nx = (ev.clientX - rect.left) / rect.width * 100;
+        var ny = (ev.clientY - rect.top) / rect.height * 100;
+        nx = Math.max(0.5, Math.min(99.5, nx));
+        ny = Math.max(0.5, Math.min(99.5, ny));
+        pin.style.left = nx + "%";
+        pin.style.top = ny + "%";
+      }
+
+      function onUp() {
+        pin.removeEventListener("pointermove", onMove);
+        pin.removeEventListener("pointerup", onUp);
+        pin.removeEventListener("pointercancel", onUp);
+        pin.classList.remove("drag");
+        if (moved) {
+          var o = loadPos();
+          o[id] = { x: parseFloat(pin.style.left), y: parseFloat(pin.style.top) };
+          savePos(o);
+          toast("已保存「" + nameOf(id) + "」的新位置");
+        } else {
+          focusProject(id);
+        }
+      }
+
+      pin.addEventListener("pointermove", onMove);
+      pin.addEventListener("pointerup", onUp);
+      pin.addEventListener("pointercancel", onUp);
+    });
+  }
+
+  /* ---------- 刷新 ---------- */
+  var toastTimer = null;
+  function toast(msg) {
+    var el = document.getElementById("toast");
+    el.textContent = msg;
+    el.classList.add("on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove("on"); }, 2800);
+  }
+  function hm() {
+    var d = new Date();
+    var p = function (n) { return n < 10 ? "0" + n : "" + n; };
+    return p(d.getHours()) + ":" + p(d.getMinutes());
+  }
+  function stamp() {
+    document.getElementById("refTime").textContent = hm();
+  }
+
+  var rb = document.getElementById("refreshBtn");
+  rb.addEventListener("click", function () {
+    rb.classList.add("spin");
+    stamp();
+    setTimeout(function () { rb.classList.remove("spin"); }, 900);
+    toast("已刷新于 " + hm() + " · 现场数据为最近一次人工核对");
+  });
+
+  document.getElementById("plist").addEventListener("click", function (e) {
+    var b = e.target.closest(".pi");
+    if (b) focusProject(b.getAttribute("data-id"));
+  });
+
+  document.getElementById("cards").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-map]");
+    if (!b) return;
+    focusProject(b.getAttribute("data-map"));
+    var w = document.getElementById("mapWrap");
+    if (w) w.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  document.getElementById("filters").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    filter = b.getAttribute("data-f");
+    Array.prototype.forEach.call(this.querySelectorAll("button"), function (x) {
+      x.classList.toggle("on", x === b);
+    });
+    renderCards();
+  });
+
+  document.getElementById("resetPins").addEventListener("click", function () {
+    savePos({});
+    renderPins();
+    toast("点位已恢复默认位置");
+  });
+
+  document.getElementById("pins").addEventListener("mouseover", function (e) {
+    var pin = e.target.closest(".pin");
+    if (!pin) return;
+    document.querySelectorAll(".pi").forEach(function (el) {
+      el.classList.toggle("on", el.getAttribute("data-id") === pin.getAttribute("data-id"));
+    });
+  });
+
+  /* ---------- 启动 ---------- */
+  renderPins();
+  renderList();
+  renderCards();
+  renderDisc();
+  counts();
+  initDrag();
+  stamp();
+
+  // 内部链接追加时间戳：绕过浏览器与 CDN 缓存
+  Array.prototype.forEach.call(document.querySelectorAll('a[href$=".html"]'), function (a) {
+    var h = a.getAttribute("href");
+    if (h && h.indexOf("?") < 0) a.setAttribute("href", h + "?t=" + Date.now());
+  });
+
+  // 打开即自动刷新
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      stamp();
+      toast("已刷新进展 · " + DISCOVERIES.length + " 条公开动态 · " + hm());
+    }, 500);
+  });
+  setInterval(function () { stamp(); }, 5 * 60 * 1000);
+})();
+</script>
+
+
+
+
+
+
+
+
+<!-- VER-BLOCK -->
+<script>var PAGE_VER="20260924004653";</script>
+<script>
+/* 版本自检 + 地址栏净化：
+   1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
+   2) 本机若见过更新的版本（localStorage.wbBuild），立即切到带时间戳的最新地址——无需联网；
+   3) 否则与服务器 version.json 核对版本，旧版自动跳转；
+   4) 确认自己是最新版时，抹掉地址栏 ?t= 参数。
+   防循环：同一目标版本最多连续跳 5 次，跳到最新版后计数清零。 */
+(function () {
+  var HOMES = ["index.html", "home.html", "home2.html", "home3.html"];
+  var origPath = location.pathname;
+  var nm = origPath.split("/").pop() || "index.html";
+  var isHome = HOMES.indexOf(nm) >= 0;
+  var hadParam = /[?&]t=\d{10,}/.test(location.href);
+  function cleanUrl() {
+    try {
+      var u = new URL(location.href);
+      u.searchParams.delete("t");
+      var qs = u.searchParams.toString();
+      var path = isHome ? "/" : origPath;
+      history.replaceState(null, "", path + (qs ? "?" + qs : "") + u.hash);
+    } catch (e) {}
+  }
+  function hop(target) {
+    var now = Date.now(), n = 0, t0 = 0, tv = "";
+    try {
+      var parts = (localStorage.getItem("wbHop") || "").split("|");
+      tv = parts[0] || ""; n = +(parts[1] || 0) || 0; t0 = +(parts[2] || 0) || 0;
+    } catch (e) {}
+    if (tv !== String(target) || now - t0 > 600000) { n = 0; }
+    if (n >= 5) return false;
+    try { localStorage.setItem("wbHop", String(target) + "|" + (n + 1) + "|" + now); } catch (e) {}
+    location.replace(origPath + "?t=" + now);
+    return true;
+  }
+  function ok() {
+    try { localStorage.removeItem("wbHop"); } catch (e) {}
+    if (hadParam || isHome) cleanUrl();
+  }
+  if (!/^https?:$/.test(location.protocol) || typeof PAGE_VER === "undefined") return;
+  if (isHome) cleanUrl();
+  var myVer = parseInt(PAGE_VER, 10) || 0;
+  var seen = 0;
+  try { seen = parseInt(localStorage.getItem("wbBuild") || "0", 10) || 0; } catch (e) {}
+  if (seen > myVer) { hop(seen); return; }
+  if (myVer > seen) { try { localStorage.setItem("wbBuild", String(myVer)); } catch (e) {} }
+  fetch("./version.json?t=" + Date.now(), { cache: "no-store" })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      var latest = j && j[nm];
+      if (!latest || latest === PAGE_VER) { ok(); return; }
+      try { localStorage.setItem("wbBuild", String(latest)); } catch (e) {}
+      hop(latest);
+    })
+    .catch(function () { if (hadParam) cleanUrl(); });
+})();
+</script>
+<!-- /VER-BLOCK -->
+
+</body>
+</html>

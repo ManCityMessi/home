@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>半马训练计划 · 目标 1:45 · 华为手表同步版</title>
+<style>
+  :root{
+    --red:#d92b3e;
+    --ink:#16181d;
+    --ink-2:#4a5058;
+    --ink-3:#8b929c;
+    --bg:#f2f3f5;
+    --card:#ffffff;
+    --line:#e3e5e9;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;
+    font-size:15px;line-height:1.6;
+    padding-bottom:64px;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:0 14px}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:linear-gradient(150deg,#1f2229 0%,#2c3138 55%,#3a2029 100%);
+    color:#fff;padding:26px 0 22px;
+  }
+  .hero h1{margin:0 0 6px;font-size:23px;letter-spacing:-.3px;font-weight:700}
+  .hero .sub{color:#b9bfc9;font-size:13px;margin-bottom:16px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+  .chip{
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);
+    padding:4px 11px;border-radius:999px;font-size:12.5px;color:#e9ecf1;
+  }
+  .chip b{color:#ff8b9a;font-weight:600}
+
+  /* ---------- 今日训练 ---------- */
+  .today{
+    background:linear-gradient(140deg,#23262e 0%,#2e333c 58%,#452029 100%);
+    color:#fff;border-radius:16px;padding:17px 18px 15px;margin:-30px 0 8px;
+    box-shadow:0 20px 44px -24px rgba(0,0,0,.6);
+    position:relative;z-index:6;border:1px solid rgba(255,255,255,.07);
+  }
+  .td-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px}
+  .td-chip{
+    font-size:11.5px;font-weight:700;letter-spacing:.1em;
+    background:var(--red);color:#fff;border-radius:6px;padding:2px 9px;
+  }
+  .td-chip.rest{background:#4a5058}
+  .td-chip.before{background:#2563eb}
+  .td-chip.after{background:#0b7a43}
+  .td-date{font-size:13px;color:#b9bfc9}
+  .td-day{margin-left:auto;font-size:12.5px;color:#98a1b0;font-variant-numeric:tabular-nums}
+  .td-course{font-size:21px;font-weight:750;letter-spacing:-.3px;line-height:1.3}
+  .td-meta{font-size:13px;color:#b9bfc9;margin-top:5px;font-variant-numeric:tabular-nums}
+  .td-meta .tagline{
+    display:inline-block;background:rgba(217,43,62,.22);border:1px solid rgba(217,43,62,.5);
+    color:#ff9aa6;border-radius:5px;padding:0 6px;font-size:11.5px;font-weight:700;
+    margin-left:4px;vertical-align:1px;
+  }
+  .td-bar{height:4px;background:rgba(255,255,255,.13);border-radius:3px;margin:14px 0 9px;overflow:hidden}
+  .td-bar-in{height:100%;background:linear-gradient(90deg,#d92b3e,#ff8b9a);border-radius:3px;width:0;transition:width .6s ease}
+  .td-foot{font-size:12px;color:#98a1b0;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+  /* ---------- Cards ---------- */
+  .card{
+    background:var(--card);border-radius:var(--radius);padding:16px 16px 14px;
+    margin:14px 0;border:1px solid var(--line);
+  }
+  h2{
+    font-size:16.5px;margin:26px 0 10px;font-weight:700;
+    display:flex;align-items:center;gap:8px;letter-spacing:-.2px;
+  }
+  h2::before{content:"";width:3px;height:15px;background:var(--red);border-radius:2px;flex:none}
+  h3{font-size:14.5px;margin:0 0 8px;font-weight:650}
+  p{margin:0 0 10px}
+  p:last-child{margin-bottom:0}
+  .muted{color:var(--ink-2)}
+  .small{font-size:13px}
+
+  .verdict{background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);
+    border-radius:10px;padding:14px 15px;margin:14px 0}
+  .verdict .tag{font-size:12px;font-weight:700;color:var(--red);letter-spacing:.5px;margin-bottom:5px}
+  .verdict p{font-size:14px}
+
+  .steps{counter-reset:s;list-style:none;padding:0;margin:0}
+  .steps li{counter-increment:s;position:relative;padding-left:30px;margin-bottom:11px;font-size:14px}
+  .steps li:last-child{margin-bottom:0}
+  .steps li::before{
+    content:counter(s);position:absolute;left:0;top:1px;
+    width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;
+    font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  }
+  code{
+    background:#f0f1f4;padding:1.5px 6px;border-radius:5px;font-size:12.5px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    word-break:break-all;
+  }
+  .path{
+    display:block;background:#f7f8fa;border:1px dashed #d5d8de;border-radius:8px;
+    padding:9px 11px;margin:7px 0;font-size:13px;color:#2f3540;line-height:1.75;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+
+  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
+  th,td{padding:8px 9px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+  th{background:#f7f8fa;font-weight:650;font-size:12.5px;color:var(--ink-2)}
+  td.num{font-variant-numeric:tabular-nums}
+  .badge{
+    display:inline-block;padding:1px 7px;border-radius:5px;font-size:11.5px;
+    font-weight:600;line-height:1.7;
+  }
+  .b-i{background:#fdecee;color:#a81c2e}
+  .b-r{background:#eef2f7;color:#5b6577}
+
+  .pace-grid{display:grid;gap:8px}
+  .pace-row{
+    display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;
+    padding:9px 11px;border-radius:10px;background:#f8f9fb;border:1px solid var(--line);
+  }
+  .pace-key{font-weight:800;font-size:15px;text-align:center;border-radius:7px;padding:3px 0;color:#fff}
+  .k-e{background:#64748b}.k-m{background:#0ea5e9}.k-h{background:#2563eb}
+  .k-t{background:#d92b3e}.k-i{background:#7c3aed}
+  .pace-name{font-size:13.5px;font-weight:600}
+  .pace-desc{font-size:11.5px;color:var(--ink-3)}
+  .pace-val{font-variant-numeric:tabular-nums;font-weight:700;font-size:13.5px;color:#1f242c}
+
+  /* ---------- 课程模板 ---------- */
+  .tpl{border:1px solid var(--line);border-radius:12px;margin-bottom:11px;overflow:hidden;background:#fff}
+  .tpl-head{
+    display:flex;align-items:center;gap:10px;padding:12px 13px;cursor:pointer;
+    background:#fbfbfc;user-select:none;
+  }
+  .tpl-head:active{background:#f4f5f7}
+  .tpl-id{
+    flex:none;width:26px;height:26px;border-radius:7px;background:var(--ink);color:#fff;
+    font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  }
+  .tpl-name{font-weight:650;font-size:14.5px;flex:1;min-width:0}
+  .tpl-name small{display:block;font-weight:400;font-size:11.5px;color:var(--ink-3);margin-top:1px}
+  .tpl-caret{color:var(--ink-3);font-size:12px;transition:transform .2s;flex:none}
+  .tpl.open .tpl-caret{transform:rotate(90deg)}
+  .tpl-body{display:none;padding:4px 13px 14px;border-top:1px solid var(--line)}
+  .tpl.open .tpl-body{display:block}
+
+  .act{
+    display:grid;grid-template-columns:22px 1fr;gap:9px;align-items:start;
+    padding:7px 0;border-bottom:1px dashed #eceef1;font-size:13px;
+  }
+  .act:last-of-type{border-bottom:none}
+  .act-no{font-size:11.5px;font-weight:700;color:var(--ink-3);padding-top:2px;font-variant-numeric:tabular-nums}
+  .act-main{line-height:1.55}
+  .act-main b{font-weight:650}
+  .act-main .goal{color:#1f242c}
+  .act-main .int{color:var(--red);font-weight:600;font-variant-numeric:tabular-nums}
+  .grp{
+    background:#fdf7f8;border:1px solid #f7dcdf;border-radius:9px;
+    padding:3px 10px 5px;margin:6px 0;
+  }
+  .grp-label{
+    font-size:11.5px;font-weight:700;color:#c2263a;
+    display:flex;align-items:center;gap:5px;padding:6px 0 2px;
+  }
+  .grp-label .rep{background:var(--red);color:#fff;border-radius:5px;padding:0 6px;font-size:11px;line-height:1.7}
+  .tpl-note{font-size:12.5px;color:var(--ink-2);background:#fafbfc;border-radius:8px;padding:9px 11px;margin-bottom:10px}
+  .btn{
+    display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);
+    background:#fff;border-radius:8px;padding:7px 13px;font-size:12.5px;font-weight:600;
+    color:var(--ink-2);cursor:pointer;font-family:inherit;
+  }
+  .btn:active{background:#eef0f3}
+  .btn.done{background:#eaf7ef;border-color:#c6e5d5;color:#0b7a43}
+
+  /* ---------- 12 周计划 ---------- */
+  .wk{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:#fff;overflow:hidden}
+  .wk-head{
+    display:flex;align-items:center;gap:10px;padding:11px 13px;cursor:pointer;
+    background:#fbfbfc;user-select:none;
+  }
+  .wk-head:active{background:#f4f5f7}
+  .wk-no{
+    flex:none;min-width:38px;height:26px;padding:0 8px;border-radius:7px;background:var(--ink);color:#fff;
+    font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  }
+  .wk-no.p1{background:#64748b}.wk-no.p2{background:#2563eb}
+  .wk-no.p3{background:#d92b3e}.wk-no.p4{background:#0b7a43}
+  .wk-title{font-weight:650;font-size:14px;flex:1;min-width:0}
+  .wk-title small{display:block;font-weight:400;font-size:11.5px;color:var(--ink-3);margin-top:1px}
+  .wk-vol{font-size:13px;font-weight:700;color:var(--ink-2);font-variant-numeric:tabular-nums;flex:none}
+  .wk-body{display:none;padding:0 13px 11px;border-top:1px solid var(--line)}
+  .wk.open .wk-body{display:block}
+  .wk.open .tpl-caret{transform:rotate(90deg)}
+  .wk-body .tpl-note{margin:11px 0 4px}
+  .day{display:grid;grid-template-columns:64px 1fr auto;gap:9px;align-items:baseline;padding:8px 0;border-bottom:1px dashed #eceef1;font-size:13px}
+  .day:last-child{border-bottom:none}
+  .day-d{font-size:12px;font-weight:700;color:var(--ink-3);font-variant-numeric:tabular-nums;line-height:1.35}
+  .day-d b{display:block;font-size:12.5px;color:var(--red)}
+  .day.now{background:#fff7f8;border-radius:8px;padding-left:8px;padding-right:8px;margin:0 -8px}
+  .day.today-row{background:#fdf0f2;border-radius:8px;padding-left:8px;padding-right:8px;margin:0 -8px}
+  .day.today-row .day-d b{font-size:13.5px}
+  .day.rest .day-c{opacity:.5}
+  .day.pre{opacity:.4}
+  .day.pre .day-d b{color:var(--ink-3)}
+  .plan-key{display:flex;flex-wrap:wrap;gap:5px 9px;margin:0 0 12px;font-size:11.5px;color:var(--ink-3)}
+  .plan-key span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+  .plan-key i{width:7px;height:7px;border-radius:2px;display:inline-block}
+  .plan-key .k1{background:var(--red)}
+  .plan-key .k0{background:#c8ccd3}
+  .day-c{line-height:1.5}
+  .day-c .t{font-weight:600}
+  .day-c .d{color:var(--ink-3);font-size:12px}
+  .day-k{font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  .note-list{padding-left:0;list-style:none;margin:0}
+  .note-list li{position:relative;padding-left:20px;margin-bottom:10px;font-size:13.5px}
+  .note-list li:last-child{margin-bottom:0}
+  .note-list li::before{
+    content:"";position:absolute;left:5px;top:8px;width:5px;height:5px;
+    border-radius:50%;background:var(--red);
+  }
+  .warn{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;margin:12px 0}
+  .warn .tag{font-weight:700;color:#b45309;font-size:13px;margin-bottom:4px}
+  .warn p, .warn li{font-size:13px;color:#4a3a12;margin:0}
+  .warn.key{background:#fdf3f4;border-color:#f6d3d8}
+  .warn.key .tag{color:#a81c2e}
+  .warn.key p{color:#5a2a31}
+
+  footer{text-align:center;color:var(--ink-3);font-size:12px;padding:22px 0 10px}
+
+  .topbar{
+    position:sticky;top:0;z-index:20;background:rgba(242,243,245,.93);
+    backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-in{max-width:860px;margin:0 auto;padding:9px 14px;display:flex;gap:7px;overflow-x:auto}
+  .topbar a{
+    flex:none;font-size:12.5px;color:var(--ink-2);text-decoration:none;
+    background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-weight:600;
+  }
+  .topbar a:active{background:#eef0f3}
+
+  @media (max-width:400px){
+    .pace-row{grid-template-columns:40px 1fr;grid-template-areas:"k n" "k v"}
+    .pace-key{grid-area:k}
+    .pace-val{grid-area:v;text-align:left}
+    .pace-info{grid-area:n}
+    .td-course{font-size:19px}
+    .day{grid-template-columns:58px 1fr auto}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <a href="./home3.html" style="display:inline-block;color:#b9bfc9;font-size:12.5px;text-decoration:none;margin-bottom:12px">&#8592; 曼城十号梅西</a>
+    <h1>半程马拉松训练计划</h1>
+    <div class="sub">12 周 · 每周 5 练（周一/二/三/五/六）· 目标 1:45 · 周跑量 28–33km · 华为手表跟练版</div>
+    <div class="chips">
+      <span class="chip">目标 <b>半马 1:45</b></span>
+      <span class="chip">周跑量 <b>28 → 33km</b></span>
+      <span class="chip">质量课 <b>每周 2 次</b></span>
+      <span class="chip">课程模板 <b>6 个</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- ============ 今日训练 ============ -->
+  <section class="today" id="today">
+    <div class="td-top">
+      <span class="td-chip" id="tdChip">今天</span>
+      <span class="td-date" id="tdDate">—</span>
+      <span class="td-day" id="tdDay">—</span>
+    </div>
+    <div class="td-course" id="tdCourse">—</div>
+    <div class="td-meta" id="tdMeta">—</div>
+    <div class="td-bar"><div class="td-bar-in" id="tdBar"></div></div>
+    <div class="td-foot">
+      <span id="tdFootL">—</span>
+      <span id="tdFootR">—</span>
+    </div>
+  </section>
+</div>
+
+<nav class="topbar"><div class="topbar-in">
+  <a href="#today">今日</a>
+  <a href="#step">操作步骤</a>
+  <a href="#pace">配速表</a>
+  <a href="#tpl">课程模板</a>
+  <a href="#plan">12 周计划</a>
+  <a href="#note">注意事项</a>
+</div></nav>
+
+<div class="wrap">
+
+  <div class="verdict">
+    <div class="tag">这份计划的核心取舍</div>
+    <p>30km 的周量跑 1:45（4:59/km），意味着<b>轻松跑必须压到 20–25 分钟</b>，把跑量全部让给质量课。这是低跑量高密度路线——每一次质量课的配速准确度，直接决定成绩。</p>
+    <p style="margin-top:8px">华为运动健康<b>没有课表文件导入通道</b>，所以路线是：App 内建<b>自定义跑步课程</b> → 推送到手表 → <code>锻炼 → 课程与计划 → 跑步课程 → 自定义课程</code> 跟练。</p>
+  </div>
+
+  <!-- ============ 操作步骤 ============ -->
+  <h2 id="step">先做这一步：把 6 个课程建进 App</h2>
+  <div class="card">
+    <ol class="steps">
+      <li>手机装最新的<b>华为运动健康</b>（HarmonyOS 5 手机需 16.1.2.300 以上），确认手表已连接。</li>
+      <li>进入以下任一路径：
+        <span class="path">锻炼 → 跑步 → 全部跑步课 → 自定义 → 新建</span>
+        <span class="path">旧版路径：运动 → 户外跑步 → 推荐好课旁「全部课程」 → 自定义 → 新建</span>
+      </li>
+      <li>点 <b>添加动作</b> 加单个动作，点 <b>新增组合</b> 做「快慢交替 + 重复 N 组」。每个动作都要设 <b>目标</b>（时间 / 距离）和 <b>强度</b>（选「配速」，填下方区间）。</li>
+      <li>右上角 <b>✓</b> 保存 → 点右上角<b>手表图标</b>推送到手表。</li>
+      <li>手表端：<code>锻炼 → 课程与计划 → 跑步课程 → 自定义课程</code>，点课程即可跟练，全程有语音播报，点屏幕可跳过当前小节。</li>
+    </ol>
+    <div class="tpl-note" style="margin-top:12px;margin-bottom:0">
+      <b>命名规范</b>：手表上显示字数有限，课程名别超 8 个字。用「用途-结构」格式，如 <code>间歇-6x400</code>、<code>阈值-3x8分</code>。<br>
+      <b>改量不改课</b>：需要更多组数时，用详情页右上角「<b>复制课程</b>」复制一份再改组数和名字，比新建快得多。
+    </div>
+  </div>
+
+  <div class="warn">
+    <div class="tag">关于付费这件事</div>
+    <p>华为「智能训练计划 / AI 跑步计划」属于「活力人生」会员权益（连续包月 15 元、月卡 20 元）。本页这套<b>自定义课程路线完全免费</b>，且不依赖华为的算法——配速由你自己按下方区间控制。</p>
+  </div>
+
+  <!-- ============ 配速表 ============ -->
+  <h2 id="pace">配速区间（基准：半马 1:45）</h2>
+  <div class="card">
+    <div class="pace-grid">
+      <div class="pace-row">
+        <div class="pace-key k-e">E</div>
+        <div class="pace-info"><div class="pace-name">轻松跑</div><div class="pace-desc">有氧基础 · 恢复 · 长距离主配速</div></div>
+        <div class="pace-val">6:00 – 6:35</div>
+      </div>
+      <div class="pace-row">
+        <div class="pace-key k-m">M</div>
+        <div class="pace-info"><div class="pace-name">马拉松配速</div><div class="pace-desc">渐进长距离的中段</div></div>
+        <div class="pace-val">5:20 – 5:35</div>
+      </div>
+      <div class="pace-row">
+        <div class="pace-key k-h">H</div>
+        <div class="pace-info"><div class="pace-name">半马配速</div><div class="pace-desc">目标配速，专项课就练它</div></div>
+        <div class="pace-val">4:55 – 5:08</div>
+      </div>
+      <div class="pace-row">
+        <div class="pace-key k-t">T</div>
+        <div class="pace-info"><div class="pace-name">阈值配速</div><div class="pace-desc">乳酸阈，能说短句、但坚持不了更久</div></div>
+        <div class="pace-val">4:42 – 4:56</div>
+      </div>
+      <div class="pace-row">
+        <div class="pace-key k-i">I</div>
+        <div class="pace-info"><div class="pace-name">间歇配速</div><div class="pace-desc">400m / 1000m 间歇用，接近 5K 比赛速度</div></div>
+        <div class="pace-val">4:22 – 4:38</div>
+      </div>
+    </div>
+    <p class="small muted" style="margin-top:12px">单位：分:秒 / 公里。区间已留足余量，不用纠结落在中间还是边缘，跑进范围即可。</p>
+  </div>
+
+  <div class="card">
+    <h3>换算法则</h3>
+    <p class="small">目标变了就按本表平移：<b>目标完赛时间每变化 5 分钟，以上所有配速整体变化约 15 秒 / 公里</b>。</p>
+    <div class="scroll" style="margin-top:10px">
+      <table style="min-width:560px">
+        <thead><tr><th>半马目标</th><th>E 轻松</th><th>M 马拉松</th><th>H 半马</th><th>T 阈值</th><th>I 间歇</th></tr></thead>
+        <tbody>
+          <tr><td class="num"><b>1:40</b></td><td class="num">5:45–6:20</td><td class="num">5:05–5:20</td><td class="num">4:40–4:53</td><td class="num">4:27–4:41</td><td class="num">4:07–4:23</td></tr>
+          <tr style="background:#fdf7f8"><td class="num"><b>1:45</b> ← 本页基准</td><td class="num">6:00–6:35</td><td class="num">5:20–5:35</td><td class="num">4:55–5:08</td><td class="num">4:42–4:56</td><td class="num">4:22–4:38</td></tr>
+          <tr><td class="num"><b>1:50</b></td><td class="num">6:15–6:50</td><td class="num">5:35–5:50</td><td class="num">5:08–5:22</td><td class="num">4:55–5:10</td><td class="num">4:35–4:52</td></tr>
+          <tr><td class="num"><b>1:55</b></td><td class="num">6:30–7:05</td><td class="num">5:50–6:05</td><td class="num">5:22–5:38</td><td class="num">5:08–5:24</td><td class="num">4:48–5:05</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted" style="margin-top:10px"><b>先验一下目标</b>：1:45 需要 4:59/km 跑完全程。如果你最近 10km 成绩换算不出这个水平（10km 成绩 × 2.1 + 3 分钟 ≈ 半马潜力），前 4 周先按表练，W4 减量周后测一次再定。</p>
+  </div>
+
+  <!-- ============ 课程模板 ============ -->
+  <h2 id="tpl">6 个课程模板 · 照着录入</h2>
+  <p class="small muted" style="margin-bottom:12px">点标题展开动作清单。每张卡片底的「复制录入文本」可以贴到备忘录里，照着填 App。</p>
+
+  <div id="tpl-list"></div>
+
+  <div class="tpl-note">
+    <b>为什么热身只有 10 分钟、冷身只有 5 分钟</b>：这是低跑量计划的刻意设计。热身和冷身占掉的距离属于「无效跑量」，30km 的周量经不起 15 分钟热身。天冷或刚起床可以自行延长 2–3 分钟。<br>
+    <b>强度怎么填</b>：优先选「<b>配速</b>」，手动填上下限（例如 4:22–4:38）。不要用「配速区间」——那是华为按你的跑力自动划分的，可能跟本表不一致。
+  </div>
+
+  <!-- ============ 12 周计划 ============ -->
+  <h2 id="plan">12 周计划（按日期）</h2>
+  <p class="small muted" style="margin-bottom:12px">开始日 <b id="startLabel">—</b> · 结束日 <b id="endLabel">—</b>。每周 <b>周一 · 周二 · 周三 · 周五 · 周六</b> 训练，<b>周四、周日完全休息</b>。今天所在的周会自动展开。</p>
+  <div class="plan-key">
+    <span><i class="k1"></i>训练日 1 · 周一</span>
+    <span><i class="k1"></i>训练日 2 · 周二</span>
+    <span><i class="k1"></i>训练日 3 · 周三</span>
+    <span><i class="k0"></i>周四 休息</span>
+    <span><i class="k1"></i>训练日 4 · 周五</span>
+    <span><i class="k1"></i>训练日 5 · 周六</span>
+    <span><i class="k0"></i>周日 休息</span>
+  </div>
+  <div id="plan-list"></div>
+
+  <div class="warn key">
+    <div class="tag">低跑量的代价，以及怎么补</div>
+    <p>长距离只到 <b>9–11km</b>，大约是半马的一半。这是 30km 周量下的硬性上限——后半程耐力只能靠<b>质量课的总时长和渐进长距离</b>来补。</p>
+    <p style="margin-top:7px">如果练到 W6 之后你发现 <b>15km 以后明显掉速</b>，就做这个调整：<b>把周二或周五的轻松跑改成休息，把周六长距离加到 14km</b>。总跑量不变，只是重新分配。</p>
+  </div>
+
+  <div class="warn">
+    <div class="tag">关于「组间慢跑」的一个小坑</div>
+    <p>用「组合」做间歇时，最后一组结束后也会跟着跑一段组间慢跑。跑的时候直接在手表上点屏幕跳到冷身即可，不用真的跑完它。</p>
+  </div>
+
+  <!-- ============ 注意事项 ============ -->
+  <h2 id="note">注意事项</h2>
+  <div class="card">
+    <ul class="note-list">
+      <li><b>质量课就是这份计划的全部</b>。30km 周量下没有富余的有氧量兜底，阈值和间歇那两次课配速跑偏了，整周就白跑。</li>
+      <li><b>轻松跑不要加量</b>。只有 20–25 分钟，是给质量课让路的。跑爽了延长到 10km，整周结构就塌了。</li>
+      <li><b>推送失败先查这 3 处</b>：手表与手机蓝牙已连接、App 登录的是同一华为账号、设备页里手表处于已绑定状态。另外自定义课程同步<b>不是所有机型都支持</b>——如果详情页右上角没有手表图标，说明你的设备不支持，只能在 App 里点「开始训练」跟练。</li>
+      <li><b>周量只在 28–33km 之间波动</b>，不往上加。W4 / W8 / W12 是减量周，别跳过。漏练了也不要补，直接继续。</li>
+      <li><b>训练日固定为周一/周二/周三/周五/周六</b>，课程顺序是「阈值 → 轻松 → 间歇 → 轻松 → 长距离」，不要打乱。周四、周日完全休息。两次质量课之间那天的轻松跑就是恢复用的。</li>
+      <li><b>W9–W11 是专项期</b>，那节半马配速课是最重要的训练。W9 的 11km 长距离是全周期最长的一次。</li>
+      <li><b>最后一周的半马测试</b>：前面 11 周练到位了再测。测完就是新的 PB 基准，可以拿它重排下一轮配速。</li>
+      <li>本表是训练安排建议，不替代医疗意见。有心血管病史、关节伤病或长期不适，先问医生。</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>12 周半马计划 · 目标 1:45 · 华为手表自定义课程版</footer>
+
+<script>
+// ============ 计划起点：2026-09-23（周三）起步周 ============
+var PLAN_START = new Date(2026, 8, 23);   // 第 1 个训练日 = 周三
+var W2_MONDAY  = new Date(2026, 8, 28);   // W2 起的周一，之后每周按自然周对齐
+var WEEKS_TOTAL = 12;
+var WD = ['日','一','二','三','四','五','六'];
+// 训练日 1..5 固定落在：周一 / 周二 / 周三 / 周五 / 周六（相对周一的天数偏移）
+var DOW_OFF  = [0, 1, 2, 4, 5];
+var REST_OFF = [3, 6];                    // 周四、周日完全休息
+
+function d0(d){ var x = new Date(d); x.setHours(0,0,0,0); return x; }
+function addDays(d,n){ var x = new Date(d); x.setDate(x.getDate()+n); x.setHours(0,0,0,0); return x; }
+function md(d){ return (d.getMonth()+1) + '/' + d.getDate(); }
+function full(d){ return d.getFullYear() + ' 年 ' + (d.getMonth()+1) + ' 月 ' + d.getDate() + ' 日 · 周' + WD[d.getDay()]; }
+function diffDays(a,b){ return Math.round((d0(a) - d0(b)) / 86400000); }
+function mondayOfWeek(w){ return w === 1 ? addDays(PLAN_START, -2) : addDays(W2_MONDAY, (w-2)*7); }
+function dateOf(w,i){ return addDays(mondayOfWeek(w), DOW_OFF[i]); }
+function restDateOf(w,k){ return addDays(mondayOfWeek(w), REST_OFF[k]); }
+
+// ============ 配速定义（基准：半马 1:45）============
+var PACE = {
+  E:{lo:'6:00',hi:'6:35'}, M:{lo:'5:20',hi:'5:35'}, H:{lo:'4:55',hi:'5:08'},
+  T:{lo:'4:42',hi:'4:56'}, I:{lo:'4:22',hi:'4:38'}
+};
+function P(k){ return PACE[k].lo + '–' + PACE[k].hi; }
+
+// ============ 课程模板 ============
+var TPL = [
+  { id:'C1', name:'间歇-6x400', sub:'速度课 · 总距 ≈ 7.2km · 约 48min',
+    body:[
+      {t:'act',no:1,name:'热身',goal:'时间 10 分钟',int:'E'},
+      {t:'grp',rep:6,items:[{name:'快跑',goal:'距离 400 米',int:'I'},{name:'慢跑',goal:'距离 400 米',int:'E'}]},
+      {t:'act',no:2,name:'冷身',goal:'时间 5 分钟',int:'E'}
+    ],
+    note:'速度感的基础课。400m 不要冲，跑到 I 配速就停手，留 2 组的余力。' },
+  { id:'C2', name:'间歇-4x1000', sub:'速度课 · 总距 ≈ 8.0km · 约 54min',
+    body:[
+      {t:'act',no:1,name:'热身',goal:'时间 10 分钟',int:'E'},
+      {t:'grp',rep:4,items:[{name:'快跑',goal:'距离 1000 米',int:'I'},{name:'慢跑',goal:'距离 400 米',int:'E'}]},
+      {t:'act',no:2,name:'冷身',goal:'时间 5 分钟',int:'E'}
+    ],
+    note:'1000m 是这轮的核心速度课。如果第 4 组掉出区间，说明前两组开太快——下次把前两组压慢 5 秒。' },
+  { id:'C3', name:'阈值-3x8分', sub:'核心质量课 · 总距 ≈ 8.3km · 约 55min',
+    body:[
+      {t:'act',no:1,name:'热身',goal:'时间 10 分钟',int:'E'},
+      {t:'grp',rep:3,items:[{name:'阈值跑',goal:'时间 8 分钟',int:'T'},{name:'慢跑',goal:'时间 2 分钟',int:'E'}]},
+      {t:'act',no:2,name:'冷身',goal:'时间 5 分钟',int:'E'}
+    ],
+    note:'整轮出场最多的课（24 分钟阈值配速）。分组跑比连续跑更容易守住配速。' },
+  { id:'C4', name:'阈值-20分', sub:'低门槛质量课 · 总距 ≈ 6.5km · 约 35min',
+    body:[
+      {t:'act',no:1,name:'热身',goal:'时间 10 分钟',int:'E'},
+      {t:'act',no:2,name:'阈值跑',goal:'时间 20 分钟',int:'T',note:'连续跑，不分组。前 5 分钟允许稍慢，中间稳住'},
+      {t:'act',no:3,name:'冷身',goal:'时间 5 分钟',int:'E'}
+    ],
+    note:'不想管组数、不想看表的时候用这个。也是减量周的主力课。' },
+  { id:'C5', name:'半马-2x4km', sub:'专项课 · 总距 ≈ 11.0km · 约 63min（仅 W10 / W11 用）',
+    body:[
+      {t:'act',no:1,name:'热身',goal:'时间 10 分钟',int:'E'},
+      {t:'grp',rep:2,items:[{name:'半马配速跑',goal:'距离 4 公里',int:'H'},{name:'慢跑',goal:'时间 2 分钟',int:'E'}]},
+      {t:'act',no:2,name:'冷身',goal:'时间 5 分钟',int:'E'}
+    ],
+    note:'全周期最关键的一节课：8 公里按目标配速跑。跑得下来，1:45 就是真的；跑不下来，说明目标要么高了、要么体能还差一截。' },
+  { id:'C6', name:'渐进长距离', sub:'质量长距离 · 总距 ≈ 10.8km · 约 60min（仅 W10 用）',
+    body:[
+      {t:'act',no:1,name:'有氧跑',goal:'时间 15 分钟',int:'E'},
+      {t:'act',no:2,name:'提速段',goal:'时间 25 分钟',int:'M',note:'把节奏提上来，但别到喘'},
+      {t:'act',no:3,name:'冲刺段',goal:'时间 15 分钟',int:'H',note:'最后这 15 分钟是这节课的精华'},
+      {t:'act',no:4,name:'冷身',goal:'时间 5 分钟',int:'E'}
+    ],
+    note:'低跑量计划里长距离的替代方案：距离不长，但后 40 分钟一直在提速，练的就是「后程不崩」。' }
+];
+
+// ============ 12 周计划 ============
+// days 顺序：训练日1..5（对应周三..周日）
+var PLAN = [
+  {w:1, phase:'p1', phaseName:'起步周', vol:20, tip:'计划 9/23（周三）开始，本周只跑 3 次：周三间歇、周五轻松、周六长距离。周一、周二在开跑日之前，已跳过。', days:[
+    ['阈值-20分','C4','6.5km',1],
+    ['轻松跑','','25 分钟',0],
+    ['间歇-6x400','C1','7.2km',1],
+    ['轻松跑','','25 分钟',0],
+    ['长距离','','9.0km @ E',0]
+  ]},
+  {w:2, phase:'p1', phaseName:'基础期', vol:31, days:[
+    ['阈值-20分','C4','6.5km',1],
+    ['轻松跑','','25 分钟',0],
+    ['间歇-6x400','C1','7.2km',1],
+    ['轻松跑','','25 分钟',0],
+    ['长距离','','9.5km @ E',0]
+  ]},
+  {w:3, phase:'p1', phaseName:'基础期', vol:32, tip:'阈值课从连续 20 分升到分组 24 分。', days:[
+    ['阈值-3x8分','C3','8.3km',1],
+    ['轻松跑','','25 分钟',0],
+    ['间歇-6x400','C1','7.2km',1],
+    ['轻松跑','','20 分钟',0],
+    ['长距离','','9.5km @ E',0]
+  ]},
+  {w:4, phase:'p4', phaseName:'减量周', vol:28, tip:'主动减量。这周找机会按真实水平复算一次 1:45 是否靠谱。', days:[
+    ['阈值-20分','C4','6.5km',1],
+    ['轻松跑','','20 分钟',0],
+    ['间歇-6x400','C1','7.2km',1],
+    ['轻松跑','','20 分钟',0],
+    ['长距离','','7.5km @ E',0]
+  ]},
+  {w:5, phase:'p2', phaseName:'强化期', vol:33, tip:'速度课从 400m 换到 1000m。', days:[
+    ['阈值-3x8分','C3','8.3km',1],
+    ['轻松跑','','25 分钟',0],
+    ['间歇-4x1000','C2','8.0km',1],
+    ['轻松跑','','25 分钟',0],
+    ['长距离','','8.5km @ E',0]
+  ]},
+  {w:6, phase:'p2', phaseName:'强化期', vol:34, tip:'如果这周开始感觉后半程掉速，参考下方「低跑量的代价」做调整。', days:[
+    ['阈值-3x8分','C3','8.3km',1],
+    ['轻松跑','','25 分钟',0],
+    ['间歇-4x1000','C2','8.0km',1],
+    ['轻松跑','','25 分钟',0],
+    ['长距离','','9.5km @ E',0]
+  ]},
+  {w:7, phase:'p2', phaseName:'强化期', vol:33, tip:'强化期收尾，质量课保持住就行。', days:[
+    ['阈值-3x8分','C3','8.3km',1],
+    ['轻松跑','','25 分钟',0],
+    ['间歇-4x1000','C2','8.0km',1],
+    ['轻松跑','','20 分钟',0],
+    ['长距离','','9.5km @ E',0]
+  ]},
+  {w:8, phase:'p4', phaseName:'减量周', vol:28, tip:'第二段减量。之后进入专项期。', days:[
+    ['阈值-20分','C4','6.5km',1],
+    ['轻松跑','','20 分钟',0],
+    ['间歇-6x400','C1','7.2km',1],
+    ['轻松跑','','25 分钟',0],
+    ['长距离','','7.5km @ E',0]
+  ]},
+  {w:9, phase:'p3', phaseName:'专项期', vol:34, tip:'全周期最长的一次长距离（11km）。', days:[
+    ['阈值-3x8分','C3','8.3km',1],
+    ['轻松跑','','20 分钟',0],
+    ['间歇-4x1000','C2','8.0km',1],
+    ['轻松跑','','20 分钟',0],
+    ['长距离','','11km @ E',0]
+  ]},
+  {w:10, phase:'p3', phaseName:'专项期 · 最硬一周', vol:32, tip:'两大课周：质量课1 半马配速、训练日5 渐进长距离。中间那天刻意只排轻松跑。状态不对就把训练日3 换成完全休息。', days:[
+    ['半马-2x4km','C5','11.0km',1],
+    ['轻松跑','','20 分钟',0],
+    ['轻松跑','','25 分钟',0],
+    ['轻松跑','','20 分钟',0],
+    ['渐进长距离','C6','10.8km',1]
+  ]},
+  {w:11, phase:'p3', phaseName:'专项期 · 开始减量', vol:29, tip:'最后一次半马配速课。量开始收。', days:[
+    ['半马-2x4km','C5','11.0km',1],
+    ['轻松跑','','20 分钟',0],
+    ['轻松跑','','25 分钟',0],
+    ['轻松跑','','20 分钟',0],
+    ['长距离','','8.0km @ E',0]
+  ]},
+  {w:12, phase:'p4', phaseName:'减量 + 测试周', vol:17, tip:'常规训练约 17km + 训练日5 半马测试 21.1km。测完就是新的 PB 基准。', days:[
+    ['间歇-6x400','C1','7.2km',1],
+    ['轻松跑','','20 分钟',0],
+    ['轻松跑 + 6x20秒加速跑','','25 分钟',0],
+    ['轻松跑','','15 分钟',0],
+    ['半马测试','','21.1km',0]
+  ]}
+];
+
+// ============ 展开 60 个训练日的实际日期 ============
+var SESS = [];
+PLAN.forEach(function(p){
+  p.days.forEach(function(d,i){
+    var dt = dateOf(p.w, i);
+    SESS.push({ w:p.w, i:i, d:dt, day:d, pre:(dt < d0(PLAN_START)) });
+  });
+});
+var LAST_DAY = SESS[SESS.length-1].d;
+var SPAN_DAYS = diffDays(LAST_DAY, d0(PLAN_START)) + 1;
+
+function weekOf(d){
+  for(var w=1; w<=WEEKS_TOTAL; w++){
+    var m = mondayOfWeek(w);
+    if(d >= m && d <= addDays(m,6)) return w;
+  }
+  return null;
+}
+function nextSessionAfter(d){
+  for(var k=0;k<SESS.length;k++){ if(SESS[k].d > d) return SESS[k]; }
+  return null;
+}
+
+// ============ 今日 ============
+function todayInfo(){
+  var t = d0(new Date());
+  if(t < d0(PLAN_START)) return {state:'before', date:t, n:diffDays(d0(PLAN_START), t)};
+  if(t > LAST_DAY)       return {state:'after',  date:t};
+  for(var k=0;k<SESS.length;k++){
+    if(+SESS[k].d === +t){
+      return {state:'train', date:t, w:SESS[k].w, i:SESS[k].i, day:SESS[k].day};
+    }
+  }
+  return {state:'rest', date:t, w:weekOf(t), next:nextSessionAfter(t)};
+}
+
+function renderToday(){
+  var i = todayInfo();
+  var chip = document.getElementById('tdChip');
+  var dateEl = document.getElementById('tdDate');
+  var dayEl  = document.getElementById('tdDay');
+  var course = document.getElementById('tdCourse');
+  var meta   = document.getElementById('tdMeta');
+  var bar    = document.getElementById('tdBar');
+  var fL     = document.getElementById('tdFootL');
+  var fR     = document.getElementById('tdFootR');
+
+  dateEl.textContent = full(i.date);
+
+  if(i.state === 'before'){
+    chip.textContent = '未开始'; chip.className = 'td-chip before';
+    dayEl.textContent = '';
+    course.textContent = '距离开练还有 ' + i.n + ' 天';
+    meta.textContent = '计划开始日 ' + md(PLAN_START) + '（周三）';
+    bar.style.width = '0%';
+    fL.textContent = '第 0 / 12 周';
+    fR.textContent = '结束日 ' + md(LAST_DAY);
+    return;
+  }
+  if(i.state === 'after'){
+    chip.textContent = '已完成'; chip.className = 'td-chip after';
+    dayEl.textContent = '共 ' + SPAN_DAYS + ' 天';
+    course.textContent = '12 周计划已走完';
+    meta.textContent = '拿半马测试成绩重排下一轮配速吧';
+    bar.style.width = '100%';
+    fL.textContent = '第 12 / 12 周';
+    fR.textContent = '结束于 ' + md(LAST_DAY);
+    return;
+  }
+
+  var pct = Math.round((diffDays(i.date, d0(PLAN_START)) + 1) / SPAN_DAYS * 100);
+  if(pct < 1) pct = 1; if(pct > 100) pct = 100;
+  bar.style.width = pct + '%';
+  fL.textContent = '第 ' + i.w + ' / 12 周';
+  fR.textContent = (md(PLAN_START) + ' 开跑 · 共 ' + SPAN_DAYS + ' 天 · ' + pct + '%');
+
+  if(i.state === 'rest'){
+    chip.textContent = '休息日'; chip.className = 'td-chip rest';
+    dayEl.textContent = '第 ' + i.w + ' 周 · 周' + WD[i.date.getDay()];
+    course.textContent = '今天完全休息';
+    if(i.next){
+      meta.textContent = '下一次训练：' + md(i.next.d) + ' 周' + WD[i.next.d.getDay()] +
+                         ' · 训练日 ' + (i.next.i + 1) + ' · ' + i.next.day[0] +
+                         (i.next.day[2] ? ' · ' + i.next.day[2] : '');
+    } else {
+      meta.textContent = '计划即将结束';
+    }
+    return;
+  }
+
+  // 训练日
+  chip.textContent = '今天训练'; chip.className = 'td-chip';
+  dayEl.textContent = '第 ' + i.w + ' 周 · 周' + WD[i.date.getDay()] + ' · 第 ' + (i.i + 1) + ' / 5 练';
+  course.textContent = '训练日 ' + (i.i + 1) + ' · ' + i.day[0];
+  var extra = [];
+  if(i.day[2]) extra.push(i.day[2]);
+  if(i.day[1]) extra.push('课程模板 ' + i.day[1]);
+  if(i.day[3]) extra.push('<span class="tagline">需推送手表</span>');
+  meta.innerHTML = extra.join(' · ');
+}
+
+// ============ 渲染：课程模板 ============
+function paceTag(k){ return '<span class="int">' + k + ' ' + P(k) + ' /km</span>'; }
+
+function renderTpl(){
+  var html = '';
+  TPL.forEach(function(t){
+    html += '<div class="tpl" id="' + t.id + '">';
+    html += '<div class="tpl-head"><div class="tpl-id">' + t.id.replace('C','') + '</div>';
+    html += '<div class="tpl-name">' + t.name + '<small>' + t.sub + '</small></div>';
+    html += '<div class="tpl-caret">▶</div></div><div class="tpl-body">';
+    html += '<div class="tpl-note" style="margin-top:12px">' + t.note + '</div>';
+    t.body.forEach(function(b){
+      if(b.t === 'act'){
+        html += '<div class="act"><div class="act-no">' + b.no + '</div><div class="act-main">';
+        html += '<b>' + b.name + '</b> · <span class="goal">' + b.goal + '</span> · ' + paceTag(b.int);
+        if(b.note) html += '<div style="color:#8b929c;font-size:12px">' + b.note + '</div>';
+        html += '</div></div>';
+      } else {
+        html += '<div class="grp"><div class="grp-label">组合重复 <span class="rep">' + b.rep + ' 组</span></div>';
+        b.items.forEach(function(it, idx){
+          html += '<div class="act"><div class="act-no">' + (idx+1) + '</div><div class="act-main">';
+          html += '<b>' + it.name + '</b> · <span class="goal">' + it.goal + '</span> · ' + paceTag(it.int);
+          html += '</div></div>';
+        });
+        html += '</div>';
+      }
+    });
+    html += '<button class="btn" data-t="' + t.id + '">复制录入文本</button>';
+    html += '</div></div>';
+  });
+  document.getElementById('tpl-list').innerHTML = html;
+}
+
+function tplText(t){
+  var lines = ['【' + t.name + '】'];
+  t.body.forEach(function(b){
+    if(b.t === 'act'){
+      lines.push(b.no + '. ' + b.name + ' — 目标 ' + b.goal + ' — 强度 ' + b.int + ' ' + P(b.int) + '/km');
+    } else {
+      lines.push('组合 ×' + b.rep + '：');
+      b.items.forEach(function(it){
+        lines.push('   · ' + it.name + ' — 目标 ' + it.goal + ' — 强度 ' + it.int + ' ' + P(it.int) + '/km');
+      });
+    }
+  });
+  return lines.join('\n');
+}
+
+// ============ 渲染：12 周（按日期）============
+function renderPlan(){
+  var info = todayInfo();
+  var curW = (info.state === 'before') ? 1 : (info.w || WEEKS_TOTAL);
+  var today = d0(new Date());
+  var html = '';
+
+  PLAN.forEach(function(p){
+    var mon = mondayOfWeek(p.w), sun = addDays(mon, 6);
+    var range = md(mon) + ' – ' + md(sun);
+    var isCur = (p.w === curW);
+    var volTxt = (p.w === 1) ? '3 练' : (p.vol + 'km');
+
+    html += '<div class="wk' + (isCur ? ' open' : '') + '" id="W' + p.w + '">';
+    html += '<div class="wk-head"><div class="wk-no ' + p.phase + '">W' + p.w + '</div>';
+    html += '<div class="wk-title">' + range + (p.tip ? '<small>' + p.tip + '</small>' : '') + '</div>';
+    html += '<div class="wk-vol">' + volTxt + '</div><div class="tpl-caret">▶</div></div>';
+    html += '<div class="wk-body">';
+
+    for(var k = 0; k < 7; k++){
+      var dt = addDays(mon, k);
+      var idx = DOW_OFF.indexOf(k);
+      var isToday = (+dt === +today);
+
+      if(idx >= 0){
+        var d = p.days[idx];
+        var pre = dt < d0(PLAN_START);
+        html += '<div class="day' + (isToday ? ' today-row' : '') + (pre ? ' pre' : '') + '">';
+        html += '<div class="day-d"><b>' + md(dt) + ' 周' + WD[dt.getDay()] + '</b>' + (pre ? '计划前' : '训练日' + (idx + 1)) + '</div>';
+        if(pre){
+          html += '<div class="day-c"><div class="t">' + d[0] + '</div><div class="d">计划 9/23 才开始，跳过</div></div>';
+          html += '<div class="day-k">—</div>';
+        } else {
+          html += '<div class="day-c"><div class="t">' + d[0] + '</div>' + (d[1] ? '<div class="d">课程模板 ' + d[1] + '</div>' : '<div class="d">无需课程，直接手表跑步</div>') + '</div>';
+          html += '<div class="day-k">' + d[2] + (d[3] ? ' <span class="badge b-i">推送</span>' : '') + '</div>';
+        }
+        html += '</div>';
+      } else {
+        html += '<div class="day rest' + (isToday ? ' today-row' : '') + '">';
+        html += '<div class="day-d"><b>' + md(dt) + ' 周' + WD[dt.getDay()] + '</b>休息</div>';
+        html += '<div class="day-c"><div class="t">完全休息</div><div class="d">不跑，让质量课的效果长出来</div></div>';
+        html += '<div class="day-k">—</div>';
+        html += '</div>';
+      }
+    }
+
+    html += '</div></div>';
+  });
+
+  document.getElementById('plan-list').innerHTML = html;
+}
+
+// ============ 启动 ============
+document.getElementById('startLabel').textContent = full(PLAN_START);
+document.getElementById('endLabel').textContent = md(LAST_DAY) + '（周' + WD[LAST_DAY.getDay()] + '）';
+renderToday();
+renderTpl();
+renderPlan();
+document.getElementById('C1').classList.add('open');
+
+// ============ 交互 ============
+document.addEventListener('click', function(e){
+  var h = e.target.closest('.tpl-head');
+  if(h){ h.parentNode.classList.toggle('open'); return; }
+  var w = e.target.closest('.wk-head');
+  if(w){ w.parentNode.classList.toggle('open'); return; }
+  var b = e.target.closest('.btn');
+  if(b){
+    var t = TPL.filter(function(x){ return x.id === b.dataset.t; })[0];
+    var txt = tplText(t);
+    var done = function(){
+      b.textContent = '已复制 ✓'; b.classList.add('done');
+      setTimeout(function(){ b.textContent = '复制录入文本'; b.classList.remove('done'); }, 1800);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(done).catch(function(){ fallback(txt, done); });
+    } else { fallback(txt, done); }
+  }
+});
+
+function fallback(txt, done){
+  var ta = document.createElement('textarea');
+  ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); done(); } catch(e){ alert(txt); }
+  document.body.removeChild(ta);
+}
+</script>
+
+
+
+
+
+
+
+
+<!-- VER-BLOCK -->
+<script>var PAGE_VER="20260924004653";</script>
+<script>
+/* 版本自检 + 地址栏净化：
+   1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
+   2) 本机若见过更新的版本（localStorage.wbBuild），立即切到带时间戳的最新地址——无需联网；
+   3) 否则与服务器 version.json 核对版本，旧版自动跳转；
+   4) 确认自己是最新版时，抹掉地址栏 ?t= 参数。
+   防循环：同一目标版本最多连续跳 5 次，跳到最新版后计数清零。 */
+(function () {
+  var HOMES = ["index.html", "home.html", "home2.html", "home3.html"];
+  var origPath = location.pathname;
+  var nm = origPath.split("/").pop() || "index.html";
+  var isHome = HOMES.indexOf(nm) >= 0;
+  var hadParam = /[?&]t=\d{10,}/.test(location.href);
+  function cleanUrl() {
+    try {
+      var u = new URL(location.href);
+      u.searchParams.delete("t");
+      var qs = u.searchParams.toString();
+      var path = isHome ? "/" : origPath;
+      history.replaceState(null, "", path + (qs ? "?" + qs : "") + u.hash);
+    } catch (e) {}
+  }
+  function hop(target) {
+    var now = Date.now(), n = 0, t0 = 0, tv = "";
+    try {
+      var parts = (localStorage.getItem("wbHop") || "").split("|");
+      tv = parts[0] || ""; n = +(parts[1] || 0) || 0; t0 = +(parts[2] || 0) || 0;
+    } catch (e) {}
+    if (tv !== String(target) || now - t0 > 600000) { n = 0; }
+    if (n >= 5) return false;
+    try { localStorage.setItem("wbHop", String(target) + "|" + (n + 1) + "|" + now); } catch (e) {}
+    location.replace(origPath + "?t=" + now);
+    return true;
+  }
+  function ok() {
+    try { localStorage.removeItem("wbHop"); } catch (e) {}
+    if (hadParam || isHome) cleanUrl();
+  }
+  if (!/^https?:$/.test(location.protocol) || typeof PAGE_VER === "undefined") return;
+  if (isHome) cleanUrl();
+  var myVer = parseInt(PAGE_VER, 10) || 0;
+  var seen = 0;
+  try { seen = parseInt(localStorage.getItem("wbBuild") || "0", 10) || 0; } catch (e) {}
+  if (seen > myVer) { hop(seen); return; }
+  if (myVer > seen) { try { localStorage.setItem("wbBuild", String(myVer)); } catch (e) {} }
+  fetch("./version.json?t=" + Date.now(), { cache: "no-store" })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      var latest = j && j[nm];
+      if (!latest || latest === PAGE_VER) { ok(); return; }
+      try { localStorage.setItem("wbBuild", String(latest)); } catch (e) {}
+      hop(latest);
+    })
+    .catch(function () { if (hadParam) cleanUrl(); });
+})();
+</script>
+<!-- /VER-BLOCK -->
+
+</body>
+</html>
