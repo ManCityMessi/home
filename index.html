@@ -15,7 +15,9 @@
 <script>
 (function () {
   var t = Date.now ? Date.now() : new Date().getTime();
-  location.replace("./home3.html?t=" + t);
+  /* 转发时保留原有查询参数（例如 ?key=绑定密钥），否则绑定会被丢掉 */
+  var q = location.search ? location.search.replace(/^\?/, "") : "";
+  location.replace("./home3.html?" + (q ? q + "&" : "") + "t=" + t);
 })();
 </script>
 </head>
