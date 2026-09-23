@@ -119,7 +119,9 @@
     }
     return testRead(key).then(function (r) {
       if (!r.ok) return { ok: false, note: "通道不通，无法判断写入权限" };
-      return { ok: true, note: "通道可达（写入权限将在实际修改时验证）" };
+      return withTimeout(WORKER + "/auth", { headers: { "x-wb-write-key": key } })
+        .then(function (a) { return a.ok ? { ok: true, note: "写入密钥有效" } : { ok: false, note: "写入密钥无效（请核对绑定页里的密钥）" }; })
+        .catch(function (e) { return { ok: false, note: "校验请求失败：" + ((e && e.name) || "网络错误") }; });
     });
   }
 
