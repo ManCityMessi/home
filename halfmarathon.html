@@ -865,7 +865,7 @@ function fallback(txt, done){
       var u = new URL(location.href);
       u.searchParams.delete("t");
       var qs = u.searchParams.toString();
-      var path = isHome ? "/" : origPath;
+      var path = isHome ? origPath.replace(/[^/]*$/, "") : origPath;
       history.replaceState(null, "", path + (qs ? "?" + qs : "") + u.hash);
     } catch (e) {}
   }

@@ -535,7 +535,7 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
       var u = new URL(location.href);
       u.searchParams.delete("t");
       var qs = u.searchParams.toString();
-      var path = isHome ? "/" : origPath;
+      var path = isHome ? origPath.replace(/[^/]*$/, "") : origPath;
       history.replaceState(null, "", path + (qs ? "?" + qs : "") + u.hash);
     } catch (e) {}
   }
