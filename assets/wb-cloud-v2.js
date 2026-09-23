@@ -32,13 +32,16 @@
   }
 
   /* 一次性绑定写入密钥，并把 ?key= 从地址栏抹掉 */
+  var PUSH_LOCAL = false;   /* 带 ?pushlocal=1 时：本机数据覆盖远端（一次性） */
   (function bindKey() {
     try {
       var u = new URL(location.href);
+      if (u.searchParams.get("pushlocal")) PUSH_LOCAL = true;
       var k = u.searchParams.get(CFG.keyParam);
       if (!k) return;
       localStorage.setItem(CFG.writeKeyLS, k);
       u.searchParams.delete(CFG.keyParam);
+      u.searchParams.delete("pushlocal");
       var qs = u.searchParams.toString();
       history.replaceState(null, "", u.pathname + (qs ? "?" + qs : "") + u.hash);
     } catch (e) {}
@@ -161,19 +164,24 @@
   function migrateLocal() {
     if (!writeKey()) return Promise.resolve();
     var key, g = readLS(LS_GAIN), s = readLS(LS_SIG), jobs = [];
+    function differs(v, kind) {
+      if (!Object.prototype.hasOwnProperty.call(WB.data, kind + key)) return true;
+      if (!PUSH_LOCAL) return false;
+      try { return JSON.stringify(WB.data[kind + key]) !== JSON.stringify(v); } catch (e) { return false; }
+    }
     for (key in g) {
       if (!Object.prototype.hasOwnProperty.call(g, key)) continue;
-      if (!Object.prototype.hasOwnProperty.call(WB.data, "gain:" + key)) jobs.push({ k: "gain:" + key, v: g[key] });
+      if (differs(g[key], "gain:")) jobs.push({ k: "gain:" + key, v: g[key] });
     }
     for (key in s) {
       if (!Object.prototype.hasOwnProperty.call(s, key)) continue;
-      if (!Object.prototype.hasOwnProperty.call(WB.data, "signals:" + key)) jobs.push({ k: "signals:" + key, v: s[key] });
+      if (differs(s[key], "signals:")) jobs.push({ k: "signals:" + key, v: s[key] });
     }
     WB.migrated = jobs.length;
-    return Promise.all(jobs.map(function (j) {
-      WB.data[j.k] = j.v;
-      return api("POST", "/state", j).catch(function () {});
-    }));
+    if (!jobs.length) return Promise.resolve();
+    jobs.forEach(function (j) { WB.data[j.k] = j.v; });
+    /* 一次请求提交全部改动（避免上百次提交） */
+    return api("POST", "/state", jobs.map(function (j) { return { k: j.k, v: j.v }; })).catch(function () {});
   }
 
   function boot() {
