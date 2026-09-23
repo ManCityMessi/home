@@ -380,7 +380,7 @@
     render();
     if (cloudOk) mark("ok", "云端已同步");
     else if (FILE_ROWS.length) mark("ok", "已加载静态记录");
-    else mark("err", window.WB ? "云端连接失败（显示本机缓存）" : "云端未就绪");
+    else mark("err", window.WB ? "只读 · 显示仓库快照数据" : "加载中…");
   }
 
   refresh();

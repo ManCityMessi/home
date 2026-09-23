@@ -673,7 +673,7 @@
       absorbCloud();
       rollover();
       renderAll();
-      if (WB.error) setConn("bad", "云端暂不可用 · 显示本机数据");
+        if (WB.error) setConn("bad", "只读 · 显示仓库快照数据");
       else setConn("ok", "已同步");
     });
     setTimeout(function () {

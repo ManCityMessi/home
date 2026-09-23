@@ -985,7 +985,7 @@
       if (ae && ae.classList && ae.classList.contains("inp")) return;
       mergeData();
       render();
-      if (WB.error) toast("云端数据暂不可用，当前显示本机数据");
+        if (WB.error) toast("当前设备为只读模式，显示仓库快照数据");
       else if (WB.migrated > 0) toast("已把本机修改同步到云端（" + WB.migrated + " 项）");
     });
   }
