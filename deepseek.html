@@ -148,9 +148,12 @@
     el.innerHTML = '<span class="dot ' + state + '"></span>' + txt;
   }
 
-  /* 从云端读取 deepseek:<日期> 记录 */
+  /* 从云端读取 deepseek:<日期> 记录；并合并同源静态记录
+     （GitHub Pages 上云网关有域名白名单，浏览器跨域读写会 403，
+      所以发布版改用仓库里的 ./data/deepseek.json 作数据源） */
+  var FILE_ROWS = [];
   function rows() {
-    var out = [];
+    var out = [], have = {};
     var d = (window.WB && WB.ready) ? WB.data : {};
     for (var k in d) {
       if (!Object.prototype.hasOwnProperty.call(d, k)) continue;
@@ -158,7 +161,13 @@
       var v = d[k];
       if (!v || typeof v !== "object" || typeof v.bal !== "number") continue;
       out.push({ date: k.slice(9), bal: v.bal, top: v.top, grt: v.grt, ts: v.ts });
+      have[k.slice(9)] = 1;
     }
+    FILE_ROWS.forEach(function (r) {
+      if (!r || !r.date || typeof r.bal !== "number" || have[r.date]) return;
+      out.push({ date: r.date, bal: r.bal, top: r.top, grt: r.grt, ts: r.ts });
+      have[r.date] = 1;
+    });
     out.sort(function (a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
     /* 相邻两天的余额差 = 期间使用额（负数表示充值） */
     for (var i = 1; i < out.length; i++) {
@@ -366,16 +375,29 @@
     if (e) e.textContent = r.length ? ("有记录以来 · 共 " + r.length + " 天") : "有记录以来";
   }
 
-  render();
-  if (window.WB) {
-    WB.onReady(function () {
-      mark(WB.error ? "err" : "ok", WB.error ? "云端连接失败（显示本机缓存）" : "云端已同步");
-      render();
-    });
-    if (WB.ready) mark(WB.error ? "err" : "ok", WB.error ? "云端连接失败（显示本机缓存）" : "云端已同步");
-  } else {
-    mark("err", "云端未就绪");
+  function refresh() {
+    var cloudOk = !!(window.WB && WB.ready && !WB.error);
+    render();
+    if (cloudOk) mark("ok", "云端已同步");
+    else if (FILE_ROWS.length) mark("ok", "已加载静态记录");
+    else mark("err", window.WB ? "云端连接失败（显示本机缓存）" : "云端未就绪");
   }
+
+  refresh();
+  if (window.WB) {
+    WB.onReady(refresh);
+    if (WB.ready) refresh();
+  }
+
+  /* 同源静态记录：每天 00:00 由本机任务写入仓库 data/deepseek.json，Pages 重建后生效 */
+  fetch("./data/deepseek.json", { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) {
+      if (!j || !j.records || !j.records.length) return;
+      FILE_ROWS = j.records;
+      refresh();
+    })
+    .catch(function () {});
 
   /* 返回主页时带时间戳，绕过缓存 */
   Array.prototype.forEach.call(document.querySelectorAll('a[href$=".html"]'), function (a) {
