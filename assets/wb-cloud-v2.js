@@ -1,25 +1,29 @@
-/* 自有后端同步层（替换 WorkBuddy 云服务；保持 window.WB 接口不变）
+/* 数据同步层：以 GitHub 仓库为唯一数据源（保持 window.WB 接口不变）
  *
- * 后端 API：
- *   GET    {BASE}/state        → { "key": value, ... }
- *   POST   {BASE}/state {k,v}  → 写入/更新（需写入密钥）
- *   DELETE {BASE}/state?k=key  → 删除（需写入密钥）
+ * 为什么不用服务器：Cloudflare workers.dev 在国内移动网络打不开（实测），
+ * 所以数据放在仓库里的 data/state.json，读取走 github.io 同源，写入走 GitHub API。
  *
- * 写入密钥绑定：在任一设备打开一次 <页面>?key=<写入密钥> 即绑定到该浏览器，
- * 之后该设备的改动才会写进云端；没绑定的设备是只读的（改动只存本机）。
- *
- * 后端不可用时，回落到同源快照 ./data/state.json（只读）。
+ * 读取：
+ *   - 已绑定密钥的设备：走 api.github.com 读仓库文件（提交后几秒即最新）
+ *   - 未绑定的设备：读同源快照 ./data/state.json（跟随 Pages 重建，约 1 分钟）
+ * 写入：
+ *   - 需要细粒度 GitHub token（Contents: Read and write），
+ *     在任一设备打开一次 <页面>?key=<token> 绑定到该浏览器；
+ *     没绑定的设备是只读的，改动只存本机。
+ *   - 连续修改会合并成一次提交（默认 1.2 秒内合并）。
  */
 (function () {
   "use strict";
 
   var CFG = {
-    base: "https://home-api.mancitymessi.workers.dev",
-    writeHeader: "x-wb-write-key",
-    writeKeyLS: "wb-write-key",
-    keyParam: "key",
+    repo: "ManCityMessi/home",
+    branch: "main",
+    statePath: "data/state.json",
     snapshot: "./data/state.json",
-    timeoutMs: 8000
+    tokenLS: "wb-gh-token",
+    keyParam: "key",
+    timeoutMs: 12000,
+    debounceMs: 1200
   };
 
   var LS_GAIN = "gain-2026-v1";
@@ -29,31 +33,45 @@
     try { return JSON.parse(localStorage.getItem(k) || "{}") || {}; } catch (e) { return {}; }
   }
 
-  /* 一次性绑定写入密钥，并把 ?key= 从地址栏抹掉 */
+  /* 一次性绑定密钥，并把 ?key= 从地址栏抹掉 */
   (function bindKey() {
     try {
       var u = new URL(location.href);
       var k = u.searchParams.get(CFG.keyParam);
       if (!k) return;
-      localStorage.setItem(CFG.writeKeyLS, k);
+      localStorage.setItem(CFG.tokenLS, k);
       u.searchParams.delete(CFG.keyParam);
       var qs = u.searchParams.toString();
       history.replaceState(null, "", u.pathname + (qs ? "?" + qs : "") + u.hash);
     } catch (e) {}
   })();
 
-  function writeKey() {
-    try { return localStorage.getItem(CFG.writeKeyLS) || ""; } catch (e) { return ""; }
+  function token() {
+    try { return localStorage.getItem(CFG.tokenLS) || ""; } catch (e) { return ""; }
   }
 
-  function api(method, p, body, key) {
-    var h = { "content-type": "application/json" };
-    if (key) h[CFG.writeHeader] = key;
+  function b64encode(str) {
+    var bytes = new TextEncoder().encode(str), bin = "";
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+  function b64decode(b64) {
+    var bin = atob(String(b64).replace(/\s/g, ""));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
+  function gh(method, p, body) {
+    var tok = token();
+    var headers = { accept: "application/vnd.github+json" };
+    if (tok) headers.authorization = "Bearer " + tok;
+    if (body) headers["content-type"] = "application/json";
     var ctl = (typeof AbortController === "function") ? new AbortController() : null;
     var timer = ctl ? setTimeout(function () { try { ctl.abort(); } catch (e) {} }, CFG.timeoutMs) : null;
-    return fetch(CFG.base + p, {
+    return fetch("https://api.github.com" + p, {
       method: method,
-      headers: h,
+      headers: headers,
       body: body ? JSON.stringify(body) : undefined,
       cache: "no-store",
       signal: ctl ? ctl.signal : undefined
@@ -61,13 +79,87 @@
       if (timer) clearTimeout(timer);
       return r.text().then(function (t) {
         if (!r.ok) {
-          var e = new Error(r.status === 401 ? "unauthorized" : "http " + r.status);
+          var e = new Error(r.status === 401 ? "unauthorized" : r.status === 409 ? "conflict" : "http " + r.status);
           e.status = r.status;
+          e.body = t.slice(0, 200);
           throw e;
         }
         try { return t ? JSON.parse(t) : null; } catch (e2) { return null; }
       });
+    }, function (err) {
+      if (timer) clearTimeout(timer);
+      throw err;
     });
+  }
+
+  var filePath = "/repos/" + CFG.repo + "/contents/" + CFG.statePath;
+
+  /* 读仓库文件：返回 { state, sha } */
+  function readRemote() {
+    return gh("GET", filePath + "?ref=" + CFG.branch).then(function (j) {
+      var data = JSON.parse(b64decode(j.content || ""));
+      return { state: (data && data.state) || {}, sha: j.sha };
+    });
+  }
+
+  function writeRemote(state, sha, message) {
+    var payload = JSON.stringify({ updated: new Date().toISOString(), state: state }, null, 2) + "\n";
+    var body = { message: message, content: b64encode(payload), branch: CFG.branch };
+    if (sha) body.sha = sha;
+    return gh("PUT", filePath, body);
+  }
+
+  function readSnapshot() {
+    return fetch(CFG.snapshot + "?t=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (j && j.state && typeof j.state === "object") return j.state;
+        return (j && typeof j === "object") ? j : {};
+      });
+  }
+
+  /* ---- 写入队列：合并短时间内的多次改动，一次提交 ---- */
+  var pending = {};      // k -> {v} 或 {del:true}
+  var waiters = [];      // {res, rej}
+  var flushTimer = null;
+
+  function scheduleFlush() {
+    if (flushTimer) return;
+    flushTimer = setTimeout(function () { flush(); }, CFG.debounceMs);
+  }
+
+  function settle(ok, err) {
+    var ws = waiters; waiters = [];
+    ws.forEach(function (w) { ok ? w.res(true) : w.rej(err); });
+  }
+
+  function flush(retry) {
+    flushTimer = null;
+    var batch = pending; pending = {};
+    var keys = Object.keys(batch);
+    if (!keys.length) return;
+    if (!token()) { settle(false, new Error("no-write-key")); return; }
+
+    readRemote()
+      .then(function (f) {
+        var state = f.state || {};
+        keys.forEach(function (k) {
+          if (batch[k].del) delete state[k];
+          else state[k] = batch[k].v;
+        });
+        var label = keys.length === 1 ? keys[0] : (keys.length + " 项");
+        return writeRemote(state, f.sha, "同步 " + label);
+      })
+      .then(function () { settle(true); })
+      .catch(function (e) {
+        var msg = (e && e.message) || "";
+        if (!retry && (msg === "conflict" || msg === "http 409")) {
+          keys.forEach(function (k) { if (!(k in pending)) pending[k] = batch[k]; });
+          waiters.length = 0;
+          return flush(true);
+        }
+        settle(false, e);
+      });
   }
 
   var WB = {
@@ -85,20 +177,20 @@
     },
     put: function (k, val) {
       WB.data[k] = val;
-      var wk = writeKey();
-      if (!wk) return Promise.reject(new Error("no-write-key"));
-      return api("POST", "/state", { k: k, v: val }, wk).then(function (r) {
-        if (r && r.error) throw new Error(r.error);
-        return true;
+      if (!token()) return Promise.reject(new Error("no-write-key"));
+      return new Promise(function (res, rej) {
+        pending[k] = { v: val };
+        waiters.push({ res: res, rej: rej });
+        scheduleFlush();
       });
     },
     del: function (k) {
       delete WB.data[k];
-      var wk = writeKey();
-      if (!wk) return Promise.reject(new Error("no-write-key"));
-      return api("DELETE", "/state?k=" + encodeURIComponent(k), null, wk).then(function (r) {
-        if (r && r.error) throw new Error(r.error);
-        return true;
+      if (!token()) return Promise.reject(new Error("no-write-key"));
+      return new Promise(function (res, rej) {
+        pending[k] = { del: true };
+        waiters.push({ res: res, rej: rej });
+        scheduleFlush();
       });
     }
   };
@@ -110,15 +202,14 @@
     return WB.put(k, val).catch(function (e) {
       var m = e && e.message;
       if (m === "no-write-key") WB.notify("本机未绑定写入密钥，改动只存在本机（打开 网址?key=密钥 一次即可同步）");
-      else if (m === "unauthorized") WB.notify("写入密钥不对，改动只存在本机");
-      else WB.notify("写入云端失败，已保存到本机，稍后会自动重试");
+      else if (m === "unauthorized") WB.notify("写入密钥失效，改动只存在本机");
+      else WB.notify("同步失败，已保存到本机，稍后会自动重试");
     });
   };
   WB.delSafe = function (k) {
     return WB.del(k).catch(function (e) {
-      var m = e && e.message;
-      if (m === "no-write-key") WB.notify("本机未绑定写入密钥，删除只对本机生效");
-      else WB.notify("云端删除失败，请稍后重试");
+      if (e && e.message === "no-write-key") WB.notify("本机未绑定写入密钥，删除只对本机生效");
+      else WB.notify("同步失败，请稍后重试");
     });
   };
 
@@ -128,11 +219,10 @@
     try { document.documentElement.setAttribute("data-cloud", state); } catch (e) {}
   }
 
-  /* 把本机已有的每日收益 / 持仓改动补进后端（只补后端还没有的键） */
+  /* 把本机已有的每日收益 / 持仓改动补进仓库（只补仓库里还没有的键） */
   function migrateLocal() {
-    var wk = writeKey();
-    if (!wk) return Promise.resolve();
-    var jobs = [], key, g = readLS(LS_GAIN), s = readLS(LS_SIG);
+    if (!token()) return Promise.resolve();
+    var key, jobs = [], g = readLS(LS_GAIN), s = readLS(LS_SIG);
     for (key in g) {
       if (!Object.prototype.hasOwnProperty.call(g, key)) continue;
       if (!Object.prototype.hasOwnProperty.call(WB.data, "gain:" + key)) jobs.push({ k: "gain:" + key, v: g[key] });
@@ -142,31 +232,41 @@
       if (!Object.prototype.hasOwnProperty.call(WB.data, "signals:" + key)) jobs.push({ k: "signals:" + key, v: s[key] });
     }
     WB.migrated = jobs.length;
-    return Promise.all(jobs.map(function (j) {
-      WB.data[j.k] = j.v;
-      return api("POST", "/state", j, wk).catch(function () {});
-    }));
+    if (!jobs.length) return Promise.resolve();
+    jobs.forEach(function (j) { WB.data[j.k] = j.v; pending[j.k] = { v: j.v }; });
+    return new Promise(function (res) {
+      waiters.push({ res: function () { res(true); }, rej: function () { res(true); } });
+      scheduleFlush();
+    });
   }
 
-  api("GET", "/state")
-    .then(function (data) {
-      WB.data = (data && typeof data === "object") ? data : {};
-      WB.error = null;
-      return migrateLocal();
-    })
-    .catch(function () {
-      return fetch(CFG.snapshot, { cache: "no-store" })
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (j) {
-          if (j && j.state && typeof j.state === "object") WB.data = j.state;
-          else if (j && typeof j === "object") WB.data = j;
-          WB.error = "backend-unreachable";
+  /* 启动：绑定密钥的走 API，没绑定的走同源快照 */
+  (function boot() {
+    if (token()) {
+      readRemote()
+        .then(function (f) {
+          WB.data = f.state || {};
+          WB.error = null;
+          return migrateLocal();
         })
-        .catch(function () { WB.error = "backend-unreachable"; });
-    })
-    .then(function () {
-      WB.ready = true;
-      mark(WB.error ? "error" : "ready");
-      WB._emit();
-    });
+        .catch(function () {
+          WB.error = "api-unreachable";
+          return readSnapshot().then(function (s) { WB.data = s || {}; }).catch(function () {});
+        })
+        .then(function () {
+          WB.ready = true;
+          mark(WB.error ? "error" : "ready");
+          WB._emit();
+        });
+    } else {
+      readSnapshot()
+        .then(function (s) { WB.data = s || {}; WB.error = "read-only"; })
+        .catch(function () { WB.error = "read-only"; })
+        .then(function () {
+          WB.ready = true;
+          mark("error");
+          WB._emit();
+        });
+    }
+  })();
 })();
