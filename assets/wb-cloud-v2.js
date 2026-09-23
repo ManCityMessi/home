@@ -18,7 +18,8 @@
     writeHeader: "x-wb-write-key",
     writeKeyLS: "wb-write-key",
     keyParam: "key",
-    snapshot: "./data/state.json"
+    snapshot: "./data/state.json",
+    timeoutMs: 8000
   };
 
   var LS_GAIN = "gain-2026-v1";
@@ -48,12 +49,16 @@
   function api(method, p, body, key) {
     var h = { "content-type": "application/json" };
     if (key) h[CFG.writeHeader] = key;
+    var ctl = (typeof AbortController === "function") ? new AbortController() : null;
+    var timer = ctl ? setTimeout(function () { try { ctl.abort(); } catch (e) {} }, CFG.timeoutMs) : null;
     return fetch(CFG.base + p, {
       method: method,
       headers: h,
       body: body ? JSON.stringify(body) : undefined,
-      cache: "no-store"
+      cache: "no-store",
+      signal: ctl ? ctl.signal : undefined
     }).then(function (r) {
+      if (timer) clearTimeout(timer);
       return r.text().then(function (t) {
         if (!r.ok) {
           var e = new Error(r.status === 401 ? "unauthorized" : "http " + r.status);
