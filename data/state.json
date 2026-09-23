@@ -1,0 +1,138 @@
+{
+  "updated": "2026-09-23T18:53:52.603Z",
+  "state": {
+    "gain:2026-09-22": 14519,
+    "signals:jili": {
+      "val": {
+        "pe": "PE10",
+        "growth": "增长15%",
+        "report": "26Q2A"
+      },
+      "core": {
+        "buy": 14.3,
+        "cost": 16.93,
+        "sell": 28.6,
+        "tone": "mid",
+        "sharesTxt": "5,000股"
+      },
+      "swing": {
+        "buy": 16.38,
+        "rule": "3个月新低买入，盈利15%卖出",
+        "sell": 18.8,
+        "tone": "buy",
+        "sharesTxt": "1,000/1,000股"
+      }
+    },
+    "signals:hik": {
+      "val": {
+        "pe": "PE 20",
+        "growth": "增长10%",
+        "report": "26Q2A"
+      },
+      "core": {
+        "buy": 24.18,
+        "cost": 46.19,
+        "sell": 48.35,
+        "tone": "mid",
+        "sharesTxt": "4,000股"
+      },
+      "swing": {
+        "buy": 32,
+        "rule": "3个月新低买入，盈利10%卖出",
+        "sell": 35,
+        "tone": "mid",
+        "sharesTxt": "0/1,000股"
+      }
+    },
+    "signals:tencent": {
+      "val": {
+        "pe": "PE 20",
+        "growth": "增长10%",
+        "report": "26Q2A"
+      },
+      "core": {
+        "buy": 462.6,
+        "cost": 471.4,
+        "sell": 925.3,
+        "tone": "buy",
+        "sharesTxt": "600股"
+      },
+      "swing": {
+        "buy": 424,
+        "rule": "低于成本10%买入，25%波段仓，盈利10%卖出",
+        "sell": 466,
+        "tone": "mid",
+        "sharesTxt": "100/200股"
+      }
+    },
+    "signals:maotai": {
+      "val": {
+        "pe": "PE20",
+        "growth": "增长5%",
+        "report": "26Q2A"
+      },
+      "core": {
+        "buy": 753.5,
+        "cost": 1501.3,
+        "sell": 1507.1,
+        "tone": "mid",
+        "sharesTxt": "200股"
+      },
+      "swing": {
+        "buy": 1150,
+        "rule": "1年新低买入，盈利10%卖出",
+        "sell": 1265,
+        "tone": "mid",
+        "sharesTxt": "0/100股"
+      }
+    },
+    "signals:meituan": {
+      "val": {
+        "pe": "PE 20",
+        "growth": "增长20%",
+        "report": "26Q2A"
+      },
+      "core": {
+        "buy": -131.1,
+        "cost": 130.6,
+        "sell": -262.1,
+        "tone": "na",
+        "sharesTxt": "500股"
+      },
+      "swing": {
+        "buy": 63.65,
+        "rule": "3个月新低买入，盈利15%卖出",
+        "sell": 73.2,
+        "tone": "sell",
+        "sharesTxt": "0/200股"
+      }
+    },
+    "gain:2026-09-23": -9228,
+    "deepseek:2026-09-23": {
+      "ts": "2026-09-23T23:52:00+08:00",
+      "bal": 423.9,
+      "grt": 0,
+      "top": 423.9
+    },
+    "deepseek:2026-09-24": {
+      "ts": "2026-09-24T02:53:49+08:00",
+      "bal": 418.36,
+      "grt": 0,
+      "top": 418.36
+    },
+    "work:2026-09-24": [
+      {
+        "c": 1790179597292,
+        "d": false,
+        "t": "LMPC宣传册材料",
+        "id": "mueaplnwdmvlg"
+      },
+      {
+        "c": 1790179828453,
+        "d": false,
+        "t": "COFFEE TALK PPT和讲稿",
+        "id": "mueauk116kn4i"
+      }
+    ]
+  }
+}
