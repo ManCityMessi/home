@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>设备绑定与连接诊断 · 曼城十号梅西</title>
+<style>
+  :root{--bg:#080b12;--panel:#0e1420;--panel2:#131b2a;--line:#1d2637;--ink:#e9eff9;--ink2:#98a7bf;--ink3:#66748d;--ok:#2ebd85;--bad:#f6465d;--accent:#5b8cff}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;background:radial-gradient(1000px 520px at 10% -14%,rgba(91,140,255,.14),transparent 62%),var(--bg);color:var(--ink);
+    font:14px/1.65 system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;padding:24px 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:22px;margin-bottom:6px}
+  .sub{color:var(--ink2);margin-bottom:20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+  .k{color:var(--ink3);min-width:92px}
+  .v{color:var(--ink);font-family:ui-monospace,Consolas,monospace;word-break:break-all}
+  .badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;border:1px solid var(--line)}
+  .ok{color:var(--ok);border-color:rgba(46,189,133,.45);background:rgba(46,189,133,.08)}
+  .bad{color:var(--bad);border-color:rgba(246,70,93,.45);background:rgba(246,70,93,.08)}
+  .wait{color:var(--ink2)}
+  input[type=text]{flex:1;min-width:240px;background:var(--panel2);border:1px solid var(--line);color:var(--ink);
+    border-radius:9px;padding:10px 12px;font:inherit}
+  input[type=text]:focus{outline:none;border-color:var(--accent)}
+  button{background:var(--accent);color:#fff;border:0;border-radius:9px;padding:10px 16px;font:inherit;cursor:pointer}
+  button.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+  a.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;border-radius:9px;padding:10px 16px}
+  a.plain{color:var(--accent);text-decoration:none}
+  .hint{color:var(--ink3);font-size:13px;margin-top:6px}
+  ol{margin:8px 0 0 20px;color:var(--ink2)}
+  li{margin-bottom:4px}
+  code{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>设备绑定与连接诊断</h1>
+  <div class="sub">在这台设备上绑定密钥后，就能修改数据并同步到云端。数据存在 GitHub 仓库的 <code>data/state.json</code>。</div>
+
+  <div class="card">
+    <div class="row"><span class="k">本机密钥</span><span id="keyState" class="badge wait">检查中…</span></div>
+    <div class="row"><span class="k">通道</span><span id="channel" class="badge wait">—</span></div>
+    <div class="row"><span class="k">读取测试</span><span id="readTest" class="badge wait">—</span></div>
+    <div class="row"><span class="k">写入权限</span><span id="writeTest" class="badge wait">—</span></div>
+    <div id="diag" class="hint"></div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <input id="keyInput" type="text" placeholder="粘贴密钥（写入密钥，或 GitHub 细粒度令牌 github_pat_…）" autocomplete="off">
+      <button id="saveBtn">绑定</button>
+      <button id="clearBtn" class="ghost">清除绑定</button>
+    </div>
+    <div class="hint" id="saveHint">也可以直接用带参数的网址打开本页：<code>bind.html?key=你的密钥</code></div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="gap:14px">
+      <a class="btn" href="./work.html">进入工作日志</a>
+      <a class="btn" href="./portfolio.html">进入投资总览</a>
+      <a class="plain" href="./home3.html">返回首页</a>
+    </div>
+    <div class="hint">绑定后回到这些页面，右上角显示「已同步」即代表这台设备的读写都正常。</div>
+  </div>
+
+  <div class="card">
+    <div class="k" style="margin-bottom:8px">两种密钥的差别</div>
+    <ol>
+      <li><b>写入密钥</b>（32 位随机串）：走 Cloudflare 写入代理，速度快。国内移动网络多半连不上这个代理，表现为「同步失败（网络）」。</li>
+      <li><b>GitHub 细粒度令牌</b>（<code>github_pat_</code> 开头，仅授权本仓库 Contents 读写）：直接调 GitHub API，手机也能用。</li>
+    </ol>
+    <div class="hint">手机建议用第 2 种；电脑两种都可以。</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var LS = "wb-write-key";
+  var WORKER = "https://home-api.mancitymessi.workers.dev";
+  var REPO = "ManCityMessi/home";
+  var $ = function (id) { return document.getElementById(id); };
+
+  function setBadge(el, text, cls) {
+    el.textContent = text;
+    el.className = "badge " + (cls || "wait");
+  }
+  function getKey() { try { return localStorage.getItem(LS) || ""; } catch (e) { return ""; } }
+  function isGh(k) { return /^(github_pat_|ghp_|gho_|ghs_)/.test(k || ""); }
+  function mask(k) { return k ? k.slice(0, 10) + "…" + k.slice(-4) + "（" + k.length + " 位）" : "无"; }
+
+  function withTimeout(url, opt, ms) {
+    var ctl = (typeof AbortController === "function") ? new AbortController() : null;
+    var timer = setTimeout(function () { try { ctl.abort(); } catch (e) {} }, ms || 8000);
+    return fetch(url, Object.assign({ cache: "no-store", signal: ctl ? ctl.signal : undefined }, opt || {}))
+      .then(function (r) { clearTimeout(timer); return r; }, function (e) { clearTimeout(timer); throw e; });
+  }
+
+  function testRead(key) {
+    if (isGh(key)) {
+      return withTimeout("https://api.github.com/repos/" + REPO + "/contents/data/state.json?ref=main&t=" + Date.now(),
+        { headers: { authorization: "Bearer " + key, accept: "application/vnd.github+json" } })
+        .then(function (r) { return { ok: r.ok, status: r.status, via: "github" }; })
+        .catch(function (e) { return { ok: false, err: (e && e.name) || "网络错误", via: "github" }; });
+    }
+    return withTimeout(WORKER + "/state", { headers: { "x-wb-write-key": key } })
+      .then(function (r) { return { ok: r.ok, status: r.status, via: "worker" }; })
+      .catch(function (e) { return { ok: false, err: (e && e.name) || "网络错误", via: "worker" }; });
+  }
+
+  function testWrite(key) {
+    if (isGh(key)) {
+      /* 用仓库权限字段判断能否写入，不产生提交 */
+      return withTimeout("https://api.github.com/repos/" + REPO, { headers: { authorization: "Bearer " + key, accept: "application/vnd.github+json" } })
+        .then(function (r) { return r.json(); })
+        .then(function (j) { return { ok: !!(j && j.permissions && j.permissions.push), perms: (j && j.permissions) || null }; })
+        .catch(function (e) { return { ok: false, err: (e && e.name) || "网络错误" }; });
+    }
+    return testRead(key).then(function (r) {
+      if (!r.ok) return { ok: false, note: "通道不通，无法判断写入权限" };
+      return { ok: true, note: "通道可达（写入权限将在实际修改时验证）" };
+    });
+  }
+
+  function run() {
+    var key = getKey();
+    if (!key) setBadge($("keyState"), "未绑定", "bad");
+    else setBadge($("keyState"), "已绑定 " + mask(key), "ok");
+    setBadge($("channel"), key ? (isGh(key) ? "GitHub API" : "Cloudflare 写入代理") : "—", key ? "ok" : "wait");
+    $("keyInput").value = key ? "" : "";
+    $("keyInput").placeholder = key ? "已绑定；粘贴新密钥可直接覆盖" : "粘贴密钥（写入密钥或 github_pat_ 令牌）";
+
+    if (!key) {
+      setBadge($("readTest"), "跳过（未绑定）", "wait");
+      setBadge($("writeTest"), "跳过（未绑定）", "wait");
+      $("diag").textContent = "这台设备还没绑定密钥：粘贴密钥后点「绑定」，然后回到页面右上角应显示「已同步」。";
+      return;
+    }
+
+    setBadge($("readTest"), "测试中…", "wait");
+    setBadge($("writeTest"), "测试中…", "wait");
+    testRead(key).then(function (r) {
+      setBadge($("readTest"), r.ok ? "通（HTTP " + r.status + "）" : "不通（" + (r.err || ("HTTP " + r.status)) + "）", r.ok ? "ok" : "bad");
+      return testWrite(key);
+    }).then(function (w) {
+      setBadge($("writeTest"), w.ok ? ("可以写入" + (w.note ? " · " + w.note : "")) : (w.note || "不可写入（" + (w.err || "") + "）"), w.ok ? "ok" : "bad");
+      var k = getKey();
+      var tip = "";
+      if (isGh(k)) {
+        tip = w.ok ? "这台设备可以读写，放心用。" : "令牌可能没给 Contents: Read and write 权限，或仓库选择不对。";
+      } else {
+        tip = w.ok ? "写入代理可达，这台设备可以读写。" : "这台设备连不上 Cloudflare 写入代理（国内移动网络常见）。改用 GitHub 令牌：在 GitHub → Settings → Developer settings → Fine-grained tokens 新建，仓库选 " + REPO + "，权限给 Contents: Read and write，然后在上面粘贴绑定。";
+      }
+      $("diag").textContent = tip;
+    });
+  }
+
+  function bind(value) {
+    var v = (value || "").trim();
+    if (!v) { $("saveHint").textContent = "请先粘贴密钥。"; return; }
+    try { localStorage.setItem(LS, v); } catch (e) {}
+    $("saveHint").textContent = "已保存到本机浏览器（凭据只在本机；换设备要重新绑定）。";
+    run();
+  }
+
+  (function fromUrl() {
+    try {
+      var u = new URL(location.href);
+      var k = u.searchParams.get("key");
+      if (k) {
+        localStorage.setItem(LS, k);
+        u.searchParams.delete("key");
+        history.replaceState(null, "", u.pathname + (u.searchParams.toString() ? "?" + u.searchParams.toString() : ""));
+        $("saveHint").textContent = "已从网址参数保存密钥到本机，并已从地址栏移除。";
+      }
+    } catch (e) {}
+  })();
+
+  $("saveBtn").addEventListener("click", function () { bind($("keyInput").value); });
+  $("clearBtn").addEventListener("click", function () {
+    try { localStorage.removeItem(LS); } catch (e) {}
+    $("saveHint").textContent = "已清除本机密钥。";
+    run();
+  });
+  $("keyInput").addEventListener("keydown", function (e) { if (e.key === "Enter") bind($("keyInput").value); });
+
+  run();
+})();
+</script>
+</body>
+</html>
