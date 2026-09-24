@@ -417,8 +417,8 @@
         var cx = 36, cz = 0, W = 40, D = 34, H = 52;
         var walls = new THREE.Group(); walls.position.set(cx, 0, cz); world.add(walls);
         var shell = new THREE.MeshStandardMaterial({
-          color: new THREE.Color(0xf4f7fa), metalness: 0.14, roughness: 0.6,
-          transparent: true, opacity: 0.30, side: THREE.DoubleSide
+        color: new THREE.Color(0xf4f7fa), metalness: 0.14, roughness: 0.6,
+        transparent: true, opacity: 0.50, side: THREE.DoubleSide
         });
         function panel(w, h, d, x, y, z, m) {
           var p = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m || shell);
@@ -456,11 +456,12 @@
         hx.traverse(function (o) { if (o.isMesh) tag(o, 3); });
         label('板翅式主换热器', cx - 12, 37, cz - 7, 3);
 
+        var towerShell = M(0xeef2f6, { m: 0.25, r: 0.40, op: 0.44 });   /* 半透明塔壳：能看到塔板 */
         function column(x, z, r, h, step, name, trayColor) {
           var g = new THREE.Group(); g.position.set(x, 0, z); inner.add(g);
-          add(g, cyl(r, r, h, CFG.insul, 30), 0, 4 + h / 2, 0);
-          add(g, dome(r, CFG.insul), 0, 4 + h, 0);
-          add(g, dome(r, CFG.insul), 0, 4, 0, Math.PI, 0, 0);
+          add(g, cyl(r, r, h, towerShell, 30), 0, 4 + h / 2, 0);
+          add(g, dome(r, towerShell), 0, 4 + h, 0);
+          add(g, dome(r, towerShell), 0, 4, 0, Math.PI, 0, 0);
           add(g, cyl(r * 0.9, r * 0.98, 4, CFG.blueDeep, 24), 0, 2, 0);
           /* 剖切可见的塔板 */
           for (var t = 1; t <= Math.round(h / 3.2); t++) {
