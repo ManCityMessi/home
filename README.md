@@ -27,6 +27,23 @@ node serve.js
 
 所有样式和业务脚本都内联在 HTML 里，站内没有图片等二进制资源。
 
+## UI 皮肤层（2026-09-25 新增）
+
+全站共用一套「科技感」视觉层，只改外观、不碰业务逻辑：
+
+| 文件 | 作用 |
+| --- | --- |
+| `assets/tech-ui.css` | 配色 token（浅色页 / 深色页各一套）、蓝图网格 + 极光背景、HUD 顶栏、首页 Hero、卡片/按钮/输入/进度条的霓虹化打磨 |
+| `assets/tech-ui.js` | 注入顶部 HUD 导航条（含北京时间、云端状态、滚动进度），首页加实时数据流条、DeepSeek 卡内 7 天余额迷你走势图、半马卡内本周完成度环 |
+| `assets/favicon.svg` | 站点图标（渐变「10」） |
+
+接入方式：每个页面 `<head>` 里加一行 `<link rel="stylesheet" href="./assets/tech-ui.css">`，
+`</body>` 前加一行 `<script src="./assets/tech-ui.js"></script>`。
+浅色页面在 `<html>` 上标 `class="t-light"`，深色页面标 `class="t-dark"`（决定用哪套 token）。
+**想还原原样：删掉这两行引用即可**，各页原有样式和功能完全不受影响。
+
+改配色只需要动 `tech-ui.css` 顶部的 token 区（`--t-acc` 主蓝 / `--t-acc-2` 青 / `--t-acc-3` 紫 / `--t-gold` 金）。
+
 ## 外部依赖（全站只有两处）
 
 1. **WorkBuddy 云端表格** —— 唯一的「后端」。

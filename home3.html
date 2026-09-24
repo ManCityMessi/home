@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="t-light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -164,12 +164,42 @@
   .hint2{margin-top:10px;font-size:11.5px;color:var(--ink3)}
   .hint2.warn{color:#b45309}
 </style>
+<link rel="stylesheet" href="./assets/tech-ui.css">
 </head>
 <body>
 
 <header class="wrap">
-  <div class="tag">PERSONAL SPACE</div>
-  <h1>曼城十号梅西</h1>
+  <div class="t-hero">
+    <span class="t-scan" aria-hidden="true"></span>
+    <div class="t-hero-main">
+      <div class="tag">PERSONAL SPACE · NO.10</div>
+      <h1>曼城十号梅西</h1>
+      <p class="t-hero-sub">
+        <span>工作台</span><span class="t-sep"></span>
+        <span>投资</span><span class="t-sep"></span>
+        <span>半马训练</span><span class="t-sep"></span>
+        <span>空分工艺</span><span class="t-sep"></span>
+        <span>城市观察</span>
+      </p>
+      <div class="t-chips">
+        <span class="t-chip" id="tHeroSync" data-state="wait"><i class="t-dot"></i><span>连接中</span></span>
+        <span class="t-chip t-clock-chip"><i class="t-dot"></i><span class="t-clock" id="tHeroClock">--:--:--</span><span>北京时间</span></span>
+        <span class="t-chip"><i class="t-dot"></i><span>数据每日 00:00 自动记录</span></span>
+      </div>
+    </div>
+    <div class="t-hero-side">
+      <div class="t-k">Local time · Asia/Shanghai</div>
+      <div class="t-hero-clock" id="tHeroClock2">--:--:--</div>
+      <div class="t-hero-date" id="tHeroDate">—</div>
+      <div class="t-rule"></div>
+      <div class="t-k">System</div>
+      <div class="t-hero-date" id="tHeroStatus">正在检查云端…</div>
+    </div>
+  </div>
+  <div class="t-ticker" id="tTicker" hidden>
+    <div class="t-ticker-lead">LIVE</div>
+    <div class="t-ticker-track" id="tTickerTrack"></div>
+  </div>
 </header>
 
 <main class="wrap">
@@ -662,7 +692,7 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
 
 
 <!-- VER-BLOCK -->
-<script>var PAGE_VER="20260924220000";</script>
+<script>var PAGE_VER="20260925130000";</script>
 <script>
 /* 版本自检 + 地址栏净化：
    1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
@@ -746,5 +776,6 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
   show(saved);
 })();
 </script>
+<script src="./assets/tech-ui.js"></script>
 </body>
 </html>
