@@ -469,6 +469,64 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
 
     function add(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); x.setHours(0, 0, 0, 0); return x; }
     function mon(w) { return w === 1 ? add(P0, -2) : add(M2, (w - 2) * 7); }
+    function pad2(n) { return (n < 10 ? "0" : "") + n; }
+    function keyOf(d) { return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
+    function parseKey(s) { var p = String(s).split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+
+    // 半马页每次重算都会写一份「日期 → 今天该练什么」的快照（本机 localStorage + 云端 key）。
+    // 有快照就用快照，改了目标/跑量/周期之后首页也不会和计划页对不上。
+    function livePlan() {
+      var lp = null;
+      try { lp = JSON.parse(localStorage.getItem("hm-plan-v1") || "null"); } catch (e) {}
+      if (!lp && window.WB && WB.data) lp = WB.data["halfmarathon:plan"];
+      return (lp && lp.byDate) ? lp : null;
+    }
+
+    function paintHM() {
+
+    var t = new Date(); t.setHours(0, 0, 0, 0);
+    var dateStr = (t.getMonth() + 1) + "/" + t.getDate() + " 周" + WD[t.getDay()];
+
+    var lp = livePlan();
+    if (lp) {
+      var weeks = lp.weeks || 12;
+      var startD = lp.start ? parseKey(lp.start) : P0;
+      if (t < startD) {
+        when.textContent = "距开练";
+        what.textContent = Math.round((startD - t) / 86400000) + " 天";
+        sub.textContent = "起始 " + lp.start + " · 共 " + weeks + " 周";
+        return;
+      }
+      var k = keyOf(t), hit2 = lp.byDate[k], nk = null, lastK = null;
+      for (var kk in lp.byDate) {
+        if (!Object.prototype.hasOwnProperty.call(lp.byDate, kk)) continue;
+        if (lastK === null || kk > lastK) lastK = kk;
+        if (kk > k && (nk === null || kk < nk)) nk = kk;
+      }
+      if (!hit2 && lastK !== null && k > lastK) {
+        when.textContent = "已完赛";
+        what.textContent = weeks + " 周走完";
+        sub.textContent = "拿半马测试成绩重排下一轮配速";
+        return;
+      }
+      if (hit2) {
+        when.textContent = "今天";
+        what.textContent = hit2[0];
+        if (hit2[2]) {
+          sub.textContent = "第 " + hit2[1] + "/" + weeks + " 周 · 训练日 " + hit2[2] + "/5 · " + dateStr;
+        } else {
+          var nx0 = (nk && lp.byDate[nk]) ? ("下次 " + nk.slice(5).replace("-", "/") + " " + lp.byDate[nk][0]) : "计划即将结束";
+          sub.textContent = "第 " + hit2[1] + "/" + weeks + " 周 · " + dateStr + " · " + nx0;
+        }
+        return;
+      }
+      var nxt = nk ? lp.byDate[nk] : null;
+      what.textContent = "完全休息";
+      sub.textContent = nxt
+        ? ("第 " + nxt[1] + "/" + weeks + " 周 · " + dateStr + " · 下次 " + nk.slice(5).replace("-", "/") + " " + nxt[0])
+        : ("第 " + weeks + "/" + weeks + " 周 · " + dateStr + " · 计划即将结束");
+      return;
+    }
 
     var t = new Date(); t.setHours(0, 0, 0, 0);
     var dateStr = (t.getMonth() + 1) + "/" + t.getDate() + " 周" + WD[t.getDay()];
@@ -516,6 +574,10 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
     sub.textContent = next
       ? ("第 " + wk + "/12 周 · " + dateStr + " · 下次 " + W[next.w - 1][next.i])
       : ("第 12/12 周 · " + dateStr + " · 计划即将结束");
+    }
+
+    paintHM();
+    if (window.WB) WB.onReady(paintHM);
   })();
 
   // DeepSeek 余额卡片：读云端记录，展示当前余额与过去 24 小时使用额
@@ -560,7 +622,7 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
 
 
 <!-- VER-BLOCK -->
-<script>var PAGE_VER="20260924004653";</script>
+<script>var PAGE_VER="20260924170000";</script>
 <script>
 /* 版本自检 + 地址栏净化：
    1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
