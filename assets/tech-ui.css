@@ -63,6 +63,14 @@ html.t-light {
   --primary: #2f6bff;
   --blue: #2f6bff;
   --radius: 20px;
+  /* 空分页（asu）用的是另一套变量名 */
+  --background: #eaeff8;
+  --foreground: #101a33;
+  --border: rgba(23, 46, 99, .12);
+  /* 婺江页 / 半马页的暖色与语义色 */
+  --gold: #c99a2e;
+  --green: #0f8a63;
+  --gray: #8a8577;
 }
 
 /* 深色科技底：深空蓝黑 + 冷蓝网格 */
@@ -106,6 +114,14 @@ html.t-dark {
   --accent: #4f8cff;
   --primary: #4f8cff;
   --blue: #4f8cff;
+  --card: #0d1626;
+  --radius: 20px;
+  --background: #05080f;
+  --foreground: #e8eefb;
+  --border: rgba(122, 168, 255, .16);
+  --gold: #f0b90b;
+  --green: #2ebd85;
+  --gray: #8a94a8;
 }
 
 /* ------------------------------------------------------- 2. 全站背景光效 */
@@ -313,6 +329,34 @@ body::after {
   0%, 100% { opacity: 1; }
   50% { opacity: .35; }
 }
+
+/* 浅色 / 深色切换按钮 */
+.t-theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--t-ink-2);
+  border: 1px solid var(--t-line);
+  background: var(--t-chip-bg);
+  white-space: nowrap;
+  transition: color .18s, border-color .18s, background .18s, transform .18s;
+}
+.t-theme:hover {
+  color: var(--t-ink);
+  border-color: color-mix(in srgb, var(--t-acc) 45%, var(--t-line));
+  background: color-mix(in srgb, var(--t-acc) 12%, var(--t-chip-bg));
+  transform: translateY(-1px);
+}
+.t-theme .t-ic { width: 15px; height: 15px; display: block; }
+html.t-light .t-theme .t-ic-sun { display: none; }
+html.t-dark .t-theme .t-ic-moon { display: none; }
 
 /* 有吸顶头的页面：让它们粘在 HUD 条下方 */
 .top, .topbar, .top-inner { top: var(--t-bar-h); }
@@ -668,6 +712,122 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, .inp:focus, .
 }
 
 /* 细节：滚动条 / 选区 / 焦点 */
+/* ---- 主题切换时的残留块修正：把内页里写死的深色/浅色块拉回当前主题 ---- */
+/* 吸顶头（工作 / 投资 / 婺江 / 半马） */
+html.t-light .top,
+html.t-light .topbar,
+html.t-light .top-inner {
+  background: rgba(248, 250, 255, .84) !important;
+  border-bottom: 1px solid var(--t-line);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+}
+html.t-dark .top,
+html.t-dark .topbar,
+html.t-dark .top-inner {
+  background: rgba(8, 13, 24, .84) !important;
+  border-bottom: 1px solid var(--t-line);
+}
+/* 浮层提示条 */
+html.t-light .toast,
+html.t-light .t-toast {
+  background: rgba(255, 255, 255, .97) !important;
+  color: var(--t-ink) !important;
+  border: 1px solid var(--t-line-2) !important;
+  box-shadow: 0 24px 44px -28px rgba(12, 28, 70, .5) !important;
+}
+html.t-dark .toast,
+html.t-dark .t-toast {
+  background: rgba(18, 28, 48, .97) !important;
+  color: var(--t-ink) !important;
+  border: 1px solid var(--t-line-2) !important;
+}
+/* 投资页的说明条 / 工作页的输入框 */
+html.t-light .note {
+  background: color-mix(in srgb, var(--t-acc) 7%, #fff) !important;
+  color: var(--t-ink-2) !important;
+  border-color: var(--t-line) !important;
+}
+html.t-light #newItem,
+html.t-light .inp,
+html.t-light .fld {
+  background: #fff !important;
+  color: var(--t-ink) !important;
+}
+html.t-light .mrow.today { background: color-mix(in srgb, var(--t-acc) 9%, transparent) !important; }
+
+/* ---- 反向：本来浅色的页（首页 / 半马 / 婺江）切到深色时的残留浅色块 ---- */
+html.t-dark[data-def="light"] .verdict,
+html.t-dark[data-def="light"] .tpl,
+html.t-dark[data-def="light"] .wk,
+html.t-dark[data-def="light"] .cfg,
+html.t-dark[data-def="light"] .prog,
+html.t-dark[data-def="light"] .btn,
+html.t-dark[data-def="light"] .chk {
+  background: var(--t-panel) !important;
+  border-color: var(--t-line) !important;
+  color: var(--t-ink) !important;
+}
+html.t-dark[data-def="light"] .tpl-head,
+html.t-dark[data-def="light"] .wk-head,
+html.t-dark[data-def="light"] .tpl-note,
+html.t-dark[data-def="light"] .cfg-hint,
+html.t-dark[data-def="light"] .pace-row,
+html.t-dark[data-def="light"] .path,
+html.t-dark[data-def="light"] code,
+html.t-dark[data-def="light"] th,
+html.t-dark[data-def="light"] .grp,
+html.t-dark[data-def="light"] .fld input,
+html.t-dark[data-def="light"] .topbar a {
+  background: color-mix(in srgb, var(--t-acc) 9%, transparent) !important;
+  color: var(--t-ink-2) !important;
+  border-color: var(--t-line) !important;
+}
+html.t-dark[data-def="light"] .fld input { color: var(--t-ink) !important; }
+html.t-dark[data-def="light"] .cfg-hint.warn,
+html.t-dark[data-def="light"] .warn {
+  background: rgba(240, 185, 11, .10) !important;
+  border-color: rgba(240, 185, 11, .34) !important;
+  color: #f2c65a !important;
+}
+html.t-dark[data-def="light"] .warn p,
+html.t-dark[data-def="light"] .warn li,
+html.t-dark[data-def="light"] .cfg-hint.warn p,
+html.t-dark[data-def="light"] .cfg-hint.warn li { color: #f0cf87 !important; }
+html.t-dark[data-def="light"] .warn .tag { color: #ffd465 !important; }
+html.t-dark[data-def="light"] .warn.key,
+html.t-dark[data-def="light"] .warn.key p { color: #ffb3bd !important; }
+html.t-dark[data-def="light"] .warn.key {
+  background: rgba(246, 70, 93, .12) !important;
+  border-color: rgba(246, 70, 93, .30) !important;
+}
+html.t-dark[data-def="light"] .prog-bar { background: color-mix(in srgb, var(--t-ink) 16%, transparent) !important; }
+html.t-dark[data-def="light"] .day { border-bottom-color: var(--t-line) !important; }
+html.t-dark[data-def="light"] .chk { border-color: var(--t-line-2) !important; }
+html.t-dark[data-def="light"] tr { background: transparent !important; }
+/* 深色下浅色底按钮/圆标会变成白底白字，这里换回主色 */
+html.t-dark[data-def="light"] .tpl-id,
+html.t-dark[data-def="light"] .wk-no,
+html.t-dark[data-def="light"] .btn.primary {
+  background: linear-gradient(135deg, var(--t-acc), var(--t-acc-3)) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+html.t-dark[data-def="light"] .tpl-head:active,
+html.t-dark[data-def="light"] .wk-head:active,
+html.t-dark[data-def="light"] .btn:active,
+html.t-dark[data-def="light"] .chk:active { background: color-mix(in srgb, var(--t-acc) 18%, transparent) !important; }
+/* 婺江页地图容器 */
+html.t-dark[data-def="light"] .map-wrap { background: #0b1524 !important; }
+html.t-dark[data-def="light"] .note-list li { border-color: var(--t-line) !important; }
+/* 半马页里写死的深灰字 / 浅粉标签，在深色下换成亮色 */
+html.t-dark[data-def="light"] .pace-val,
+html.t-dark[data-def="light"] .act-main .goal { color: var(--t-ink) !important; }
+html.t-dark[data-def="light"] .grp-label { color: #ff9aa6 !important; }
+html.t-dark[data-def="light"] .grp-label .rep { background: rgba(246, 70, 93, .22) !important; color: #ffb3bd !important; }
+html.t-dark[data-def="light"] .b-i { background: rgba(246, 70, 93, .16) !important; color: #ff9aa6 !important; }
+html.t-dark[data-def="light"] .warn.key .tag { color: #ffb3bd !important; }
+
 ::selection { background: color-mix(in srgb, var(--t-acc) 32%, transparent); }
 * { scrollbar-color: color-mix(in srgb, var(--t-acc) 40%, transparent) transparent; scrollbar-width: thin; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -788,6 +948,8 @@ html.t-dark .t-ring .ring::after { background: #0d1626; }
   /* 手机顶栏窄：状态胶囊只留指示灯，把宽度让给导航 */
   .t-bar .t-chip { padding: 0 9px; }
   .t-bar .t-chip > span { display: none; }
+  .t-theme { padding: 0 9px; }
+  .t-theme-txt { display: none; }
   .t-nav { gap: 2px; margin-left: 0; }
   .t-hero { padding: 18px; border-radius: 20px; }
   .t-hero::after { display: none; }

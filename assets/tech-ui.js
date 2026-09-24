@@ -10,7 +10,6 @@
 
   var PAGES = [
     { file: "home3.html", label: "首页" },
-    { file: "work.html", label: "工作" },
     { file: "portfolio.html", label: "投资" },
     { file: "halfmarathon.html", label: "半马" },
     { file: "deepseek.html", label: "DeepSeek" },
@@ -70,6 +69,8 @@
     bar.appendChild(nav);
 
     var meta = el("div", "t-meta");
+    meta.appendChild(themeButton());
+
     var sync = el("span", "t-chip");
     sync.id = "tSync";
     sync.setAttribute("data-state", "wait");
@@ -109,6 +110,39 @@
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+  }
+
+  /* 浅色 / 深色一键切换：选择记在本机，刷新和换页都跟着走 */
+  function themeButton() {
+    var btn = el("button", "t-theme");
+    btn.id = "tTheme";
+    btn.type = "button";
+    btn.innerHTML =
+      '<svg class="t-ic t-ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+      'stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 14.7A8.6 8.6 0 0 1 9.3 3.6a8.6 8.6 0 1 0 11.1 11.1z"/></svg>' +
+      '<svg class="t-ic t-ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+      'stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.1"/>' +
+      '<path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.6 5.6l1.7 1.7M16.7 16.7l1.7 1.7M18.4 5.6l-1.7 1.7M7.3 16.7l-1.7 1.7"/></svg>' +
+      '<span class="t-theme-txt"></span>';
+
+    var txt = btn.querySelector(".t-theme-txt");
+    function sync() {
+      var dark = document.documentElement.classList.contains("t-dark");
+      txt.textContent = dark ? "浅色" : "深色";
+      var tip = dark ? "切换到浅色主题" : "切换到深色主题";
+      btn.setAttribute("title", tip);
+      btn.setAttribute("aria-label", tip);
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.classList.contains("t-dark");
+      var next = dark ? "light" : "dark";
+      document.documentElement.classList.remove("t-light", "t-dark");
+      document.documentElement.classList.add("t-" + next);
+      try { localStorage.setItem("tech-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+    return btn;
   }
 
   /* 云端状态：等 WB 就绪后显示「云端已同步 / 本地快照 / 未绑定写入密钥」 */
