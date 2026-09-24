@@ -511,6 +511,7 @@ var WD = ['日','一','二','三','四','五','六'];
 var DOW_OFF  = [0,1,2,4,5];        // 训练日 1..5 → 周一/周二/周三/周五/周六
 var LS_CFG = 'hm-cfg-v1', LS_DONE = 'hm-done-v1';
 var CLOUD_CFG = 'halfmarathon:cfg', CLOUD_DONE = 'halfmarathon:done';
+var LS_PLAN = 'hm-plan-v1', CLOUD_PLAN = 'halfmarathon:plan';
 var DEF = { goal:105, vol:30, weeks:12, start:'2026-09-23' };   // 1:45 / 30km / 12 周
 
 /* ---------- 小工具 ---------- */
@@ -535,6 +536,11 @@ function fmtDur(min){
   return (h ? h + ':' + pad2(m) : m) + ':' + pad2(r);
 }
 function fmtKm(km){ return (Math.round(km*10)/10).toFixed(1) + 'km'; }
+function shortTitle(d){
+  if (d.type === 'easy') return (d.name.indexOf('加速') >= 0 ? '轻松跑+加速跑' : '轻松跑') + ' · ' + d.mins + ' 分钟';
+  if (d.type === 'race') return '半马测试 · 21.1km';
+  return d.name + ' · ' + fmtKm(d.dist);
+}
 
 /* ---------- 配速模型（相对半马配速的固定偏移，单位：秒/公里）----------
    E +76、M +26、H 0、T -12.5、I -31.5，
@@ -833,6 +839,17 @@ function generate(cfg){
   var totalSess = 0;
   SESS.forEach(function(s){ if (!s.pre) totalSess++; });
 
+  /* 首页卡片用的快照：日期 → [今天练什么, 第几周, 训练日序号] */
+  var byDate = {};
+  weeks.forEach(function(wk){
+    for (var k = 0; k < 7; k++){
+      var dt = addDays(wk.monday, k);
+      var idx = DOW_OFF.indexOf(k), title = '完全休息', di = 0;
+      if (idx >= 0 && dt >= startDate){ title = shortTitle(wk.days[idx]); di = idx + 1; }
+      byDate[iso(dt)] = [title, wk.w, di];
+    }
+  });
+
   if (stat.volMin === 1e9){ stat.volMin = stat.volMax = cfg.vol; }
   stat.volMin = Math.round(stat.volMin); stat.volMax = Math.round(stat.volMax);
   if (!stat.typVol){
@@ -845,7 +862,8 @@ function generate(cfg){
     cfg:cfg, Pc:Pc, tpls:tpls, tmap:tmap, tplUse:tplUse, used:used,
     weeks:weeks, SESS:SESS, LAST_DAY:LAST_DAY, SPAN_DAYS:SPAN_DAYS, totalSess:totalSess,
     recWeeks:recWeeks, stat:stat,
-    taperWeeks:taperWeeks, specStart:specStart, specWeeks:specWeeks, baseEnd:baseEnd
+    taperWeeks:taperWeeks, specStart:specStart, specWeeks:specWeeks, baseEnd:baseEnd,
+    snapshot:{ ts:Date.now(), start:cfg.start, weeks:W, goal:cfg.goal, vol:cfg.vol, byDate:byDate }
   };
 }
 
@@ -856,9 +874,11 @@ var CFG  = loadCfg();
 var DONE = loadDone();
 var G = generate(CFG);
 var cfgTimer = null, cloudTimer = null, dirtyCfg = false, dirtyDone = false;
+var dirtyPlan = false;
 
 function dkey(d){ return iso(d); }
 function isDone(d){ return !!DONE[dkey(d)]; }
+function savePlan(){ try { localStorage.setItem(LS_PLAN, JSON.stringify(G.snapshot)); } catch (e) {} }
 
 /* =====================================================================
    渲染
@@ -1290,12 +1310,13 @@ function applyCfg(loud){
   if (nc.clamped) fillInputs(c);
   CFG = c; CFG_TS = Date.now(); saveCfg(c, CFG_TS);
   G = generate(c);
+  savePlan();
   renderAll();
   var msg = document.getElementById('cfgMsg');
   msg.textContent = '已重算 · ' + fmtClock(c.goal) + ' / ' + c.vol + 'km / ' + c.weeks + ' 周';
   if (loud) toast('计划已按 ' + fmtClock(c.goal) + ' · ' + c.vol + 'km/周 · ' + c.weeks + ' 周 重算');
   setTimeout(function(){ msg.textContent = ''; }, 2600);
-  dirtyCfg = true; queueCloud();
+  dirtyCfg = true; dirtyPlan = true; queueCloud();
 }
 
 function queueCloud(){
@@ -1311,6 +1332,10 @@ function pushCloud(){
   if (dirtyDone){
     dirtyDone = false;
     WB.putSafe(CLOUD_DONE, DONE);
+  }
+  if (dirtyPlan){
+    dirtyPlan = false;
+    WB.putSafe(CLOUD_PLAN, G.snapshot);
   }
 }
 
@@ -1402,6 +1427,7 @@ document.getElementById('btnReset').addEventListener('click', function(){ fillIn
    ===================================================================== */
 fillInputs(CFG);
 renderAll();
+savePlan();
 
 if (window.WB){
   WB.onNotify = function(msg){ toast(msg); };
@@ -1413,6 +1439,7 @@ if (window.WB){
         CFG_TS = +c.ts || Date.now();
         saveCfg(CFG, CFG_TS);
         G = generate(CFG); fillInputs(CFG); renderAll();
+        savePlan(); dirtyPlan = true; queueCloud();
       }
       var d = WB.data && WB.data[CLOUD_DONE];
       if (d && typeof d === 'object'){
@@ -1432,7 +1459,7 @@ setInterval(function(){ renderToday(); }, 60000);
 </script>
 
 <!-- VER-BLOCK -->
-<script>var PAGE_VER="20260924160000";</script>
+<script>var PAGE_VER="20260924180000";</script>
 <script>
 /* 版本自检 + 地址栏净化：
    1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
