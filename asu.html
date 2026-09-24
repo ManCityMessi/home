@@ -163,13 +163,13 @@
 
     /* 每个工序的镜头预设：目标点、方位角、俯仰角、距离 */
     var SHOTS = [
-      { t: [-58, 12, -22], a: -0.42, p: 0.30, r: 118 },
-      { t: [-26, 10, 2], a: -0.40, p: 0.36, r: 132 },
-      { t: [-4, 15, 0], a: -0.34, p: 0.34, r: 118 },
-      { t: [16, 16, 8], a: -0.46, p: 0.32, r: 116 },
-      { t: [34, 22, 4], a: -0.52, p: 0.26, r: 112 },
-      { t: [82, 14, 6], a: -0.44, p: 0.34, r: 150 },
-      { t: [120, 12, -12], a: -0.46, p: 0.34, r: 132 }
+      { t: [-58, 12, -22], a: -0.44, p: 0.40, r: 138 },
+      { t: [-26, 12, 2], a: -0.42, p: 0.42, r: 156 },
+      { t: [-4, 16, 0], a: -0.36, p: 0.40, r: 140 },
+      { t: [16, 17, 8], a: -0.48, p: 0.38, r: 136 },
+      { t: [34, 24, 4], a: -0.54, p: 0.30, r: 134 },
+      { t: [82, 15, 6], a: -0.46, p: 0.40, r: 176 },
+      { t: [120, 13, -12], a: -0.48, p: 0.40, r: 158 }
     ];
     var OVERVIEW = { t: [28, 8, -2], a: -0.40, p: 0.44, r: 0 };
 
@@ -714,7 +714,7 @@
 
       /* ---------- 镜头：自动取景 + 巡游 ---------- */
       var goal = { t: new THREE.Vector3(28, 8, -2), a: OVERVIEW.a, p: OVERVIEW.p, r: 260 };
-      var follow = false, touring = false, tourTimer = 0;
+      var follow = false, touring = false, tourTimer = 0, hop = 0;
 
       function fitDistance() {
         var spanX = 302, spanY = 168;
@@ -726,12 +726,12 @@
         var s = SHOTS[i];
         goal.t.set(s.t[0], s.t[1], s.t[2]);
         goal.a = s.a; goal.p = s.p; goal.r = s.r;
-        follow = true;
+        follow = true; hop = 1;
       }
       function flyOverview() {
         goal.t.set(OVERVIEW.t[0], OVERVIEW.t[1], OVERVIEW.t[2]);
         goal.a = OVERVIEW.a; goal.p = OVERVIEW.p; goal.r = fitDistance();
-        follow = true;
+        follow = true; hop = 1;
       }
       function startTour() {
         touring = true; tourTimer = 0;
@@ -763,6 +763,7 @@
       canvas.addEventListener('pointermove', function (e) {
         if (!dragging) return;
         stopTour(); follow = false;
+        hop = 0;
         view.a -= (e.clientX - lx) * 0.005;
         view.p = Math.max(0.05, Math.min(1.2, view.p + (e.clientY - ly) * 0.0035));
         goal.a = view.a; goal.p = view.p;
@@ -771,6 +772,7 @@
       canvas.addEventListener('wheel', function (e) {
         e.preventDefault();
         stopTour(); follow = false;
+        hop = 0;
         view.r = Math.max(60, Math.min(600, view.r + e.deltaY * 0.22));
         goal.r = view.r;
       }, { passive: false });
@@ -816,9 +818,10 @@
         }
         camera.position.set(
           view.t.x + view.r * Math.cos(view.p) * Math.sin(view.a),
-          view.t.y + view.r * Math.sin(view.p),
+          view.t.y + view.r * Math.sin(view.p) + hop * 22,
           view.t.z + view.r * Math.cos(view.p) * Math.cos(view.a)
         );
+        hop *= Math.exp(-1.7 * dt);
         camera.lookAt(view.t);
 
         /* 高亮当前工序 */
