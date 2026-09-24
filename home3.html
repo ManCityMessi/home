@@ -46,16 +46,10 @@
   h1{font-size:clamp(30px,5vw,46px);font-weight:750;letter-spacing:-.01em;margin-top:12px;line-height:1.2}
   .lede{margin-top:14px;font-size:15.5px;color:var(--ink2);max-width:52ch}
 
-  /* ---------- 顶部：标题 + 今日速览 ---------- */
-  .hero{display:flex;align-items:flex-end;justify-content:space-between;gap:34px;flex-wrap:wrap}
-  .hero-main{flex:1 1 420px;min-width:260px}
-  .hero-side{flex:0 1 380px;min-width:270px;background:var(--panel);border:1px solid var(--line);
-    border-radius:20px;padding:15px 18px 13px}
-  .hs-k{font-size:11.5px;letter-spacing:.16em;font-weight:700;color:var(--ink3);margin-bottom:6px}
-  .hs-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;font-size:13px;
-    color:var(--ink2);padding:6px 0;border-top:1px dashed rgba(255,255,255,.07)}
-  .hs-row:first-of-type{border-top:none;padding-top:2px}
-  .hs-row b{color:var(--ink);font-weight:700;text-align:right;overflow-wrap:anywhere}
+  /* ---------- 油表 ---------- */
+  .gauge{margin-top:10px}
+  .gauge svg{display:block;width:100%;max-width:360px;height:auto;margin:0 auto}
+  .gauge text{font-family:inherit;font-variant-numeric:tabular-nums}
 
   main{flex:1 1 auto;padding-bottom:70px}
   .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;margin-top:34px;align-items:start}
@@ -111,7 +105,6 @@
     header{padding:44px 0 4px}
     .grid{grid-template-columns:1fr;gap:16px;margin-top:28px}
     .wrap{padding:0 18px}
-    .hero-side{flex:1 1 100%}
   }
 
   .workbench{display:flex;align-items:center;gap:9px;margin-top:30px}
@@ -184,18 +177,9 @@
 </head>
 <body>
 
-<header class="wrap hero">
-  <div class="hero-main">
-    <div class="tag">PERSONAL SPACE</div>
-    <h1>曼城十号梅西</h1>
-    <p class="lede">两个工作台 · 六个页面。待办和训练计划直接在这页勾，不用来回跳。</p>
-  </div>
-  <aside class="hero-side">
-    <div class="hs-k">今天 · <span id="hsDate">—</span></div>
-    <div class="hs-row"><span>工作待办</span><b id="hsWork">—</b></div>
-    <div class="hs-row"><span>今天跑什么</span><b id="hsRun">—</b></div>
-    <div class="hs-row"><span>本周跑步进度</span><b id="hsPlan">—</b></div>
-  </aside>
+<header class="wrap">
+  <div class="tag">PERSONAL SPACE</div>
+  <h1>曼城十号梅西</h1>
 </header>
 
 <main class="wrap">
@@ -204,52 +188,39 @@
     <button class="wb-btn" id="tabLife" role="tab" type="button" aria-selected="false" aria-controls="paneLife">生活</button>
   </div>
   <div class="grid" id="paneWork" role="tabpanel" aria-labelledby="tabWork">
-    <div class="card live wide acc-gold" id="cardWork">
+    <a class="card acc-blue wide" href="./deepseek.html">
       <div class="meta split">
         <div class="mcol">
-          <div class="k">01 / DAILY WORK LOG</div>
-          <h2>工作日志 · 每日计划</h2>
-          <p class="now"><span id="wWhen">今天</span>：<b id="wWhat">&#8212;</b></p>
-          <p class="nowsub" id="wSub">直接在卡片上打钩、改字、加项，和日志页同一份数据</p>
+          <div class="k">01 / DEEPSEEK API USAGE</div>
+          <h2>DeepSeek 余额与消耗</h2>
+          <p>每天 00:00 自动记录余额 · 满油按 ¥500 算，指针越靠 E 越该充值</p>
           <div class="stats">
-            <div class="st"><i>今日完成</i><b id="wDone">&#8212;</b></div>
-            <div class="st"><i>累计归档</i><b id="wArch">&#8212;</b></div>
+            <div class="st"><i>近 24h 使用</i><b class="dswarm" id="dsUsed">&#8212;</b></div>
+            <div class="st"><i>满油线</i><b class="dsbal">&#165;500</b></div>
           </div>
-          <div class="hint2" id="wHint"></div>
-          <a class="go" href="./work.html">打开日志 &#8594;</a>
+          <div class="go">打开详情 &#8594;</div>
         </div>
         <div class="mcol">
-          <div class="mhead"><span>今天要做</span><b id="wHead"></b></div>
-          <div class="mlist" id="wList"></div>
-          <div class="wadd">
-            <input id="wNew" type="text" placeholder="加一项今天要做的事，回车即添加…" autocomplete="off" aria-label="添加待办">
-            <button id="wAddBtn" type="button">添加</button>
-          </div>
+          <div class="mhead"><span>余额油表</span><b id="dsPct"></b></div>
+          <div class="gauge" id="dsGauge"><div class="empty2">读取中…</div></div>
         </div>
-      </div>
-    </div>
-    <a class="card acc-blue" href="./deepseek.html">
-      <div class="meta">
-        <div class="k">02 / DEEPSEEK API USAGE</div>
-        <h2>DeepSeek 余额与消耗</h2>
-        <p>每日 00:00 自动记录 · 余额 / 消耗趋势图表</p>
-        <div class="stats">
-          <div class="st"><i>当前余额</i><b class="dsbal" id="dsBal">&#8212;</b></div>
-          <div class="st"><i>近 24h 使用</i><b class="dswarm" id="dsUsed">&#8212;</b></div>
-        </div>
-        <div class="go">打开详情 &#8594;</div>
       </div>
     </a>
-    <a class="card acc-sky" href="./asu.html">
-      <div class="meta">
-        <div class="k">03 / AIR SEPARATION UNIT · 3D</div>
-        <h2>空分装置工艺流程</h2>
-        <p>三维布置 · 压缩 / 预冷 / 纯化 / 制冷 / 精馏 / 储运 / 外送</p>
-        <div class="stats">
-          <div class="st"><i>工序</i><b>7 步可点选</b></div>
-          <div class="st"><i>视角</i><b>可旋转缩放</b></div>
+    <a class="card acc-sky wide" href="./asu.html">
+      <div class="meta split">
+        <div class="mcol">
+          <div class="k">02 / AIR SEPARATION UNIT · 3D</div>
+          <h2>空分装置工艺流程</h2>
+          <p>三维布置 · 压缩 / 预冷 / 纯化 / 制冷 / 精馏 / 储运 / 外送</p>
         </div>
-        <div class="go">打开三维图 &#8594;</div>
+        <div class="mcol">
+          <div class="mhead"><span>交互方式</span><b>3D</b></div>
+          <div class="stats">
+            <div class="st"><i>工序</i><b>7 步可点选</b></div>
+            <div class="st"><i>视角</i><b>可旋转缩放</b></div>
+          </div>
+          <div class="go">打开三维图 &#8594;</div>
+        </div>
       </div>
     </a>
   </div>
@@ -383,193 +354,6 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
 
   paint();
   if (window.WB) WB.onReady(paint);
-})();
-
-// 工作日志卡片：直接打钩 / 改字 / 加项 / 删除（与 work.html 共用 work:<日期> 数据）
-(function () {
-  var LS = "work-cache-v1";
-  var days = {};
-
-  function pad(n) { return n < 10 ? "0" + n : "" + n; }
-  function dstr(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
-  function todayKey() { return dstr(new Date()); }
-  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
-  function esc(s) {
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-  function mdText(day) { var p = day.split("-"); return (+p[1]) + "/" + (+p[2]); }
-  function wdText(day) {
-    var p = day.split("-");
-    var w = ["日", "一", "二", "三", "四", "五", "六"][new Date(+p[0], +p[1] - 1, +p[2]).getDay()];
-    return "周" + w;
-  }
-  function hasKey() { try { return !!localStorage.getItem("wb-write-key"); } catch (e) { return false; } }
-  function readLocal() { try { return JSON.parse(localStorage.getItem(LS) || "{}") || {}; } catch (e) { return {}; } }
-  function writeLocal() { try { localStorage.setItem(LS, JSON.stringify(days)); } catch (e) {} }
-  function saveDay(day) {
-    writeLocal();
-    if (window.WB && WB.ready && WB.putSafe) WB.putSafe("work:" + day, days[day] || []);
-  }
-  function findItem(day, id) {
-    var a = days[day] || [];
-    for (var i = 0; i < a.length; i++) { if (a[i] && String(a[i].id) === String(id)) return a[i]; }
-    return null;
-  }
-  function dropFrom(day, id) {
-    var a = days[day] || [];
-    days[day] = a.filter(function (x) { return !x || String(x.id) !== String(id); });
-  }
-
-  /* 今天 + 往日没做完的（顺延只在真动它时才搬过来，避免开个页面就写云端） */
-  function view() {
-    var t = todayKey(), out = [];
-    Object.keys(days).sort().forEach(function (day) {
-      if (day > t) return;
-      var arr = days[day] || [];
-      for (var i = 0; i < arr.length; i++) {
-        var it = arr[i];
-        if (!it || !it.t) continue;
-        out.push({ day: day, it: it, rolled: (day < t && !it.d) });
-      }
-    });
-    out.sort(function (x, y) {
-      if (!!x.it.d !== !!y.it.d) return x.it.d ? 1 : -1;
-      return (x.it.c || 0) - (y.it.c || 0);
-    });
-    return out;
-  }
-
-  function render() {
-    var list = document.getElementById("wList");
-    if (!list) return;
-    var t = todayKey(), items = view(), todayArr = days[t] || [];
-    var doneToday = 0, arch = 0;
-    for (var i = 0; i < todayArr.length; i++) { if (todayArr[i] && todayArr[i].d) doneToday++; }
-    for (var k in days) {
-      var a = days[k] || [];
-      for (var j = 0; j < a.length; j++) {
-        if (!a[j]) continue;
-        if (a[j].d) arch++;
-      }
-    }
-    var pending = items.filter(function (r) { return !r.it.d; }).length;
-    var shown = items.length;
-
-    var html = "";
-    items.forEach(function (r) {
-      var it = r.it;
-      html += '<div class="mrow' + (it.d ? " done" : "") + (r.day === t ? " today" : "") + '">' +
-        '<input class="edit" data-day="' + r.day + '" data-id="' + esc(it.id) + '" value="' + esc(it.t) + '" aria-label="事项内容">' +
-        (r.day !== t ? '<span class="mn">' + mdText(r.day) + ' 顺延</span>' : '') +
-        '<button class="del2" data-day="' + r.day + '" data-id="' + esc(it.id) + '" type="button" title="删除">&#10005;</button>' +
-        '<button class="tick2' + (it.d ? " on" : "") + '" data-day="' + r.day + '" data-id="' + esc(it.id) + '" type="button" title="' +
-          (it.d ? "取消完成" : "标记完成") + '"></button>' +
-      '</div>';
-    });
-    if (!html) html = '<div class="empty2">今天还没有计划，下面写一条吧</div>';
-    list.innerHTML = html;
-
-    var rolledN = items.filter(function (r) { return r.rolled; }).length;
-    var eHead = document.getElementById("wHead");
-    if (eHead) eHead.textContent = shown ? (pending + " 项待办" + (rolledN ? " · " + rolledN + " 项顺延" : "")) : "";
-    var eWhat = document.getElementById("wWhat");
-    var eSub = document.getElementById("wSub");
-    var eDone = document.getElementById("wDone");
-    var eArch = document.getElementById("wArch");
-    var eHint = document.getElementById("wHint");
-    var eHero = document.getElementById("hsWork");
-    if (eHero) eHero.textContent = shown ? (pending ? (pending + " 项") : "今天已清空") : "\u2014";
-    if (eWhat) {
-      eWhat.textContent = pending
-        ? ("还有 " + pending + " 项没做")
-        : (todayArr.length ? "今天的计划全部完成 🎉" : "还没写计划");
-    }
-    if (eSub) eSub.textContent = mdText(t) + " " + wdText(t) + " · 可直接勾选、改字、加项";
-    if (eDone) eDone.textContent = todayArr.length ? (doneToday + "/" + todayArr.length) : "\u2014";
-    if (eArch) eArch.textContent = arch ? (arch + " \u9879") : "\u2014";
-    if (eHint) {
-      eHint.className = "hint2" + (hasKey() ? "" : " warn");
-      eHint.textContent = hasKey() ? "改动会同步到云端，和日志页同一份数据" : "未绑定密钥：改动只存在这台设备上";
-    }
-  }
-
-  /* ---------- 操作 ---------- */
-  function add(text) {
-    var t = String(text || "").trim();
-    if (!t) return;
-    var day = todayKey();
-    if (!days[day]) days[day] = [];
-    days[day].push({ id: uid(), t: t, d: false, c: Date.now() });
-    saveDay(day);
-    render();
-  }
-  function toggle(day, id) {
-    var it = findItem(day, id);
-    if (!it) return;
-    var t = todayKey();
-    if (day < t && !it.d) {          // 往日顺延项：动它的这一刻才搬到今天
-      var moved = { id: it.id, t: it.t, d: true, c: it.c, from: it.from || day, da: Date.now() };
-      dropFrom(day, id);
-      if (!days[t]) days[t] = [];
-      days[t].push(moved);
-      saveDay(day); saveDay(t);
-    } else {
-      it.d = !it.d;
-      it.da = it.d ? Date.now() : null;
-      saveDay(day);
-    }
-    render();
-  }
-  function remove(day, id) { dropFrom(day, id); saveDay(day); render(); }
-  function edit(day, id, text) {
-    var it = findItem(day, id);
-    if (!it) return;
-    var t = String(text || "").trim();
-    if (!t) { render(); return; }
-    it.t = t;
-    saveDay(day);
-    render();
-  }
-
-  /* ---------- 数据 ---------- */
-  function absorb() {
-    days = readLocal();
-    if (window.WB && WB.ready) {
-      for (var k in WB.data) {
-        if (k.indexOf("work:") !== 0 || !Object.prototype.hasOwnProperty.call(WB.data, k)) continue;
-        var a = WB.data[k];
-        if (a && a.length !== undefined) days[k.slice(5)] = a;
-      }
-    }
-    render();
-  }
-
-  var list = document.getElementById("wList");
-  var inp = document.getElementById("wNew");
-  var btn = document.getElementById("wAddBtn");
-  if (list) {
-    list.addEventListener("click", function (e) {
-      var tk = e.target.closest ? e.target.closest(".tick2") : null;
-      if (tk && tk.dataset.id) { toggle(tk.getAttribute("data-day"), tk.getAttribute("data-id")); return; }
-      var dl = e.target.closest ? e.target.closest(".del2") : null;
-      if (dl && dl.dataset.id) { remove(dl.getAttribute("data-day"), dl.getAttribute("data-id")); return; }
-    });
-    list.addEventListener("change", function (e) {
-      var ed = e.target.closest ? e.target.closest(".edit") : null;
-      if (ed) edit(ed.getAttribute("data-day"), ed.getAttribute("data-id"), ed.value);
-    });
-  }
-  function submitNew() { if (!inp) return; add(inp.value); inp.value = ""; }
-  if (inp) inp.addEventListener("keydown", function (e) {
-    if (e.key === "Enter" || e.keyCode === 13) { e.preventDefault(); submitNew(); }
-  });
-  if (btn) btn.addEventListener("click", submitNew);
-
-  absorb();
-  if (window.WB) WB.onReady(absorb);
-  window.addEventListener("storage", function (e) { if (e.key === LS) absorb(); });
 })();
 </script>
 <script>
@@ -713,12 +497,6 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
       if (eD2) eD2.textContent = planCount ? (doneCount + " / " + planCount) : "\u2014";
       var eM2 = document.getElementById("hmMeta2");
       if (eM2) eM2.textContent = ((lp && lp.weeks) || 12) + " 周 · 目标 " + hmGoal((lp && lp.goal) || 105);
-      var hd = document.getElementById("hsDate");
-      if (hd) hd.textContent = keyOf(todayD) + " 周" + WD[todayD.getDay()];
-      var hr = document.getElementById("hsRun");
-      if (hr) hr.textContent = ((document.getElementById("hmWhat") || {}).textContent) || "\u2014";
-      var hp = document.getElementById("hsPlan");
-      if (hp) hp.textContent = planCount ? ("已完成 " + doneCount + " / " + planCount) : "\u2014";
 
       var hint = document.getElementById("hmHint");
       if (hint) {
@@ -839,33 +617,82 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
     });
   })();
 
-  // DeepSeek 余额卡片：读云端记录，展示当前余额与过去 24 小时使用额
+  // DeepSeek 余额卡片：油表（满油 = ¥500）+ 近 24 小时使用额
   (function () {
+    var FULL = 500;                                  // 满油 = ¥500
+    function money(v) { return "\u00A5" + v.toFixed(2); }
+
+    function gaugeSvg(bal) {
+      var v = Math.max(0, Math.min(1, bal / FULL));
+      var cx = 120, cy = 104, R = 86;
+      var tone = v < 0.15 ? "#f6465d" : (v < 0.35 ? "#e0a93b" : "#2ebd85");
+      function pt(fi, rad) {
+        var a = Math.PI * (1 - fi);
+        return [(cx + rad * Math.cos(a)).toFixed(1), (cy - rad * Math.sin(a)).toFixed(1)];
+      }
+      function nn(n) { return Number(n).toFixed(1); }
+      var p0 = pt(0, R), p1 = pt(1, R), pz = pt(0.15, R);
+      var s = '<svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DeepSeek 余额油表">';
+      s += '<path d="M' + nn(p0[0]) + ',' + nn(p0[1]) + ' A' + R + ',' + R + ' 0 0 1 ' + nn(p1[0]) + ',' + nn(p1[1]) +
+           '" fill="none" stroke="#1b2436" stroke-width="12" stroke-linecap="round"/>';
+      if (v > 0.005) {
+        var pv = pt(v, R);
+        s += '<path d="M' + nn(p0[0]) + ',' + nn(p0[1]) + ' A' + R + ',' + R + ' 0 0 1 ' + nn(pv[0]) + ',' + nn(pv[1]) +
+             '" fill="none" stroke="' + tone + '" stroke-width="12" stroke-linecap="round"/>';
+      }
+      // 低油量警示带：贴在油量弧外侧的一段细红条，满油时也看得见
+      var q0 = pt(0, R + 9), qz = pt(0.15, R + 9);
+      s += '<path d="M' + nn(q0[0]) + ',' + nn(q0[1]) + ' A' + (R + 9) + ',' + (R + 9) + ' 0 0 1 ' +
+           nn(qz[0]) + ',' + nn(qz[1]) + '" fill="none" stroke="rgba(246,70,93,.6)" stroke-width="4" stroke-linecap="round"/>';
+      for (var i = 0; i <= 8; i++) {
+        var major = (i % 2 === 0);
+        var a1 = pt(i / 8, R - 20), a2 = pt(i / 8, R - (major ? 34 : 28));
+        s += '<line x1="' + nn(a1[0]) + '" y1="' + nn(a1[1]) + '" x2="' + nn(a2[0]) + '" y2="' + nn(a2[1]) +
+             '" stroke="' + (major ? "#3a4a6d" : "#26314a") + '" stroke-width="2" stroke-linecap="round"/>';
+      }
+      s += '<g transform="rotate(' + (-180 * v).toFixed(1) + ' ' + cx + ' ' + cy + ')">' +
+             '<line x1="' + cx + '" y1="' + cy + '" x2="' + (cx + R - 12) + '" y2="' + cy +
+             '" stroke="' + tone + '" stroke-width="3.5" stroke-linecap="round"/></g>' +
+           '<circle cx="' + cx + '" cy="' + cy + '" r="6.5" fill="#0e1420" stroke="' + tone + '" stroke-width="3"/>';
+      s += '<text x="28" y="' + (cy + 20) + '" text-anchor="middle" fill="#66748d" style="font-size:12px;font-weight:700">E</text>';
+      s += '<text x="212" y="' + (cy + 20) + '" text-anchor="middle" fill="#66748d" style="font-size:12px;font-weight:700">F</text>';
+      s += '<text x="' + cx + '" y="' + (cy + 36) + '" text-anchor="middle" fill="#e9eff9" style="font-size:24px;font-weight:750">' +
+           money(bal) + '</text>';
+      s += '<text x="' + cx + '" y="' + (cy + 54) + '" text-anchor="middle" fill="#98a7bf" style="font-size:12px">油箱 ' +
+           Math.round(v * 100) + '% · 满油 \u00A5' + FULL + '</text>';
+      return s + '</svg>';
+    }
+
     function fill() {
       var eBal = document.getElementById("dsBal");
       var eUsed = document.getElementById("dsUsed");
-      if (!eBal || !eUsed) return;
+      var eG = document.getElementById("dsGauge");
+      var ePct = document.getElementById("dsPct");
       var d = (window.WB && WB.ready) ? WB.data : {};
       var keys = [];
-      for (var k in d) { if (k.indexOf("deepseek:") === 0) keys.push(k); }
+      for (var k in d) {
+        if (k.indexOf("deepseek:") === 0 && Object.prototype.hasOwnProperty.call(d, k)) keys.push(k);
+      }
       keys.sort();
-      if (!keys.length) { eBal.textContent = "\u2014"; eUsed.textContent = "\u2014"; return; }
-      var last = d[keys[keys.length - 1]];
-      var prev = keys.length > 1 ? d[keys[keys.length - 2]] : null;
-      var bal = (last && typeof last.bal === "number") ? last.bal : null;
-      if (bal !== null) {
-        eBal.textContent = "\u00A5" + bal.toFixed(2);
-        eBal.className = bal < 50 ? "up" : "dsbal";
-      } else {
-        eBal.textContent = "\u2014";
+      var bal = null, used = null;
+      if (keys.length) {
+        var last = d[keys[keys.length - 1]];
+        var prev = keys.length > 1 ? d[keys[keys.length - 2]] : null;
+        if (last && typeof last.bal === "number") bal = last.bal;
+        if (bal !== null && prev && typeof prev.bal === "number") used = +(prev.bal - bal).toFixed(2);
       }
-      if (bal !== null && prev && typeof prev.bal === "number") {
-        var u = +(prev.bal - bal).toFixed(2);
-        if (u >= 0) { eUsed.textContent = "\u00A5" + u.toFixed(2); eUsed.className = "dswarm"; }
-        else { eUsed.textContent = "充值 \u00A5" + (-u).toFixed(2); eUsed.className = "down"; }
-      } else {
-        eUsed.textContent = "\u2014";
+      if (eBal) {
+        eBal.textContent = bal === null ? "\u2014" : money(bal);
+        eBal.className = (bal !== null && bal < 50) ? "up" : "dsbal";
       }
+      if (eUsed) {
+        if (used === null) { eUsed.textContent = "\u2014"; eUsed.className = ""; }
+        else if (used >= 0) { eUsed.textContent = money(used); eUsed.className = "dswarm"; }
+        else { eUsed.textContent = "充值 " + money(-used); eUsed.className = "down"; }
+      }
+      if (eG) eG.innerHTML = (bal === null) ? '<div class="empty2">还没有余额记录</div>' : gaugeSvg(bal);
+      if (ePct) ePct.textContent = (bal === null) ? "" :
+        ("油箱 " + Math.round(Math.max(0, Math.min(1, bal / FULL)) * 100) + "%");
     }
     fill();
     if (window.WB) WB.onReady(fill);
@@ -881,7 +708,7 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
 
 
 <!-- VER-BLOCK -->
-<script>var PAGE_VER="20260924200000";</script>
+<script>var PAGE_VER="20260924210000";</script>
 <script>
 /* 版本自检 + 地址栏净化：
    1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
