@@ -26,6 +26,10 @@
   .head .kicker{font-size:11.5px;letter-spacing:.18em;color:var(--muted-foreground)}
   .head h1{margin:6px 0 4px;font-size:26px}
   .head p{margin:0;color:var(--muted-foreground)}
+  .brandline{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .linde{display:inline-flex;align-items:center;gap:8px;background:#0b3a75;color:#fff;
+    border-radius:8px;padding:5px 12px;font-weight:650;font-size:15px;letter-spacing:.02em}
+  .linde small{font-weight:500;font-size:10px;letter-spacing:.16em;opacity:.85}
   .text-small{font-size:12px}
   .text-muted{color:var(--muted-foreground)}
   .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
@@ -42,9 +46,12 @@
 <div class="wrap">
   <a class="back" href="./home3.html">&#8592; 曼城十号梅西</a>
   <div class="head">
-    <div class="kicker">AIR SEPARATION UNIT / 3D</div>
+    <div class="brandline">
+      <span class="linde">Linde <small>AIR SEPARATION</small></span>
+      <span class="kicker">AIR SEPARATION UNIT / 3D</span>
+    </div>
     <h1>空分装置工艺流程 · 三维布置</h1>
-    <p>按工艺顺序排列的装置三维示意：压缩 → 预冷 → 纯化 → 制冷 → 精馏 → 储运 → 外送。</p>
+    <p>按工艺顺序排列的装置三维示意：压缩 → 预冷 → 纯化 → 制冷 → 精馏 → 储运 → 外送。可点步骤看设备，或点「镜头巡游」自动逐段巡航。</p>
   </div>
   <div style="margin-top:16px">
 <div id="asu3d-root">
@@ -54,24 +61,21 @@
     #asu3d-root .asu-title h2 { margin: 0; }
     #asu3d-root .asu-stage {
       position: relative; width: 100%; aspect-ratio: 16 / 10; min-height: 240px;
-      margin: 10px 0 12px; overflow: hidden;
-      background: var(--muted, rgba(127,127,127,.10));
-      border-radius: 10px;
+      margin: 10px 0 12px; overflow: hidden; border-radius: 10px;
+      background: linear-gradient(180deg, #4d8fd6 0%, #7db2e4 42%, #cfe2f3 68%, #eef3f8 100%);
     }
     #asu3d-root canvas { display: block; width: 100%; height: 100%; touch-action: none; }
     #asu3d-root .asu-labels { position: absolute; inset: 0; pointer-events: none; }
     #asu3d-root .asu-label {
       position: absolute; transform: translate(-50%, -100%);
-      padding: 2px 6px; border-radius: 6px; white-space: nowrap;
-      color: var(--foreground, #e8eefc);
-      background: color-mix(in srgb, var(--background, #0b0f16) 74%, transparent);
-      border: 1px solid var(--border, #26304a);
-      opacity: .5; transition: opacity .15s ease;
+      padding: 2px 7px; border-radius: 6px; white-space: nowrap;
+      color: #0f2338; background: rgba(255,255,255,.86); border: 1px solid rgba(15,35,56,.16);
+      box-shadow: 0 2px 8px rgba(11,32,58,.18); opacity: .72; transition: opacity .15s ease;
     }
     #asu3d-root .asu-label.is-active { opacity: 1; font-weight: 500; }
     #asu3d-root .asu-hint {
-      position: absolute; left: 10px; bottom: 8px;
-      color: var(--muted-foreground, #8b98ad);
+      position: absolute; left: 10px; bottom: 8px; color: #12395f;
+      background: rgba(255,255,255,.72); border-radius: 6px; padding: 1px 7px;
     }
     #asu3d-root .asu-legend { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
     #asu3d-root .asu-legend span.sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
@@ -79,33 +83,40 @@
     #asu3d-root .asu-info dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 0; }
     #asu3d-root .asu-info dt { color: var(--muted-foreground, #8b98ad); }
     #asu3d-root .asu-info dd { margin: 0; font-variant-numeric: tabular-nums; }
-    @media (max-width: 560px) { #asu3d-root .asu-stage { aspect-ratio: 4 / 3; } }
+    #asu3d-root .asu-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+    #asu3d-root .asu-tour { margin-left: auto; }
+    @media (max-width: 560px) { #asu3d-root .asu-stage { aspect-ratio: 4 / 3; } #asu3d-root .asu-tour { margin-left: 0; } }
   </style>
 
   <div class="asu-title">
     <h2>空分装置工艺流程 · 3D</h2>
     <div class="asu-legend text-small text-muted">
-      <span><span class="sw" style="background:var(--blue,#4c8dff)"></span>空气</span>
-      <span><span class="sw" style="background:var(--green,#31c48d)"></span>氮气</span>
-      <span><span class="sw" style="background:var(--orange,#f59e0b)"></span>氧气</span>
-      <span><span class="sw" style="background:var(--purple,#a855f7)"></span>氩气</span>
-      <span><span class="sw" style="background:var(--red,#ef4444)"></span>循环水</span>
+      <span><span class="sw" style="background:#1f7ae0"></span>空气</span>
+      <span><span class="sw" style="background:#12a86f"></span>氮气</span>
+      <span><span class="sw" style="background:#e8a33d"></span>氧气</span>
+      <span><span class="sw" style="background:#8a6bd8"></span>氩气</span>
+      <span><span class="sw" style="background:#e2574c"></span>循环水</span>
+      <span><span class="sw" style="background:#f2c200"></span>护栏</span>
     </div>
   </div>
 
   <div class="asu-stage">
     <canvas id="asu3d-canvas" role="img"
-      aria-label="空分装置三维布置：空气过滤与压缩、预冷与循环水、分子筛纯化、主换热与膨胀制冷、精馏冷箱、低温储罐与汽化、产品压缩外送"></canvas>
+      aria-label="空分装置三维流程：空气过滤压缩、预冷与循环水、分子筛纯化、主换热与膨胀制冷、精馏冷箱（剖切）、低温储存与汽化、产品压缩外送"></canvas>
     <div class="asu-labels" id="asu3d-labels"></div>
-    <div class="asu-hint text-small">拖拽旋转 · 滚轮缩放 · 点击步骤高亮对应装置</div>
+    <div class="asu-hint text-small">拖拽旋转 · 滚轮缩放 · 点步骤看设备 · 巡游自动切镜头</div>
   </div>
 
-  <div class="nav nav-pills" role="tablist" aria-label="工艺步骤" id="asu3d-steps"></div>
+  <div class="asu-bar">
+    <div class="nav nav-pills" role="tablist" aria-label="工艺步骤" id="asu3d-steps" style="flex:1 1 auto"></div>
+    <button class="nav-link asu-tour" id="asu3d-tour" type="button" aria-pressed="false">▶ 镜头巡游</button>
+  </div>
 
   <div class="card" style="margin-top:12px">
     <div class="asu-info">
       <div class="text-small text-muted" id="asu3d-step-no">工艺步骤 1 / 7</div>
       <div id="asu3d-step-name" style="font-weight:500">空气过滤与压缩</div>
+      <div class="text-small" id="asu3d-step-en" style="color:var(--muted-foreground,#8b98ad);letter-spacing:.06em"></div>
       <div class="text-small" id="asu3d-step-desc" style="color:var(--muted-foreground,#8b98ad)"></div>
       <dl class="text-small" id="asu3d-step-params"></dl>
     </div>
@@ -119,34 +130,48 @@
     var canvas = root.querySelector('#asu3d-canvas');
     var labelsEl = root.querySelector('#asu3d-labels');
     var stepsEl = root.querySelector('#asu3d-steps');
+    var tourBtn = root.querySelector('#asu3d-tour');
     var noEl = root.querySelector('#asu3d-step-no');
     var nameEl = root.querySelector('#asu3d-step-name');
+    var enEl = root.querySelector('#asu3d-step-en');
     var descEl = root.querySelector('#asu3d-step-desc');
     var paramsEl = root.querySelector('#asu3d-step-params');
 
     var STEPS = [
-      { label: '1 压缩', name: '空气过滤与压缩',
-        desc: '自洁式空气过滤器除去粉尘后，空气经离心式空压机多级压缩、级间冷却，送入预冷系统。',
-        params: [['空压机出口压力', '0.50 ~ 0.60 MPa'], ['出口温度', '≈ 35 ℃'], ['级间冷却', '循环水冷却器']] },
-      { label: '2 预冷', name: '预冷与循环水系统',
-        desc: '压缩空气在预冷机组内被冷冻水冷却，析出冷凝水；循环水经冷却塔降温后回用。',
+      { label: '1 压缩', name: '空气过滤与压缩', en: 'CLEAN AIR COMPRESSION',
+        desc: '自洁式过滤器与消音器把大气吸入离心空压机，多级压缩、级间冷却后送预冷系统。',
+        params: [['空压机出口压力', '0.50 ~ 0.60 MPa'], ['出口温度', '≈ 35 ℃'], ['驱动方式', '电机 + 增速箱']] },
+      { label: '2 预冷', name: '预冷与循环水', en: 'PRE-COOLING & COOLING WATER',
+        desc: '压缩空气在后冷器/预冷机组中被冷冻水冷却并析出冷凝水，循环水经冷却塔降温回用。',
         params: [['预冷出口温度', '8 ~ 15 ℃'], ['循环水供 / 回水', '32 / 42 ℃'], ['冷却塔', '机力通风']] },
-      { label: '3 纯化', name: '分子筛纯化',
-        desc: '两只吸附器一用一再生，脱除水分、CO₂ 与乙炔等碳氢化合物；再生气经电加热器加热。',
+      { label: '3 纯化', name: '分子筛纯化', en: 'MOLECULAR SIEVE PURIFICATION',
+        desc: '两只吸附器一用一再生，脱除水分、CO₂ 与乙炔等碳氢化合物，备用再生气电加热器。',
         params: [['吸附压力', '≈ 0.55 MPa'], ['切换周期', '约 4 h'], ['出口 CO₂', '< 1 ppm']] },
-      { label: '4 制冷', name: '主换热与膨胀制冷',
-        desc: '板翅式主换热器内空气与返流气体换热降温，部分空气进透平膨胀机等熵膨胀产生冷量。',
-        params: [['主换热出口', '约 −170 ℃'], ['膨胀机进口', '−100 ~ −140 ℃'], ['制冷量', '平衡装置冷损']] },
-      { label: '5 精馏', name: '精馏分离（冷箱）',
-        desc: '冷箱内下塔初步分离、主冷提供回流液，上塔完成氧氮分离，氩馏分送氩塔提纯。',
+      { label: '4 制冷', name: '主换热与膨胀制冷', en: 'MAIN HEAT EXCHANGE & EXPANSION',
+        desc: '板翅式主换热器内空气与返流气体换热降温，透平膨胀机等熵膨胀产生冷量。',
+        params: [['主换热出口', '约 −170 ℃'], ['膨胀机进口', '−100 ~ −140 ℃'], ['冷量', '平衡装置冷损']] },
+      { label: '5 精馏', name: '精馏分离（冷箱剖切）', en: 'DISTILLATION',
+        desc: '冷箱内下塔初步分离、主冷提供回流液，上塔完成氧氮分离；中压气抽出送至氩系统。',
         params: [['下塔压力', '≈ 0.50 MPa'], ['上塔压力', '≈ 0.13 MPa'], ['氧纯度', '99.6 % O₂'], ['氮纯度', 'O₂ ≤ 10 ppm']] },
-      { label: '6 储运', name: '低温储存与汽化',
-        desc: '液氧、液氮、液氩进真空粉末绝热储罐；外送前经水浴式汽化器汽化，液体由低温泵充装槽车。',
+      { label: '6 储运', name: '低温储存与汽化', en: 'STORAGE & VAPORIZATION',
+        desc: '液氧、液氮、液氩进真空粉末绝热储罐；外送前经水浴式汽化器汽化，液体由低温泵装车。',
         params: [['储罐', 'LOX / LIN / LAR'], ['液位控制', '30 ~ 85 %'], ['汽化器', '水浴式 / 空温式']] },
-      { label: '7 外送', name: '产品压缩与外送',
-        desc: '氧气、氮气经透平或活塞压缩机升压后并入管网；液氩由低温泵送至充装台装车。',
+      { label: '7 外送', name: '产品压缩与外送', en: 'PRODUCT COMPRESSION & DELIVERY',
+        desc: '氧气、氮气经透平或活塞压缩机升压并入管网，液氩由低温泵送至充装台装车。',
         params: [['氧气管网', '1.6 ~ 3.0 MPa'], ['氮气管网', '0.8 ~ 2.5 MPa'], ['充装', '低温泵 + 槽车']] }
     ];
+
+    /* 每个工序的镜头预设：目标点、方位角、俯仰角、距离 */
+    var SHOTS = [
+      { t: [-58, 12, -22], a: -0.42, p: 0.30, r: 118 },
+      { t: [-26, 10, 2], a: -0.40, p: 0.36, r: 132 },
+      { t: [-4, 15, 0], a: -0.34, p: 0.34, r: 118 },
+      { t: [16, 16, 8], a: -0.46, p: 0.32, r: 116 },
+      { t: [34, 22, 4], a: -0.52, p: 0.26, r: 112 },
+      { t: [82, 14, 6], a: -0.44, p: 0.34, r: 150 },
+      { t: [120, 12, -12], a: -0.46, p: 0.34, r: 132 }
+    ];
+    var OVERVIEW = { t: [28, 8, -2], a: -0.40, p: 0.44, r: 0 };
 
     function cssVar(n, f) {
       var v = getComputedStyle(root).getPropertyValue(n);
@@ -157,7 +182,7 @@
       if (!window.THREE) { setTimeout(start, 120); return; }
       var THREE = window.THREE;
 
-      /* ---------- 基础 ---------- */
+      /* ---------- 渲染器：白天风格，透明背景透出 CSS 天空 ---------- */
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.outputEncoding = THREE.sRGBEncoding;
@@ -165,80 +190,72 @@
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
       var scene = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera(34, 1, 0.5, 2000);
-      var target = new THREE.Vector3(28, 7, -2);
-      var azim = -0.42, pitch = 0.50, radius = 236;
+      var camera = new THREE.PerspectiveCamera(34, 1, 0.5, 2400);
+      var view = { t: new THREE.Vector3(28, 8, -2), a: OVERVIEW.a, p: OVERVIEW.p, r: 260, rFit: true };
 
-      var bg = cssVar('--background', '#0b0f16');
-      scene.fog = new THREE.Fog(new THREE.Color(bg).getHex(), 320, 760);
-
-      /* 简易环境反射：竖直渐变贴图，让金属不发黑 */
+      /* 环境反射：淡蓝天空 + 浅色地面 */
       var cvs = document.createElement('canvas');
       cvs.width = 8; cvs.height = 64;
-      var ctx = cvs.getContext('2d');
-      var grad = ctx.createLinearGradient(0, 0, 0, 64);
-      grad.addColorStop(0, cssVar('--foreground', '#e8eefc'));
-      grad.addColorStop(0.5, cssVar('--muted', '#8b98ad'));
-      grad.addColorStop(1, cssVar('--background', '#0b0f16'));
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, 8, 64);
+      var cx2 = cvs.getContext('2d');
+      var grad = cx2.createLinearGradient(0, 0, 0, 64);
+      grad.addColorStop(0, '#6ba8e0');
+      grad.addColorStop(0.55, '#dce9f5');
+      grad.addColorStop(1, '#b9c3cc');
+      cx2.fillStyle = grad; cx2.fillRect(0, 0, 8, 64);
       var envTex = new THREE.CanvasTexture(cvs);
       envTex.mapping = THREE.EquirectangularReflectionMapping;
       scene.environment = envTex;
 
-      scene.add(new THREE.HemisphereLight(0xffffff, new THREE.Color(bg).getHex(), 0.44));
-      var sun = new THREE.DirectionalLight(0xffffff, 1.20);
-      sun.position.set(120, 180, 90);
+      scene.add(new THREE.HemisphereLight(0xffffff, 0xb8c4cf, 0.72));
+      var sun = new THREE.DirectionalLight(0xfff6e8, 1.5);
+      sun.position.set(140, 200, 110);
       sun.castShadow = true;
       sun.shadow.mapSize.set(2048, 2048);
       var sc = sun.shadow.camera;
-      sc.left = -170; sc.right = 170; sc.top = 150; sc.bottom = -150; sc.near = 20; sc.far = 620;
+      sc.left = -180; sc.right = 180; sc.top = 160; sc.bottom = -160; sc.near = 20; sc.far = 700;
       scene.add(sun);
-      var fill = new THREE.DirectionalLight(0xffffff, 0.20);
-      fill.position.set(-140, 90, -120);
+      var fill = new THREE.DirectionalLight(0xdfeaf5, 0.45);
+      fill.position.set(-150, 90, -140);
       scene.add(fill);
 
       /* ---------- 材质 ---------- */
-      function M(color, o) {
+      function M(hex, o) {
         o = o || {};
         return new THREE.MeshStandardMaterial({
-          color: new THREE.Color(color),
-          metalness: o.metalness === undefined ? 0.45 : o.metalness,
-          roughness: o.roughness === undefined ? 0.45 : o.roughness,
-          transparent: o.opacity !== undefined,
-          opacity: o.opacity === undefined ? 1 : o.opacity,
-          side: o.side || THREE.FrontSide,
-          emissive: new THREE.Color(0x000000)
+          color: new THREE.Color(hex),
+          metalness: o.m === undefined ? 0.25 : o.m,
+          roughness: o.r === undefined ? 0.55 : o.r,
+          transparent: o.op !== undefined, opacity: o.op === undefined ? 1 : o.op,
+          side: o.side || THREE.FrontSide, emissive: new THREE.Color(0x000000)
         });
       }
-      function mix(a, b, t) { return new THREE.Color(a).lerp(new THREE.Color(b), t).getHex(); }
-      var FG = cssVar('--foreground', '#e8eefc');
-      var BORDER = cssVar('--border', '#26304a');
-      var MUTED = cssVar('--muted-foreground', '#8b98ad');
-      var PAL = {
-        air: cssVar('--blue', '#4c8dff'),
-        n2: cssVar('--green', '#31c48d'),
-        o2: cssVar('--orange', '#f59e0b'),
-        ar: cssVar('--purple', '#a855f7'),
-        water: cssVar('--red', '#ef4444')
+      var CFG = {
+        clad: M(0xf2f5f8, { m: 0.15, r: 0.62 }),        /* 冷箱彩钢外壁 */
+        insul: M(0xe8edf2, { m: 0.30, r: 0.34 }),       /* 保温设备/管道 */
+        steel: M(0xcfd6de, { m: 0.55, r: 0.38 }),       /* 不锈钢 */
+        blue: M(0x1c4f86, { m: 0.35, r: 0.52 }),        /* 结构蓝 */
+        blueDeep: M(0x163d69, { m: 0.35, r: 0.55 }),
+        rail: M(0xf2c200, { m: 0.25, r: 0.50 }),        /* 黄色护栏 */
+        concrete: M(0xc4cbd3, { m: 0.02, r: 0.94 }),
+        apron: M(0xb0b8c1, { m: 0.02, r: 0.96 }),
+        dark: M(0x6f7b88, { m: 0.45, r: 0.55 }),
+        water: M(0x7fc4e8, { m: 0.1, r: 0.22, op: 0.72 }),
+        glass: M(0x9fd0ee, { m: 0.1, r: 0.12, op: 0.5 }),
+        vapor: M(0xffffff, { m: 0, r: 1, op: 0.30 }),
+        air: M(0x1f7ae0, { m: 0.4, r: 0.45 }),
+        n2: M(0x12a86f, { m: 0.4, r: 0.45 }),
+        o2: M(0xe8a33d, { m: 0.4, r: 0.45 }),
+        ar: M(0x8a6bd8, { m: 0.4, r: 0.45 }),
+        cw: M(0xe2574c, { m: 0.4, r: 0.45 })
       };
-      var mat = {
-        steel: M(mix(BORDER, FG, 0.50), { metalness: 0.62, roughness: 0.38 }),
-        clad: M(mix(BORDER, FG, 0.68), { metalness: 0.42, roughness: 0.32 }),
-        dark: M(mix(BORDER, FG, 0.24), { metalness: 0.55, roughness: 0.48 }),
-        concrete: M(mix(BORDER, FG, 0.34), { metalness: 0.02, roughness: 0.95 }),
-        pad: M(mix(BORDER, FG, 0.28), { metalness: 0.02, roughness: 0.98 }),
-        rail: M(mix(BORDER, FG, 0.44), { metalness: 0.55, roughness: 0.42 }),
-        glass: M(mix(PAL.air, FG, 0.5), { metalness: 0.1, roughness: 0.08, opacity: 0.55 }),
-        vessel: M(mix(BORDER, FG, 0.66), { metalness: 0.5, roughness: 0.34 }),
-        insulated: M(mix(BORDER, FG, 0.84), { metalness: 0.35, roughness: 0.26 }),
-        red: M(PAL.water, { metalness: 0.35, roughness: 0.45 }),
-        copper: M(0xb8794a, { metalness: 0.7, roughness: 0.4 })
-      };
+      var MEDIA = { air: 0x1f7ae0, n2: 0x12a86f, o2: 0xe8a33d, ar: 0x8a6bd8, cw: 0xe2574c };
 
       var world = new THREE.Group();
       scene.add(world);
       var dimmable = [];
       var labels = [];
+      var bubbles = [];
+      var vapors = [];
 
       function tag(o, step) {
         o.userData.step = step;
@@ -256,337 +273,415 @@
         return o;
       }
       function box(w, h, d, m) { return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); }
-      function cyl(rt, rb, h, m, seg) { return new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg || 24, 1, false), m); }
-      function dome(r, m, squash) { var s = new THREE.Mesh(new THREE.SphereGeometry(r, 22, 12), m); s.scale.y = squash || 0.55; return s; }
+      function cyl(rt, rb, h, m, seg) { return new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg || 22, 1, false), m); }
+      function dome(r, m) { var s = new THREE.Mesh(new THREE.SphereGeometry(r, 22, 12), m); s.scale.y = 0.5; return s; }
       function ring(rt, rb, h, m, seg) { return new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg || 26, 1, true), m); }
-
-      /* 立式设备：筒体 + 上下封头 + 裙座 */
-      function vessel(step, x, z, r, h, m, baseY) {
-        var g = new THREE.Group();
-        g.position.set(x, 0, z);
-        var skirtH = 3.2;
-        add(g, cyl(r * 0.94, r * 0.94, skirtH, mat.dark), 0, skirtH / 2 + (baseY || 0), 0);
-        add(g, cyl(r, r, h, m), 0, skirtH + h / 2 + (baseY || 0), 0);
-        add(g, dome(r, m), 0, skirtH + h + (baseY || 0), 0);
-        add(g, dome(r, m), 0, skirtH + (baseY || 0), 0, Math.PI, 0, 0);
-        /* 平台与栏杆 */
-        var py = skirtH + h * 0.62 + (baseY || 0);
-        var plat = cyl(r + 2.2, r + 2.2, 0.18, mat.dark, 26);
-        plat.material = mat.dark;
-        add(g, plat, 0, py, 0);
-        for (var i = 0; i < 16; i++) {
-          var a = i / 16 * Math.PI * 2;
-          add(g, box(0.16, 2.2, 0.16, mat.rail), Math.cos(a) * (r + 2.1), py + 1.1, Math.sin(a) * (r + 2.1));
-        }
-        add(g, ring(r + 2.1, r + 2.1, 0.12, mat.rail, 26), 0, py + 2.15, 0);
-        /* 直梯 */
-        add(g, box(0.14, h * 0.8, 0.14, mat.rail), r + 1.0, skirtH + h * 0.4 + (baseY || 0), 0);
-        add(g, box(0.14, h * 0.8, 0.14, mat.rail), r + 1.0, skirtH + h * 0.4 + (baseY || 0), 1.1);
-        world.add(g);
-        g.traverse(function (o) { if (o.isMesh) tag(o, step); });
-        return g;
-      }
-
-      function label(text, x, y, z, step, small, always) {
+      function label(text, x, y, z, step, small) {
         var el = document.createElement('div');
         el.className = 'asu-label' + (small ? ' text-small' : '');
         el.textContent = text;
         labelsEl.appendChild(el);
-        labels.push({ el: el, pos: new THREE.Vector3(x, y, z), step: step, always: !!always });
+        labels.push({ el: el, pos: new THREE.Vector3(x, y, z), step: step });
       }
 
-      /* ---------- 场地 ---------- */
-      var slab = new THREE.Mesh(new THREE.BoxGeometry(244, 0.6, 132), mat.pad);
-      slab.position.set(28, -0.3, 0); slab.receiveShadow = true; scene.add(slab);
-      var road = new THREE.Mesh(new THREE.BoxGeometry(244, 0.7, 11), mat.dark);
-      road.position.set(28, -0.25, 48); road.receiveShadow = true; scene.add(road);
-      for (var rx = -70; rx <= 120; rx += 12) {
-        var mark = new THREE.Mesh(new THREE.BoxGeometry(5.4, 0.72, 0.5), mat.clad);
-        mark.position.set(rx, -0.2, 48); scene.add(mark);
+      /* 平台 + 黄色护栏 */
+      function platform(g, w, d, y, m) {
+        add(g, box(w, 0.5, d, m || CFG.concrete), 0, y, 0);
+        var hw = w / 2 - 0.4, hd = d / 2 - 0.4, posts = Math.max(6, Math.round(w / 3));
+        for (var i = 0; i < posts; i++) {
+          var px = -hw + (2 * hw) * i / (posts - 1);
+          add(g, box(0.14, 1.3, 0.14, CFG.rail), px, y + 0.9, hd);
+          add(g, box(0.14, 1.3, 0.14, CFG.rail), px, y + 0.9, -hd);
+        }
+        var pd = Math.max(3, Math.round(d / 3));
+        for (var k = 0; k < pd; k++) {
+          var pz = -hd + (2 * hd) * k / (pd - 1);
+          add(g, box(0.14, 1.3, 0.14, CFG.rail), hw, y + 0.9, pz);
+          add(g, box(0.14, 1.3, 0.14, CFG.rail), -hw, y + 0.9, pz);
+        }
+        add(g, box(w, 0.12, 0.12, CFG.rail), 0, y + 1.5, hd);
+        add(g, box(w, 0.12, 0.12, CFG.rail), 0, y + 1.5, -hd);
+        add(g, box(0.12, 0.12, d, CFG.rail), hw, y + 1.5, 0);
+        add(g, box(0.12, 0.12, d, CFG.rail), -hw, y + 1.5, 0);
       }
 
-      /* ---------- 1 空气过滤与压缩 ---------- */
+      /* 立式塔器：裙座 + 筒体 + 上下封头 + 平台 + 直梯 */
+      function vessel(step, x, z, r, h, m, name, labelY) {
+        var g = new THREE.Group(); g.position.set(x, 0, z); world.add(g);
+        add(g, cyl(r * 0.92, r * 0.98, 4, CFG.blueDeep), 0, 2, 0);
+        add(g, cyl(r, r, h, m), 0, 4 + h / 2, 0);
+        add(g, dome(r, m), 0, 4 + h, 0);
+        add(g, dome(r, m), 0, 4, 0, Math.PI, 0, 0);
+        var py = 4 + h * 0.62;
+        add(g, ring(r + 1.9, r + 1.9, 0.22, CFG.steel, 28), 0, py, 0);
+        for (var i = 0; i < 14; i++) {
+          var a = i / 14 * Math.PI * 2;
+          add(g, box(0.13, 1.2, 0.13, CFG.rail), Math.cos(a) * (r + 1.8), py + 0.75, Math.sin(a) * (r + 1.8));
+        }
+        add(g, ring(r + 1.8, r + 1.8, 0.1, CFG.rail, 28), 0, py + 1.38, 0);
+        add(g, box(0.14, h * 0.75, 0.14, CFG.steel), r + 0.9, 4 + h * 0.38, 0);
+        add(g, box(0.14, h * 0.75, 0.14, CFG.steel), r + 0.9, 4 + h * 0.38, 1.0);
+        g.traverse(function (o) { if (o.isMesh) tag(o, step); });
+        if (name) label(name, x, labelY || (4 + h + r + 6), z, step);
+        return g;
+      }
+
+      /* ---------- 场地：浅色混凝土场坪 + 道路 ---------- */
+      var apron = new THREE.Mesh(new THREE.BoxGeometry(268, 0.5, 150), CFG.apron);
+      apron.position.set(28, -0.25, 0); apron.receiveShadow = true; scene.add(apron);
+      var pad = new THREE.Mesh(new THREE.BoxGeometry(232, 0.4, 112), CFG.concrete);
+      pad.position.set(30, 0.05, 0); pad.receiveShadow = true; scene.add(pad);
+      var road = new THREE.Mesh(new THREE.BoxGeometry(268, 0.5, 12), CFG.dark);
+      road.position.set(28, -0.1, 52); road.receiveShadow = true; scene.add(road);
+      for (var rx = -80; rx <= 134; rx += 14) {
+        var mark = new THREE.Mesh(new THREE.BoxGeometry(6, 0.52, 0.55), M(0xf0f2f5));
+        mark.position.set(rx, -0.05, 52); scene.add(mark);
+      }
+
+      /* ---------- 1 进气过滤 + 空压机机组 ---------- */
       (function () {
-        var g = new THREE.Group(); g.position.set(-74, 0, -22); world.add(g);
-        /* 过滤房 */
-        add(g, box(14, 12, 16, mat.clad), 0, 6, 0);
-        for (var i = 0; i < 6; i++) add(g, box(0.5, 10.6, 0.5, mat.dark), -6.6, 6, -6 + i * 2.4);
-        add(g, box(2.6, 2.6, 16.5, mat.steel), 8.6, 7.4, 0);            /* 出口风道 */
-        add(g, cyl(2.0, 2.0, 3.2, mat.steel, 20), 8.6, 9.6, 0, Math.PI / 2, 0, 0);
-        /* 空压机厂房 */
-        add(g, box(30, 13, 20, mat.clad), 30, 6.5, 0);
-        add(g, box(10, 8, 0.6, mat.dark), 26, 4, 10.1);                  /* 大门 */
-        add(g, box(33, 1.2, 22.5, mat.pad), 30, 13.4, 0);                /* 屋面板 */
-        /* 机组：电机 + 增速箱 + 压缩机筒体 */
-        add(g, cyl(3.0, 3.0, 12, mat.dark, 22), 20, 4.4, -8, 0, 0, Math.PI / 2);
-        add(g, box(7, 5.4, 7, mat.steel), 28, 4.4, -8);
-        add(g, cyl(3.6, 3.6, 11, mat.steel, 24), 38, 4.6, -8, 0, 0, Math.PI / 2);
-        add(g, box(20, 1.0, 14, mat.pad), 28, 0.7, -8);
-        /* 润滑油站 */
-        add(g, box(6, 3.4, 4, mat.dark), 40, 4.4, 6);
+        var g = new THREE.Group(); g.position.set(-76, 0, -24); world.add(g);
+        add(g, box(15, 13, 17, CFG.clad), 0, 6.5, 0);
+        for (var i = 0; i < 7; i++) add(g, box(0.5, 11, 0.5, CFG.blue), -7.2, 6.5, -7 + i * 2.3);
+        add(g, cyl(3.2, 3.2, 14, CFG.insul, 22), 10, 9, 0, 0, 0, Math.PI / 2);
+        add(g, box(6, 6, 6, CFG.steel), 17, 9, 0);
+        add(g, cyl(2.2, 2.2, 10, CFG.steel, 20), 24, 9, 0, 0, 0, Math.PI / 2);
         g.traverse(function (o) { if (o.isMesh) tag(o, 0); });
-        label('空气过滤器', -74, 14, -22, 0);
-        label('空压机厂房（含电机 / 增速箱）', -44, 17, -22, 0);
+        label('空气过滤器 / 消音器', -76, 15, -24, 0);
+
+        var c = new THREE.Group(); c.position.set(-50, 0, -24); world.add(c);
+        add(c, box(32, 1.2, 18, CFG.concrete), 0, 0.8, 0);
+        platform(c, 32, 18, 4.2);
+        for (var px = -14; px <= 14; px += 7) add(c, box(1.0, 4.0, 1.0, CFG.blue), px, 2.1, 8);
+        add(c, cyl(3.2, 3.2, 12, CFG.blueDeep, 24), -9, 8.4, 0, 0, 0, Math.PI / 2);
+        add(c, box(6.5, 5.6, 6.5, CFG.blue), -1, 8.4, 0);
+        add(c, cyl(3.8, 3.8, 10, CFG.steel, 26), 8, 8.6, 0, 0, 0, Math.PI / 2);
+        add(c, box(7, 3.4, 4, CFG.dark), 15, 7.4, 5);
+        add(c, cyl(1.6, 1.6, 16, CFG.steel, 18), 0, 13, -6, 0, 0, Math.PI / 2);
+        c.traverse(function (o) { if (o.isMesh) tag(o, 0); });
+        label('离心式空压机机组（电机 + 增速箱 + 压缩机）', -50, 17, -24, 0);
       })();
 
-      /* ---------- 2 预冷与循环水 ---------- */
+      /* ---------- 2 后冷 / 预冷 + 冷却塔 + 循环水泵 ---------- */
       (function () {
-        var g = new THREE.Group(); g.position.set(-34, 0, -22); world.add(g);
-        add(g, box(22, 9, 14, mat.clad), 0, 4.5, 0);
-        for (var i = 0; i < 8; i++) add(g, box(0.4, 7.4, 12.6, mat.dark), -9 + i * 2.4, 4.5, 0);
-        add(g, box(23, 0.8, 15, mat.pad), 0, 9.3, 0);
+        var g = new THREE.Group(); g.position.set(-28, 0, -24); world.add(g);
+        function exchanger(x, z, mat) {
+          var e = new THREE.Group(); e.position.set(x, 0, z); g.add(e);
+          add(e, box(4, 1.2, 4, CFG.concrete), 0, 0.6, 0);
+          add(e, cyl(2.6, 2.6, 16, mat, 24), 0, 4.4, 0, 0, 0, Math.PI / 2);
+          add(e, dome(2.6, mat), -8, 4.4, 0); add(e, dome(2.6, mat), 8, 4.4, 0);
+          add(e, cyl(1.4, 1.4, 3, CFG.steel, 16), -6, 7.4, 0);
+          add(e, cyl(1.4, 1.4, 3, CFG.steel, 16), 6, 7.4, 0);
+        }
+        exchanger(-6, -6, CFG.insul);
+        exchanger(-6, 7, CFG.insul);
+        add(g, box(12, 8, 10, CFG.clad), 10, 5, 0);
         g.traverse(function (o) { if (o.isMesh) tag(o, 1); });
-        label('预冷机组', -34, 12, -22, 1);
+        label('后冷器 / 预冷机组', -28, 12, -24, 1);
 
-        /* 冷却塔 */
-        var t = new THREE.Group(); t.position.set(-16, 0, 30); world.add(t);
-        add(t, cyl(11.4, 11.4, 2.6, mat.concrete, 30), 0, 1.3, 0);
-        add(t, cyl(8.2, 11.2, 22, mat.clad, 30), 0, 13.4, 0);
-        add(t, ring(8.4, 8.4, 3, mat.dark, 30), 0, 25.8, 0);
-        add(t, cyl(4.6, 4.6, 1.4, mat.steel, 22), 0, 28, 0);
-        for (var k = 0; k < 5; k++) {
-          var blade = box(3.8, 0.2, 0.9, mat.steel);
-          add(t, blade, Math.cos(k * 1.256) * 1.9, 27.3, Math.sin(k * 1.256) * 1.9, 0, k * 1.256, 0.12);
+        var t = new THREE.Group(); t.position.set(-30, 0, 30); world.add(t);
+        add(t, cyl(12, 12, 2.4, CFG.concrete, 30), 0, 1.2, 0);
+        add(t, cyl(8.6, 11.8, 21, CFG.clad, 30), 0, 12.9, 0);
+        add(t, ring(8.8, 8.8, 3, CFG.blue, 30), 0, 24.9, 0);
+        add(t, cyl(4.8, 4.8, 1.2, CFG.steel, 22), 0, 27, 0);
+        for (var k = 0; k < 5; k++) add(t, box(4, 0.2, 1, CFG.steel), Math.cos(k * 1.26) * 2, 26.3, Math.sin(k * 1.26) * 2, 0, k * 1.26, 0.1);
+        for (var j = 0; j < 20; j++) {
+          var a = j / 20 * Math.PI * 2;
+          add(t, box(0.5, 2.2, 0.16, CFG.blue), Math.cos(a) * 11.6, 3, Math.sin(a) * 11.6, 0, -a, 0);
         }
-        for (var j = 0; j < 18; j++) {
-          var a = j / 18 * Math.PI * 2;
-          add(t, box(0.5, 2.4, 0.16, mat.dark), Math.cos(a) * 11.2, 3.4, Math.sin(a) * 11.2, 0, -a, 0);
-        }
-        add(t, box(0.2, 24, 0.2, mat.rail), 12.6, 13, 0);
+        add(t, box(0.2, 22, 0.2, CFG.steel), 12.8, 12, 0);
         t.traverse(function (o) { if (o.isMesh) tag(o, 1); });
-        label('冷却塔', -16, 33, 30, 1);
+        label('冷却塔', -30, 32, 30, 1);
 
-        /* 循环水泵站 */
-        var p = new THREE.Group(); p.position.set(-30, 0, 44); world.add(p);
-        add(p, box(16, 7, 10, mat.clad), 0, 3.5, 0);
-        for (var q = 0; q < 3; q++) add(p, cyl(1.5, 1.5, 3.2, mat.dark, 16), -4 + q * 4, 1.6, 7);
-        add(p, cyl(1.1, 1.1, 20, mat.red, 18), 6, 8.4, 0, 0, 0, Math.PI / 2);
+        var p = new THREE.Group(); p.position.set(-2, 0, 34); world.add(p);
+        add(p, box(14, 6, 9, CFG.clad), 0, 3, 0);
+        for (var q = 0; q < 3; q++) add(p, cyl(1.4, 1.4, 3.2, CFG.blueDeep, 16), -4 + q * 4, 1.6, 6);
+        add(p, cyl(1.0, 1.0, 18, CFG.cw, 18), 6, 7, 0, 0, 0, Math.PI / 2);
         p.traverse(function (o) { if (o.isMesh) tag(o, 1); });
-        label('循环水泵站', -30, 11, 44, 1);
+        label('循环水泵站', -2, 10, 34, 1, true);
       })();
 
-      /* ---------- 3 分子筛纯化 ---------- */
+      /* ---------- 3 分子筛 ---------- */
+      vessel(2, -4, -16, 5.2, 19, CFG.insul, '分子筛吸附器 A / B', 32);
+      vessel(2, -4, 10, 5.2, 19, CFG.insul, null);
       (function () {
-        var a = vessel(2, -2, -14, 5.4, 20, mat.vessel);
-        var b = vessel(2, -2, 12, 5.4, 20, mat.vessel);
-        var g = new THREE.Group(); g.position.set(-2, 0, -30); world.add(g);
-        add(g, box(9, 7, 7, mat.clad), 0, 3.5, 0);                       /* 电加热器 */
-        add(g, cyl(1.6, 1.6, 12, mat.steel, 18), 6, 9, 0, 0, 0, Math.PI / 2);
-        add(g, cyl(1.4, 1.4, 10, mat.dark, 16), 0, 8.5, -5);             /* 消音器 */
+        var g = new THREE.Group(); g.position.set(-4, 0, -34); world.add(g);
+        add(g, box(8, 6, 6, CFG.clad), 0, 3, 0);
+        add(g, cyl(1.5, 1.5, 10, CFG.steel, 16), 5, 8, 0, 0, 0, Math.PI / 2);
         g.traverse(function (o) { if (o.isMesh) tag(o, 2); });
-        label('分子筛吸附器 A / B', -3, 33, 0, 2);
-        label('再生气电加热器', -2, 10, -30, 2, true);
+        label('再生气电加热器', -4, 9, -34, 2, true);
       })();
 
-      /* ---------- 4/5 冷箱（含内部设备） ---------- */
+      /* ---------- 4/5 冷箱（剖切） ---------- */
       (function () {
-        var cx = 42, cz = 0, W = 44, D = 40, H = 46;
-        /* 箱体：南侧与东侧留出切口，便于看到内部 */
+        var cx = 36, cz = 0, W = 40, D = 34, H = 52;
         var walls = new THREE.Group(); walls.position.set(cx, 0, cz); world.add(walls);
         var shell = new THREE.MeshStandardMaterial({
-          color: new THREE.Color(mix(BORDER, FG, 0.88)),
-          metalness: 0.38, roughness: 0.30, transparent: true, opacity: 0.22,
-          side: THREE.DoubleSide
+          color: new THREE.Color(0xf4f7fa), metalness: 0.14, roughness: 0.6,
+          transparent: true, opacity: 0.30, side: THREE.DoubleSide
         });
-        function panel(w, h, d, x, y, z) {
-          var p = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), shell);
+        function panel(w, h, d, x, y, z, m) {
+          var p = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m || shell);
           p.position.set(x, y, z); p.castShadow = true; p.receiveShadow = true;
-          walls.add(p); tag(p, 4); dimmable.pop(); p.userData.noDim = true; return p;
+          p.userData.noDim = true; walls.add(p); return p;
         }
-        panel(W, H, 0.5, 0, H / 2, -D / 2);                       /* 北墙 */
-        panel(0.5, H, D, -W / 2, H / 2, 0);                       /* 西墙 */
-        panel(0.5, H, D * 0.55, W / 2, H / 2, -D * 0.225);        /* 东墙（留口） */
-        panel(W * 0.5, H, 0.5, -W * 0.25, H / 2, D / 2);          /* 南墙（留口） */
-        var roof = panel(W, 0.5, D, 0, H, 0);                      /* 屋顶 */
-        roof.material = new THREE.MeshStandardMaterial({
-          color: new THREE.Color(mix(BORDER, FG, 0.9)),
-          metalness: 0.3, roughness: 0.4, transparent: true, opacity: 0.08, side: THREE.DoubleSide
-        });
-        /* 骨架棱线 */
-        for (var i = 0; i <= 4; i++) {
-          panel(0.35, H, 0.35, -W / 2 + i * (W / 4), H / 2, -D / 2);
-          panel(W, 0.35, 0.35, 0, 4 + i * (H / 4) * 0.95, -D / 2);
+        panel(W, H, 0.6, 0, H / 2, -D / 2);
+        panel(0.6, H, D, -W / 2, H / 2, 0);
+        panel(0.6, H, D * 0.5, W / 2, H / 2, -D * 0.25);
+        panel(W * 0.52, H, 0.6, -W * 0.24, H / 2, D / 2);
+        var roof = panel(W, 0.6, D, 0, H, 0, new THREE.MeshStandardMaterial({
+          color: new THREE.Color(0xeef2f6), metalness: 0.2, roughness: 0.5, transparent: true, opacity: 0.12, side: THREE.DoubleSide
+        }));
+        /* 竖向板缝 */
+        for (var i = 1; i < 6; i++) panel(0.35, H, 0.35, -W / 2 + i * (W / 6), H / 2, -D / 2, M(0xdbe2e9, { m: 0.2, r: 0.6 }));
+        /* 外部楼梯 + 各层平台（视频里的冷箱外观） */
+        for (var lv = 1; lv <= 4; lv++) {
+          var y = lv * 11;
+          add(walls, box(9, 0.35, 3.4, CFG.steel), W / 2 + 4.4, y, 6);
+          add(walls, box(0.14, 1.2, 0.14, CFG.rail), W / 2 + 8.6, y + 0.8, 7.4);
+          add(walls, box(0.14, 1.2, 0.14, CFG.rail), W / 2 + 0.4, y + 0.8, 7.4);
+          add(walls, box(9, 0.1, 0.1, CFG.rail), W / 2 + 4.5, y + 1.4, 7.4);
+          add(walls, box(0.2, 12, 0.2, CFG.steel), W / 2 + 8.6, y + 5.5, 6);
         }
+        for (var st = 0; st < 22; st++) {
+          add(walls, box(0.5, 0.12, 2.6, CFG.steel), W / 2 + 8.6 - st * 0.02, 1 + st * 2, 6 + Math.sin(st) * 0.6, 0, 0, 0);
+        }
+        label('冷箱（彩钢板外壳 / 剖切）', cx, H + 8, cz, 4);
 
-        /* 内部：主换热器（板束）、下塔、上塔、主冷、氩塔 */
+        /* 箱内：主换热器板束、上下塔（带塔板）、主冷、氩塔 */
         var inner = new THREE.Group(); inner.position.set(cx, 0, cz); world.add(inner);
-        var hx = new THREE.Group(); hx.position.set(-14, 0, -8); inner.add(hx);
-        for (var p2 = 0; p2 < 9; p2++) add(hx, box(0.9, 26, 8, mat.insulated), 0, 16, -4 + p2);
-        add(hx, box(10, 1.2, 10, mat.dark), 0, 2.4, 0);
+        var hx = new THREE.Group(); hx.position.set(-12, 0, -7); inner.add(hx);
+        for (var p2 = 0; p2 < 8; p2++) add(hx, box(1.0, 30, 7, CFG.insul), 0, 17, -3.5 + p2);
+        add(hx, box(9, 1.0, 8, CFG.steel), 0, 2.2, 0);
         hx.traverse(function (o) { if (o.isMesh) tag(o, 3); });
+        label('板翅式主换热器', cx - 12, 37, cz - 7, 3);
 
-        var lower = vessel(4, cx + 4, cz - 8, 5.6, 24, mat.insulated, 1);
-        var upper = vessel(4, cx + 4, cz + 12, 6.2, 34, mat.insulated, 1);
-        var ar = vessel(4, cx + 16, cz + 16, 2.9, 24, mat.insulated, 1);
-        var mc = new THREE.Group(); mc.position.set(cx + 4, 0, cz + 2); inner.add(mc);
-        add(mc, cyl(7.4, 7.4, 7, mat.insulated, 30), 0, 12, 0);
-        add(mc, dome(7.4, mat.insulated), 0, 15.6, 0);
-        mc.traverse(function (o) { if (o.isMesh) tag(o, 4); });
-        label('冷箱（保温箱体）', cx, 58, cz, 4, false, true);
-        label('板翅式主换热器', cx - 14, 34, cz - 8, 3);
-        label('精馏下塔', cx + 4, 40, cz - 8, 4, true);
-        label('精馏上塔', cx + 4, 50, cz + 12, 4);
-        label('冷凝蒸发器（主冷）', cx + 4, 24, cz + 2, 4, true);
-        label('粗氩 / 精氩塔', cx + 16, 36, cz + 16, 4, true);
-
-        /* 膨胀机 / 增压机冷箱外机组 */
-        var ex = new THREE.Group(); ex.position.set(cx - 16, 0, 26); world.add(ex);
-        add(ex, box(14, 1.4, 8, mat.pad), 0, 0.8, 0);
-        add(ex, cyl(2.4, 2.4, 9, mat.steel, 20), -3, 4.2, 0, 0, 0, Math.PI / 2);
-        add(ex, cyl(2.0, 2.0, 7, mat.copper, 18), 5, 4.2, 0, 0, 0, Math.PI / 2);
-        add(ex, box(5, 3, 3.4, mat.dark), 1, 2.6, 3.4);
-        ex.traverse(function (o) { if (o.isMesh) tag(o, 3); });
-        label('透平膨胀机 / 增压机', cx - 16, 12, 26, 3);
-      })();
-
-      /* ---------- 6 低温储罐 / 汽化器 / 充装 ---------- */
-      (function () {
-        function cryo(step, x, z, r, h, m, name) {
-          var g = new THREE.Group(); g.position.set(x, 0, z); world.add(g);
-          add(g, cyl(r + 3.4, r + 3.4, 1.6, mat.concrete, 26), 0, 0.8, 0);   /* 围堰 */
-          add(g, box((r + 3.4) * 2, 1.0, (r + 3.4) * 2, mat.pad), 0, 0.5, 0);
-          add(g, cyl(r * 0.95, r * 0.95, 4, mat.dark), 0, 3.4, 0);
-          add(g, cyl(r, r, h, m), 0, 5.4 + h / 2, 0);
-          add(g, dome(r, m), 0, 5.4 + h, 0);
-          add(g, dome(r, m), 0, 5.4, 0, Math.PI, 0, 0);
-          /* 顶部安全阀与管路 */
-          add(g, cyl(0.5, 0.5, 3, mat.steel, 12), r * 0.6, 5.4 + h + r * 0.5 + 1.6, 0);
-          add(g, cyl(1.0, 1.0, 12, mat.insulated, 16), 0, 5.4 + h * 0.55, r + 1.6, Math.PI / 2, 0, 0);
-          add(g, box(0.2, h * 0.7, 0.2, mat.rail), r + 1.4, 5.4 + h * 0.4, 0);
+        function column(x, z, r, h, step, name, trayColor) {
+          var g = new THREE.Group(); g.position.set(x, 0, z); inner.add(g);
+          add(g, cyl(r, r, h, CFG.insul, 30), 0, 4 + h / 2, 0);
+          add(g, dome(r, CFG.insul), 0, 4 + h, 0);
+          add(g, dome(r, CFG.insul), 0, 4, 0, Math.PI, 0, 0);
+          add(g, cyl(r * 0.9, r * 0.98, 4, CFG.blueDeep, 24), 0, 2, 0);
+          /* 剖切可见的塔板 */
+          for (var t = 1; t <= Math.round(h / 3.2); t++) {
+            add(g, cyl(r * 0.86, r * 0.86, 0.18, trayColor || CFG.steel, 24), 0, 4 + t * 3.2, 0);
+          }
           g.traverse(function (o) { if (o.isMesh) tag(o, step); });
-          label(name, x, 5.4 + h + r * 0.5 + 6, z, step);
+          if (name) label(name, x, 4 + h + r + 5, z, step, true);
           return g;
         }
-        cryo(5, 88, -32, 7.2, 20, mat.insulated, '液氧储罐');
-        cryo(5, 88, -2, 7.2, 20, mat.insulated, '液氮储罐');
-        cryo(5, 88, 30, 6.0, 17, M(mix(PAL.ar, FG, 0.35), { metalness: 0.35, roughness: 0.4 }), '液氩储罐');
+        column(cx + 4, cz - 7, 5.0, 22, 4, '精馏下塔');
+        column(cx + 4, cz + 9, 5.6, 32, 4, '精馏上塔');
+        column(cx + 15, cz + 13, 2.6, 22, 4, '粗氩 / 精氩塔');
+        var mc = new THREE.Group(); mc.position.set(cx + 4, 0, cz + 1); inner.add(mc);
+        add(mc, cyl(6.8, 6.8, 6.5, CFG.insul, 30), 0, 11, 0);
+        add(mc, dome(6.8, CFG.insul), 0, 14.2, 0);
+        mc.traverse(function (o) { if (o.isMesh) tag(o, 4); });
+        label('冷凝蒸发器（主冷）', cx + 4, 22, cz + 1, 4, true);
 
-        /* 水浴式汽化器 */
-        var v = new THREE.Group(); v.position.set(66, 0, 32); world.add(v);
-        add(v, box(12, 12, 9, mat.clad), 0, 6, 0);
-        for (var i = 0; i < 6; i++) add(v, box(11, 11, 0.4, mat.dark), 0, 6, -4 + i * 1.6);
-        add(v, cyl(1.6, 1.6, 9, mat.steel, 18), 7, 5, 0, 0, 0, Math.PI / 2);
-        add(v, cyl(1.2, 1.2, 8, mat.red, 16), 0, 13, -4);                 /* 排气筒 */
+        /* 箱外：透平膨胀机 / 增压机机组 */
+        var ex = new THREE.Group(); ex.position.set(cx - 20, 0, 26); world.add(ex);
+        add(ex, box(15, 1.2, 9, CFG.concrete), 0, 0.7, 0);
+        add(ex, cyl(2.4, 2.4, 9, CFG.steel, 22), -3, 3.8, 0, 0, 0, Math.PI / 2);
+        add(ex, cyl(2.0, 2.0, 7, CFG.insul, 20), 5, 3.8, 0, 0, 0, Math.PI / 2);
+        add(ex, box(5, 2.8, 3.2, CFG.blue), 1, 2.4, 3.4);
+        add(ex, cyl(1.2, 1.2, 6, CFG.steel, 16), 0, 8, 0);
+        ex.traverse(function (o) { if (o.isMesh) tag(o, 3); });
+        label('透平膨胀机 / 增压机', cx - 20, 11, 26, 3);
+      })();
+
+      /* ---------- Linde 字标（贴在两台大储罐与冷箱上） ---------- */
+      function lindeTexture() {
+        var c = document.createElement('canvas');
+        c.width = 512; c.height = 256;
+        var g2 = c.getContext('2d');
+        g2.fillStyle = '#0b3a75';
+        g2.beginPath();
+        var r = 26, w = 512, h = 256;
+        g2.moveTo(r, 0); g2.lineTo(w - r, 0); g2.quadraticCurveTo(w, 0, w, r);
+        g2.lineTo(w, h - r); g2.quadraticCurveTo(w, h, w - r, h);
+        g2.lineTo(r, h); g2.quadraticCurveTo(0, h, 0, h - r);
+        g2.lineTo(0, r); g2.quadraticCurveTo(0, 0, r, 0);
+        g2.closePath(); g2.fill();
+        g2.fillStyle = '#ffffff';
+        g2.font = 'bold 132px "Segoe UI", Arial, sans-serif';
+        g2.textAlign = 'center'; g2.textBaseline = 'middle';
+        g2.fillText('Linde', w / 2, h / 2 + 6);
+        g2.font = 'bold 40px "Segoe UI", Arial, sans-serif';
+        g2.fillStyle = 'rgba(255,255,255,.86)';
+        g2.fillText('AIR SEPARATION', w / 2, h / 2 + 88);
+        var tex = new THREE.CanvasTexture(c);
+        tex.encoding = THREE.sRGBEncoding;
+        return tex;
+      }
+      var lindeTex = lindeTexture();
+      function lindePlate(x, y, z, w, h, ry) {
+        var m = new THREE.MeshBasicMaterial({ map: lindeTex, transparent: true });
+        var p = new THREE.Mesh(new THREE.PlaneGeometry(w, h), m);
+        p.position.set(x, y, z);
+        if (ry) p.rotation.y = ry;
+        p.userData.noDim = true;
+        world.add(p);
+        return p;
+      }
+
+      /* ---------- 6 储罐 / 汽化器 / 充装 ---------- */
+      (function () {
+        function cryo(step, x, z, r, h, name) {
+          var g = new THREE.Group(); g.position.set(x, 0, z); world.add(g);
+          add(g, box((r + 4) * 2, 1.0, (r + 4) * 2, CFG.concrete), 0, 0.5, 0);
+          add(g, cyl(r + 4.2, r + 4.2, 1.8, CFG.blueDeep, 30), 0, 1.4, 0, 0, 0, 0).material = M(0x2c5f92, { m: 0.3, r: 0.6 });
+          add(g, cyl(r * 0.95, r * 0.95, 4, CFG.steel), 0, 3.9, 0);
+          add(g, cyl(r, r, h, CFG.insul), 0, 5.9 + h / 2, 0);
+          add(g, dome(r, CFG.insul), 0, 5.9 + h, 0);
+          add(g, dome(r, CFG.insul), 0, 5.9, 0, Math.PI, 0, 0);
+          add(g, cyl(0.5, 0.5, 3, CFG.steel, 12), r * 0.55, 5.9 + h + r * 0.5 + 1.4, 0);
+          add(g, cyl(1.0, 1.0, 12, CFG.insul, 16), 0, 5.9 + h * 0.55, r + 1.6, Math.PI / 2, 0, 0);
+          add(g, box(0.16, h * 0.6, 0.16, CFG.steel), r + 1.3, 5.9 + h * 0.35, 0);
+          g.traverse(function (o) { if (o.isMesh) tag(o, step); });
+          label(name, x, 5.9 + h + r * 0.5 + 6, z, step);
+          return g;
+        }
+        cryo(5, 88, -30, 7.4, 20, '液氧储罐');
+        cryo(5, 88, 0, 7.4, 20, '液氮储罐');
+        cryo(5, 88, 30, 5.6, 16, '液氩储罐');
+        lindePlate(88, 17, -30 + 7.62, 15.5, 5.4, 0);
+        lindePlate(88, 17, 0 + 7.62, 15.5, 5.4, 0);
+        lindePlate(88, 13.5, 30 + 5.75, 12.5, 4.4, 0);
+
+        /* 水浴式汽化器：水面 + 气泡 + 排汽 */
+        var v = new THREE.Group(); v.position.set(64, 0, 30); world.add(v);
+        add(v, box(13, 9, 10, CFG.clad), 0, 4.5, 0);
+        add(v, box(12.2, 0.6, 9.2, CFG.water), 0, 9.2, 0);
+        for (var i = 0; i < 7; i++) add(v, box(12, 8, 0.4, CFG.steel), 0, 4.5, -4 + i * 1.4);
+        add(v, cyl(1.5, 1.5, 9, CFG.insul, 18), 7.4, 4, 0, 0, 0, Math.PI / 2);
+        add(v, cyl(1.1, 1.1, 9, CFG.steel, 16), 0, 13.6, -4.2);
+        var bubbleMat = M(0xffffff, { m: 0, r: 0.3, op: 0.7 });
+        for (var b = 0; b < 16; b++) {
+          var sp = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 6), bubbleMat);
+          sp.position.set(-5.4 + (b % 8) * 1.55, 9.3, -3 + Math.floor(b / 8) * 5);
+          sp.userData.noDim = true;
+          v.add(sp);
+          bubbles.push({ mesh: sp, y0: 9.3, phase: b * 0.4 });
+        }
+        for (var vp = 0; vp < 5; vp++) {
+          var puff = new THREE.Mesh(new THREE.SphereGeometry(1.5 + vp * 0.25, 10, 8), CFG.vapor);
+          puff.position.set(0, 18 + vp * 2.6, -4.2);
+          puff.userData.noDim = true;
+          v.add(puff);
+          vapors.push({ mesh: puff, y0: 18 + vp * 2.6, phase: vp * 0.8 });
+        }
         v.traverse(function (o) { if (o.isMesh) tag(o, 5); });
-        label('水浴式汽化器', 66, 16, 32, 5);
+        label('水浴式汽化器', 64, 17, 30, 5);
 
         /* 充装台 + 槽车 */
         var s = new THREE.Group(); s.position.set(112, 0, 30); world.add(s);
-        add(s, box(18, 1.2, 12, mat.pad), 0, 0.6, 0);
-        add(s, box(3, 12, 3, mat.steel), -8, 6, -5);
-        add(s, box(3, 12, 3, mat.steel), 8, 6, -5);
-        add(s, box(19, 2.6, 0.6, mat.steel), 0, 11.4, -5);
-        add(s, box(8, 4, 5, mat.clad), -2, 6, -9);
-        var truck = new THREE.Group(); truck.position.set(2, 0, 6); s.add(truck);
-        add(truck, box(6, 3, 5.4, mat.clad), -7, 3.6, 0);
-        add(truck, cyl(2.6, 2.6, 14, mat.insulated, 22), 4, 4.4, 0, 0, 0, Math.PI / 2);
-        add(truck, box(18, 1.2, 5.2, mat.dark), 0, 1.6, 0);
+        add(s, box(20, 0.8, 13, CFG.concrete), 0, 0.4, 0);
+        add(s, box(2.6, 11, 2.6, CFG.blue), -9, 5.5, -5);
+        add(s, box(2.6, 11, 2.6, CFG.blue), 9, 5.5, -5);
+        add(s, box(21, 2.4, 0.6, CFG.steel), 0, 10.4, -5);
+        add(s, box(9, 4, 5, CFG.clad), -2, 6, -9);
+        var truck = new THREE.Group(); truck.position.set(2, 0, 7); s.add(truck);
+        add(truck, box(6, 3, 5.2, CFG.clad), -7.5, 3.6, 0);
+        add(truck, box(2.4, 1.2, 5, CFG.glass), -7.5, 4.6, 0);
+        add(truck, cyl(2.5, 2.5, 14, CFG.insul, 22), 4, 4.2, 0, 0, 0, Math.PI / 2);
+        add(truck, box(19, 1.2, 5, CFG.dark), 0, 1.5, 0);
         for (var w = 0; w < 3; w++) {
-          add(truck, cyl(1.3, 1.3, 1.2, mat.dark, 14), -7 + w * 7, 1.3, 2.6, Math.PI / 2, 0, 0);
-          add(truck, cyl(1.3, 1.3, 1.2, mat.dark, 14), -7 + w * 7, 1.3, -2.6, Math.PI / 2, 0, 0);
+          add(truck, cyl(1.3, 1.3, 1.1, CFG.dark, 14), -7 + w * 7, 1.2, 2.5, Math.PI / 2, 0, 0);
+          add(truck, cyl(1.3, 1.3, 1.1, CFG.dark, 14), -7 + w * 7, 1.2, -2.5, Math.PI / 2, 0, 0);
         }
         s.traverse(function (o) { if (o.isMesh) tag(o, 5); });
-        label('低温泵 / 充装台', 112, 16, 30, 5);
+        label('低温泵 / 充装台', 112, 15, 30, 5);
       })();
 
-      /* ---------- 7 产品压缩 ---------- */
+      /* ---------- 7 产品压缩厂房 ---------- */
       (function () {
-        var g = new THREE.Group(); g.position.set(120, 0, -26); world.add(g);
-        add(g, box(26, 12, 16, mat.clad), 0, 6, 0);
-        add(g, box(20, 1.0, 18, mat.pad), 0, 12.6, 0);
-        add(g, cyl(1.0, 1.0, 14, mat.o2 ? mat.steel : mat.steel, 16), 12, 8, 0, 0, 0, Math.PI / 2);
+        var g = new THREE.Group(); g.position.set(122, 0, -26); world.add(g);
+        add(g, box(26, 13, 17, CFG.clad), 0, 6.5, 0);
+        add(g, box(20, 2.6, 4, CFG.blue), 0, 14.4, 0);
+        add(g, box(20.4, 0.6, 17.4, CFG.concrete), 0, 13.4, 0);
+        add(g, cyl(1.0, 1.0, 14, CFG.o2, 16), 13, 8, 0, 0, 0, Math.PI / 2);
+        add(g, cyl(1.0, 1.0, 14, CFG.n2, 16), 13, 5, 3, 0, 0, Math.PI / 2);
         g.traverse(function (o) { if (o.isMesh) tag(o, 6); });
-        label('氧压机 / 氮压机厂房', 120, 15, -26, 6);
+        label('氧压机 / 氮压机厂房', 122, 17, -26, 6);
       })();
 
       /* ---------- 公用工程 ---------- */
       (function () {
-        var g = new THREE.Group(); g.position.set(34, 0, 52); world.add(g);
-        /* 变配电室 */
-        add(g, box(26, 8, 12, mat.clad), 0, 4, 0);
-        add(g, box(27, 0.8, 13, mat.pad), 0, 8.4, 0);
-        /* 变压器 */
+        var g = new THREE.Group(); g.position.set(34, 0, 54); world.add(g);
+        add(g, box(26, 8, 12, CFG.clad), 0, 4, 0);
+        add(g, box(27, 0.6, 13, CFG.concrete), 0, 8.3, 0);
         for (var i = 0; i < 3; i++) {
           var t = new THREE.Group(); t.position.set(-14 + i * 13, 0, 11); g.add(t);
-          add(t, box(4.6, 5.2, 3.4, mat.dark), 0, 3.4, 0);
-          for (var k = 0; k < 7; k++) add(t, box(0.3, 4.2, 0.4, mat.steel), -2.6, 3.4, -1.2 + k * 0.4);
-          add(t, cyl(0.28, 0.28, 2.6, mat.steel, 10), -1.2, 7, 0);
-          add(t, cyl(0.28, 0.28, 2.6, mat.steel, 10), 1.2, 7, 0);
-          add(t, box(6, 1.6, 4.4, mat.concrete), 0, 0.8, 0);
+          add(t, box(4.6, 5, 3.4, CFG.dark), 0, 3.3, 0);
+          for (var k = 0; k < 7; k++) add(t, box(0.28, 4, 0.4, CFG.steel), -2.6, 3.3, -1.2 + k * 0.4);
+          add(t, cyl(0.26, 0.26, 2.4, CFG.steel, 10), -1.2, 6.7, 0);
+          add(t, cyl(0.26, 0.26, 2.4, CFG.steel, 10), 1.2, 6.7, 0);
+          add(t, box(6, 1.4, 4.4, CFG.concrete), 0, 0.7, 0);
         }
         g.traverse(function (o) { if (o.isMesh) tag(o, 0); });
-        label('变配电室 / 主变压器', 34, 13, 52, 0, true);
+        label('变配电室 / 主变压器', 34, 12, 54, 0, true);
 
-        /* DCS 控制室 */
-        var c = new THREE.Group(); c.position.set(74, 0, 52); world.add(c);
-        add(c, box(30, 9, 14, mat.clad), 0, 4.5, 0);
-        add(c, box(29, 1.0, 13.6, mat.pad), 0, 9.4, 0);
-        add(c, box(28, 3.2, 0.4, mat.glass), 0, 5.4, -7.2);
+        var c = new THREE.Group(); c.position.set(76, 0, 54); world.add(c);
+        add(c, box(30, 9, 14, CFG.clad), 0, 4.5, 0);
+        add(c, box(29, 0.6, 13.6, CFG.concrete), 0, 9.3, 0);
+        add(c, box(28, 3.4, 0.4, CFG.glass), 0, 5.6, -7.2);
         c.traverse(function (o) { if (o.isMesh) tag(o, 0); });
-        label('DCS 控制室', 74, 14, 52, 0, true);
+        label('DCS 控制室', 76, 13, 54, 0, true);
       })();
 
-      /* ---------- 管廊（主干管） ---------- */
+      /* ---------- 管廊（蓝色钢结构 + 保温管） ---------- */
       (function () {
         var rack = new THREE.Group(); world.add(rack);
-        var x0 = -80, x1 = 132, z = -44;
+        var x0 = -84, x1 = 136, z = -46;
         for (var x = x0; x <= x1; x += 16) {
-          add(rack, box(1.2, 16, 1.2, mat.steel), x, 8, z - 3);
-          add(rack, box(1.2, 16, 1.2, mat.steel), x, 8, z + 3);
-          add(rack, box(1.0, 0.8, 7.6, mat.steel), x, 15.6, z);
-          add(rack, box(1.0, 0.6, 7.6, mat.steel), x, 11.6, z);
-          add(rack, box(1.0, 0.6, 7.6, mat.steel), x, 7.6, z);
+          add(rack, box(1.1, 18, 1.1, CFG.blue), x, 9, z - 3.2);
+          add(rack, box(1.1, 18, 1.1, CFG.blue), x, 9, z + 3.2);
+          add(rack, box(1.0, 0.7, 8, CFG.blue), x, 17.6, z);
+          add(rack, box(1.0, 0.6, 8, CFG.blue), x, 13.2, z);
+          add(rack, box(1.0, 0.6, 8, CFG.blue), x, 8.8, z);
+          add(rack, box(8, 0.12, 0.12, CFG.rail), x + 8, 18.4, z - 4);
         }
-        add(rack, box(x1 - x0, 0.5, 7.6, mat.steel), (x0 + x1) / 2, 16.1, z);
-        var lines = [
-          { c: PAL.air, y: 16.8, z: -1.6, r: 1.1 },
-          { c: PAL.n2, y: 12.4, z: -1.4, r: 0.95 },
-          { c: PAL.o2, y: 12.4, z: 1.2, r: 0.85 },
-          { c: PAL.water, y: 8.4, z: 1.6, r: 0.6 }
-        ];
-        lines.forEach(function (L) {
-          var m = M(L.c, { metalness: 0.5, roughness: 0.42 });
-          var pipe = cyl(L.r, L.r, x1 - x0, m, 16);
-          add(rack, pipe, (x0 + x1) / 2, L.y, z + L.z, 0, 0, Math.PI / 2);
-          for (var fx = x0 + 8; fx < x1; fx += 32) {
-            add(rack, cyl(L.r * 1.25, L.r * 1.25, 0.5, mat.dark, 16), fx, L.y, z + L.z, 0, 0, Math.PI / 2);
-          }
-        });
+        add(rack, box(x1 - x0, 0.4, 8, CFG.blue), (x0 + x1) / 2, 18.1, z);
+        function line(mat, y, zz, r) {
+          add(rack, cyl(r, r, x1 - x0, mat, 16), (x0 + x1) / 2, y, z + zz, 0, 0, Math.PI / 2);
+          for (var fx = x0 + 10; fx < x1; fx += 34) add(rack, cyl(r * 1.28, r * 1.28, 0.5, CFG.steel, 16), fx, y, z + zz, 0, 0, Math.PI / 2);
+        }
+        line(CFG.insul, 14.2, -1.9, 1.05);
+        line(CFG.n2, 14.2, 1.9, 0.75);
+        line(CFG.o2, 9.9, -1.6, 0.7);
+        line(CFG.air, 19.1, 0, 1.15);
         rack.traverse(function (o) { if (o.isMesh) tag(o, 0); });
-        label('工艺管廊', 10, 24, -44, 0, true, true);
+        label('工艺管廊', 6, 22, -46, 0, true);
       })();
 
       /* ---------- 管线与流动 ---------- */
       var flows = [];
       function pipe(points, color, r, speed, n) {
         var curve = new THREE.CatmullRomCurve3(points.map(function (p) { return new THREE.Vector3(p[0], p[1], p[2]); }));
-        var tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 140, r, 10, false),
-          M(color, { metalness: 0.5, roughness: 0.4 }));
-        tube.castShadow = true; world.add(tube);
+        var tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 140, r, 12, false), M(color, { m: 0.45, r: 0.35 }));
+        tube.castShadow = true; tube.userData.noDim = true; world.add(tube);
         var dotMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(color) });
         var dots = [];
         for (var i = 0; i < (n || 5); i++) {
-          var d = new THREE.Mesh(new THREE.SphereGeometry(r * 1.05, 8, 6), dotMat);
-          world.add(d); dots.push({ mesh: d, t: i / (n || 5) });
+          var d = new THREE.Mesh(new THREE.SphereGeometry(r * 1.15, 8, 6), dotMat);
+          d.userData.noDim = true; world.add(d);
+          dots.push({ mesh: d, t: i / (n || 5) });
         }
         flows.push({ curve: curve, dots: dots, speed: speed });
       }
-      /* 主空气：过滤器 → 空压机 → 预冷 → 分子筛 → 冷箱 */
-      pipe([[-66, 10, -22], [-52, 11, -22], [-34, 11, -22]], PAL.air, 1.5, 0.08, 4);
-      pipe([[-34, 11, -22], [-20, 12, -18], [-2, 13, -14], [14, 14, -10], [28, 15, -6]], PAL.air, 1.4, 0.08, 6);
-      pipe([[28, 15, -6], [34, 16, -2], [36, 14, -8]], PAL.air, 1.2, 0.09, 3);
-      /* 循环水 */
-      pipe([[-16, 6, 30], [-24, 5, 40], [-30, 5, 44]], PAL.water, 0.95, 0.06, 3);
-      pipe([[-6, 8, 44], [6, 9, 40], [30, 9, 30], [58, 9, 22]], PAL.water, 0.85, 0.05, 5);
-      /* 氮气：冷箱 → 储罐 → 压缩外送 */
-      pipe([[42, 22, 24], [62, 20, 26], [78, 18, 20], [88, 16, -2]], PAL.n2, 1.2, 0.075, 5);
-      pipe([[88, 16, -2], [104, 14, -10], [118, 12, -20]], PAL.n2, 1.1, 0.075, 4);
-      /* 氧气：冷箱 → 储罐 → 压缩外送 */
-      pipe([[42, 20, -14], [64, 18, -22], [80, 16, -30], [88, 14, -32]], PAL.o2, 1.15, 0.075, 5);
-      pipe([[88, 14, -32], [106, 12, -30], [120, 10, -26]], PAL.o2, 1.05, 0.075, 4);
-      /* 氩气与液氩 */
-      pipe([[52, 16, 20], [66, 14, 24], [78, 12, 28], [88, 10, 30]], PAL.ar, 0.85, 0.07, 4);
-      pipe([[88, 10, 30], [98, 9, 32], [108, 8, 30]], PAL.ar, 0.8, 0.07, 3);
+      pipe([[-68, 12, -24], [-52, 13, -24], [-34, 13, -24]], MEDIA.air, 1.5, 0.075, 4);
+      pipe([[-34, 13, -24], [-18, 14, -20], [-4, 15, -16], [14, 16, -12], [26, 16, -8]], MEDIA.air, 1.4, 0.075, 6);
+      pipe([[26, 16, -8], [32, 17, -4], [34, 14, -10]], MEDIA.air, 1.2, 0.085, 3);
+      pipe([[-30, 7, 30], [-34, 6, 40], [-38, 6, 46]], MEDIA.cw, 1.0, 0.055, 3);
+      pipe([[-4, 8, 34], [14, 9, 30], [34, 9, 24], [56, 9, 18]], MEDIA.cw, 0.9, 0.05, 5);
+      pipe([[36, 24, 20], [58, 22, 24], [76, 20, 18], [88, 18, 0]], MEDIA.n2, 1.2, 0.07, 5);
+      pipe([[88, 18, 0], [106, 16, -10], [122, 13, -22]], MEDIA.n2, 1.1, 0.07, 4);
+      pipe([[36, 22, -12], [62, 20, -22], [80, 18, -30], [88, 16, -30]], MEDIA.o2, 1.15, 0.07, 5);
+      pipe([[88, 16, -30], [106, 14, -28], [122, 12, -26]], MEDIA.o2, 1.05, 0.07, 4);
+      pipe([[48, 18, 14], [62, 16, 20], [76, 14, 26], [88, 12, 30]], MEDIA.ar, 0.9, 0.065, 4);
+      pipe([[88, 12, 30], [100, 10, 32], [110, 9, 30]], MEDIA.ar, 0.85, 0.065, 3);
+      pipe([[64, 11, 30], [66, 11, 22], [74, 12, 6], [72, 12, -14]], MEDIA.o2, 0.7, 0.06, 3);
 
       /* ---------- 交互 ---------- */
       var stepButtons = [];
@@ -597,7 +692,7 @@
         b.setAttribute('role', 'tab');
         b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
         b.textContent = s.label;
-        b.addEventListener('click', function () { select(i); });
+        b.addEventListener('click', function () { stopTour(); select(i); flyTo(i); });
         stepsEl.appendChild(b);
         stepButtons.push(b);
       });
@@ -612,9 +707,45 @@
         var s = STEPS[i];
         noEl.textContent = '工艺步骤 ' + (i + 1) + ' / ' + STEPS.length;
         nameEl.textContent = s.name;
+        enEl.textContent = s.en;
         descEl.textContent = s.desc;
         paramsEl.innerHTML = s.params.map(function (p) { return '<dt>' + p[0] + '</dt><dd>' + p[1] + '</dd>'; }).join('');
       }
+
+      /* ---------- 镜头：自动取景 + 巡游 ---------- */
+      var goal = { t: new THREE.Vector3(28, 8, -2), a: OVERVIEW.a, p: OVERVIEW.p, r: 260 };
+      var follow = false, touring = false, tourTimer = 0;
+
+      function fitDistance() {
+        var spanX = 302, spanY = 168;
+        var vFov = camera.fov * Math.PI / 180;
+        var hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
+        return Math.max((spanX / 2) / Math.tan(hFov / 2), (spanY / 2) / Math.tan(vFov / 2)) * 0.95;
+      }
+      function flyTo(i) {
+        var s = SHOTS[i];
+        goal.t.set(s.t[0], s.t[1], s.t[2]);
+        goal.a = s.a; goal.p = s.p; goal.r = s.r;
+        follow = true;
+      }
+      function flyOverview() {
+        goal.t.set(OVERVIEW.t[0], OVERVIEW.t[1], OVERVIEW.t[2]);
+        goal.a = OVERVIEW.a; goal.p = OVERVIEW.p; goal.r = fitDistance();
+        follow = true;
+      }
+      function startTour() {
+        touring = true; tourTimer = 0;
+        tourBtn.setAttribute('aria-pressed', 'true');
+        tourBtn.textContent = '■ 停止巡游';
+        select(0); flyTo(0);
+      }
+      function stopTour() {
+        if (!touring) return;
+        touring = false;
+        tourBtn.setAttribute('aria-pressed', 'false');
+        tourBtn.textContent = '▶ 镜头巡游';
+      }
+      tourBtn.addEventListener('click', function () { touring ? stopTour() : startTour(); });
 
       function project(v) {
         var p = v.clone().project(camera);
@@ -622,63 +753,106 @@
       }
 
       var dragging = false, lx = 0, ly = 0;
-      canvas.addEventListener('pointerdown', function (e) { dragging = true; lx = e.clientX; ly = e.clientY; canvas.setPointerCapture(e.pointerId); });
-      canvas.addEventListener('pointerup', function (e) { dragging = false; try { canvas.releasePointerCapture(e.pointerId); } catch (err) {} });
+      canvas.addEventListener('pointerdown', function (e) {
+        dragging = true; lx = e.clientX; ly = e.clientY;
+        canvas.setPointerCapture(e.pointerId);
+      });
+      canvas.addEventListener('pointerup', function (e) {
+        dragging = false; try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+      });
       canvas.addEventListener('pointermove', function (e) {
         if (!dragging) return;
-        azim -= (e.clientX - lx) * 0.005;
-        pitch = Math.max(0.05, Math.min(1.20, pitch + (e.clientY - ly) * 0.0035));
+        stopTour(); follow = false;
+        view.a -= (e.clientX - lx) * 0.005;
+        view.p = Math.max(0.05, Math.min(1.2, view.p + (e.clientY - ly) * 0.0035));
+        goal.a = view.a; goal.p = view.p;
         lx = e.clientX; ly = e.clientY;
       });
       canvas.addEventListener('wheel', function (e) {
         e.preventDefault();
-        userZoom = true;
-        radius = Math.max(90, Math.min(460, radius + e.deltaY * 0.20));
+        stopTour(); follow = false;
+        view.r = Math.max(60, Math.min(600, view.r + e.deltaY * 0.22));
+        goal.r = view.r;
       }, { passive: false });
 
-      var userZoom = false;
-      function fitDistance() {
-        var spanX = 330, spanY = 172;
-        var vFov = camera.fov * Math.PI / 180;
-        var hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
-        return Math.max((spanX / 2) / Math.tan(hFov / 2), (spanY / 2) / Math.tan(vFov / 2)) * 0.92;
-      }
       function resize() {
         var w = canvas.clientWidth || 640, h = canvas.clientHeight || 400;
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        if (!userZoom) radius = fitDistance();
+        if (!follow) { goal.r = fitDistance(); view.r = goal.r; }
       }
       if (window.ResizeObserver) new ResizeObserver(resize).observe(canvas);
       window.addEventListener('resize', resize);
 
       var clock = new THREE.Clock();
       function frame() {
+        try { frameBody(); }
+        catch (err) {
+          var hintEl = root.querySelector('.asu-hint');
+          if (hintEl) hintEl.textContent = '渲染错误: ' + (err && err.message ? err.message : err);
+          requestAnimationFrame(frame);
+        }
+      }
+      function frameBody() {
         var dt = Math.min(clock.getDelta(), 0.05);
+        /* 巡游推进 */
+        if (touring) {
+          tourTimer += dt;
+          if (tourTimer > 6.5) {
+            if (current < STEPS.length - 1) { select(current + 1); flyTo(current + 1); }
+            else { stopTour(); }
+            tourTimer = 0;
+          }
+        }
+        /* 平滑跟随目标镜头 */
+        if (follow) {
+          var k = 1 - Math.exp(-2.6 * dt);
+          view.t.lerp(goal.t, k);
+          view.a += (goal.a - view.a) * k;
+          view.p += (goal.p - view.p) * k;
+          view.r += (goal.r - view.r) * k;
+          if (view.t.distanceTo(goal.t) < 0.6 && Math.abs(goal.r - view.r) < 1.5) follow = false;
+        }
         camera.position.set(
-          target.x + radius * Math.cos(pitch) * Math.sin(azim),
-          target.y + radius * Math.sin(pitch),
-          target.z + radius * Math.cos(pitch) * Math.cos(azim)
+          view.t.x + view.r * Math.cos(view.p) * Math.sin(view.a),
+          view.t.y + view.r * Math.sin(view.p),
+          view.t.z + view.r * Math.cos(view.p) * Math.cos(view.a)
         );
-        camera.lookAt(target);
+        camera.lookAt(view.t);
+
+        /* 高亮当前工序 */
         dimmable.forEach(function (m) {
           if (m.userData.noDim) return;
           var on = m.userData.step === current;
           var base = m.userData.baseOpacity === undefined ? 1 : m.userData.baseOpacity;
           m.material.transparent = true;
-          m.material.opacity = on ? base : Math.min(base, 0.44);
+          m.material.opacity = on ? base : Math.min(base, 0.62);
           if (m.material.emissive) {
-            m.material.emissive.setHex(on ? new THREE.Color(PAL.air).getHex() : 0x000000);
-            m.material.emissiveIntensity = on ? 0.10 : 0;
+            m.material.emissive.setHex(on ? 0x0a2a4a : 0x000000);
+            m.material.emissiveIntensity = on ? 0.06 : 0;
           }
         });
+        /* 流动、气泡、蒸气 */
         flows.forEach(function (f) {
           f.dots.forEach(function (d) {
             d.t = (d.t + dt * f.speed) % 1;
             d.mesh.position.copy(f.curve.getPointAt(d.t));
           });
         });
+        var tm = performance.now() / 1000;
+        bubbles.forEach(function (b) {
+          var p = (tm * 0.5 + b.phase) % 1;
+          b.mesh.position.y = b.y0 - p * 3.6;
+          b.mesh.material.opacity = 0.75 * (1 - p);
+        });
+        vapors.forEach(function (v2) {
+          var p = (tm * 0.22 + v2.phase) % 1;
+          v2.mesh.position.y = v2.y0 + p * 9;
+          v2.mesh.scale.setScalar(0.7 + p * 0.9);
+          v2.mesh.material.opacity = 0.30 * (1 - p);
+        });
+        /* 标签 */
         var w = canvas.clientWidth, h = canvas.clientHeight;
         labels.forEach(function (L) {
           var pt = project(L.pos);
@@ -694,7 +868,19 @@
 
       resize();
       select(0);
+      flyOverview();
       frame();
+      /* 调试用：暴露相机状态（不影响正常使用） */
+      window.__asu = {
+        state: function () {
+          return {
+            r: +view.r.toFixed(1), gr: +goal.r.toFixed(1),
+            t: [+view.t.x.toFixed(1), +view.t.y.toFixed(1), +view.t.z.toFixed(1)],
+            gt: [+goal.t.x.toFixed(1), +goal.t.y.toFixed(1), +goal.t.z.toFixed(1)],
+            follow: follow, touring: touring, current: current
+          };
+        }
+      };
     }
     start();
   })();
