@@ -35,7 +35,7 @@ html.t-light {
   --t-line-2: rgba(23, 46, 99, .18);
   --t-ink: #101a33;
   --t-ink-2: #4a5670;
-  --t-ink-3: #7d89a3;
+  --t-ink-3: #6b7793;
   --t-grid: rgba(47, 107, 255, .085);
   --t-grid-2: rgba(47, 107, 255, .05);
   --t-glow: rgba(47, 107, 255, .20);
@@ -54,9 +54,12 @@ html.t-light {
   --line2: rgba(23, 46, 99, .18);
   --ink: #101a33;
   --ink2: #4a5670;
-  --ink3: #7d89a3;
+  --ink3: #6b7793;
   --ink-2: #4a5670;
-  --ink-3: #7d89a3;
+  --ink-3: #6b7793;
+  /* 涨跌色：浅色底上用深一档，避免发灰看不清 */
+  --up: #d92b3e;
+  --down: #0b7a43;
   --muted: #f5f8fe;
   --muted-foreground: #4a5670;
   --accent: #2f6bff;
@@ -109,6 +112,9 @@ html.t-dark {
   --ink3: #6b7a97;
   --ink-2: #9aabc7;
   --ink-3: #6b7a97;
+  /* 深色底上用亮一档 */
+  --up: #f6465d;
+  --down: #2ebd85;
   --muted: #121c30;
   --muted-foreground: #9aabc7;
   --accent: #4f8cff;
@@ -803,6 +809,12 @@ html.t-dark[data-def="light"] .warn.key {
 }
 html.t-dark[data-def="light"] .prog-bar { background: color-mix(in srgb, var(--t-ink) 16%, transparent) !important; }
 html.t-dark[data-def="light"] .day { border-bottom-color: var(--t-line) !important; }
+html.t-dark[data-def="light"] .today-row,
+html.t-dark[data-def="light"] .day.today,
+html.t-dark[data-def="light"] .day.today-row {
+  background: rgba(240, 185, 11, .13) !important;
+  border-radius: 10px;
+}
 html.t-dark[data-def="light"] .chk { border-color: var(--t-line-2) !important; }
 html.t-dark[data-def="light"] tr { background: transparent !important; }
 /* 深色下浅色底按钮/圆标会变成白底白字，这里换回主色 */
@@ -854,6 +866,17 @@ a:focus-visible, button:focus-visible { outline: 2px solid color-mix(in srgb, va
 
 /* ---------------------------------------------------------- 6. 响应式 */
 /* 卡内微型走势图（DeepSeek 余额） */
+/* 浅色底上的琥珀色数字偏亮，压深一档 */
+html.t-light .warm,
+html.t-light .v.warm,
+html.t-light .dswarm,
+html.t-light .t-tick b.warm { color: #a06800 !important; }
+html.t-light .go.warm {
+  background: linear-gradient(96deg, #a06800, #8a5a00);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
 .t-spark { display: none; margin-top: 14px; color: var(--t-acc); }
 .t-spark.on { display: block; }
 .t-spark-k {
