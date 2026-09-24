@@ -10,24 +10,24 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%235b8cff'/><stop offset='1' stop-color='%23f0b90b'/></linearGradient></defs><rect width='100' height='100' rx='26' fill='url(%23g)'/><circle cx='50' cy='50' r='16' fill='white'/></svg>">
 <style>
   :root{
-    --bg:#080b12;
-    --panel:#0e1420;
-    --panel2:#131b2a;
-    --line:#1d2637;
-    --line2:#26314a;
-    --ink:#e9eff9;
-    --ink2:#98a7bf;
-    --ink3:#66748d;
-    --up:#f6465d;
-    --down:#2ebd85;
-    --accent:#5b8cff;
+    --bg:#f2f5fa;
+    --panel:#ffffff;
+    --panel2:#f6f8fc;
+    --line:#e4e9f3;
+    --line2:#ccd7e9;
+    --ink:#182033;
+    --ink2:#54617a;
+    --ink3:#8b96ab;
+    --up:#e5484d;
+    --down:#0f8a63;
+    --accent:#2f6bff;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   body{
     min-height:100vh;
     background:
-      radial-gradient(1000px 520px at 10% -14%, rgba(91,140,255,.14), transparent 62%),
-      radial-gradient(880px 460px at 94% -8%, rgba(240,185,11,.08), transparent 58%),
+      radial-gradient(1000px 520px at 10% -14%, rgba(47,107,255,.10), transparent 62%),
+      radial-gradient(880px 460px at 94% -8%, rgba(240,185,11,.14), transparent 58%),
       var(--bg);
     background-attachment:fixed;
     color:var(--ink);
@@ -41,29 +41,28 @@
 
   header{padding:56px 0 8px}
   .tag{font-size:11.5px;letter-spacing:.28em;font-weight:700;
-    background:linear-gradient(90deg,#5b8cff,#f0b90b);
+    background:linear-gradient(90deg,#2f6bff,#c08a00);
     -webkit-background-clip:text;background-clip:text;color:transparent}
   h1{font-size:clamp(30px,5vw,46px);font-weight:750;letter-spacing:-.01em;margin-top:12px;line-height:1.2}
   .lede{margin-top:14px;font-size:15.5px;color:var(--ink2);max-width:52ch}
-
-  /* ---------- 油表 ---------- */
-  .gauge{margin-top:10px}
-  .gauge svg{display:block;width:100%;max-width:360px;height:auto;margin:0 auto}
-  .gauge text{font-family:inherit;font-variant-numeric:tabular-nums}
 
   main{flex:1 1 auto;padding-bottom:70px}
   .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;margin-top:34px;align-items:start}
   .card{grid-column:span 6;position:relative;display:block;background:var(--panel);border:1px solid var(--line);border-radius:22px;
     overflow:hidden;transition:transform .26s cubic-bezier(.2,.7,.3,1),border-color .26s ease,box-shadow .26s ease}
-  .card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--acc,#33415f);opacity:.9}
-  .acc-gold{--acc:#f0b90b}
-  .acc-blue{--acc:#4d6bfe}
-  .acc-sky{--acc:#5b8cff}
-  .acc-red{--acc:#f6465d}
-  .acc-green{--acc:#2ebd85}
-  .acc-warm{--acc:#c99a2e}
+  .card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--acc,#ccd7e9);opacity:.95}
+  .acc-gold{--acc:#d99e00;--acc-soft:rgba(217,158,0,.12)}
+  .acc-blue{--acc:#3b5bfd;--acc-soft:rgba(59,91,253,.11)}
+  .acc-sky{--acc:#2f6bff;--acc-soft:rgba(47,107,255,.11)}
+  .acc-red{--acc:#e5484d;--acc-soft:rgba(229,72,77,.10)}
+  .acc-green{--acc:#0f8a63;--acc-soft:rgba(15,138,99,.11)}
+  .acc-warm{--acc:#b7791f;--acc-soft:rgba(183,121,31,.12)}
   .card:hover{transform:translateY(-5px);border-color:var(--line2);
-    box-shadow:0 30px 60px -34px rgba(0,0,0,.95)}
+    box-shadow:0 26px 46px -30px rgba(19,32,60,.45)}
+  /* 卡片图标 */
+  .ico{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    background:var(--acc-soft,#eef2f9);color:var(--acc,#2f6bff);margin-bottom:14px;flex:none}
+  .ico svg{width:23px;height:23px;display:block}
   .meta{padding:24px 24px 22px}
   .meta.split{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:16px 32px;align-items:start}
   .mcol{min-width:0}
@@ -74,25 +73,25 @@
   .meta h2{font-size:19px;font-weight:700;margin-top:8px;letter-spacing:.01em}
   .meta p{font-size:13.5px;color:var(--ink2);margin-top:8px}
   .meta .now{font-size:14.5px;color:var(--ink);margin-top:10px;font-weight:600}
-  .meta .now b{color:#ff8b9a;font-weight:700}
+  .meta .now b{color:#d92b3e;font-weight:700}
   .meta .nowsub{font-size:12px;color:var(--ink3);margin-top:3px}
   .go{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-size:13px;
     font-weight:650;color:var(--accent);transition:gap .22s ease}
   .card:hover .go{gap:12px}
-  .go.warm{color:#e0a93b}
+  .go.warm{color:#b7791f}
 
   .stats{display:flex;gap:22px;margin-top:14px;flex-wrap:wrap}
   .stats .st{display:flex;flex-direction:column;gap:2px}
   .stats .st i{font-style:normal;font-size:11.5px;color:var(--ink3)}
   .stats .st b{font-size:17px;font-weight:750;letter-spacing:-.01em;
-    font-variant-numeric:tabular-nums;color:var(--ink2)}
+    font-variant-numeric:tabular-nums;color:var(--ink)}
   .stats .st b.up{color:var(--up)}
   .stats .st b.down{color:var(--down)}
-  .stats .st b.dsbal{color:#6f8bff}
-  .stats .st b.dswarm{color:#e0a93b}
+  .stats .st b.dsbal{color:#3b5bfd}
+  .stats .st b.dswarm{color:#b7791f}
 
   footer{border-top:1px solid var(--line);padding:26px 0 40px;
-    font-size:12.5px;color:var(--ink3);text-align:center;background:rgba(10,14,22,.6)}
+    font-size:12.5px;color:var(--ink3);text-align:center;background:rgba(255,255,255,.7)}
 
   .card{cursor:pointer}
   .card.wide{grid-column:1 / -1}
@@ -121,7 +120,7 @@
   /* ---------- 卡内直接操作（工作 / 半马） ---------- */
   .grid{align-items:start}                    /* 卡片高度各随内容，不强行一样高 */
   .card.live{cursor:default}
-  .card.live:hover{transform:none;box-shadow:0 24px 46px -38px rgba(0,0,0,.9)}
+  .card.live:hover{transform:none;box-shadow:0 14px 30px -26px rgba(19,32,60,.4)}
   .meta .k,.meta h2,.meta .now,.meta .nowsub{display:block}
   .mhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
     margin:16px 0 2px;padding-top:14px;border-top:1px solid var(--line);
@@ -129,9 +128,9 @@
   .mhead b{color:var(--ink2);font-weight:650;letter-spacing:0;font-variant-numeric:tabular-nums}
   .mlist{margin-top:4px}
   .mrow{display:flex;align-items:center;gap:9px;padding:7px 0;font-size:13.5px;
-    border-bottom:1px dashed rgba(255,255,255,.055)}
+    border-bottom:1px dashed rgba(24,32,51,.09)}
   .mrow:last-child{border-bottom:none}
-  .mrow.today{background:rgba(91,140,255,.09);border-radius:10px;padding-left:9px;padding-right:9px}
+  .mrow.today{background:rgba(47,107,255,.075);border-radius:10px;padding-left:9px;padding-right:9px}
   .mrow .md{flex:none;min-width:56px;font-size:11.5px;color:var(--ink3);
     font-variant-numeric:tabular-nums;letter-spacing:.02em}
   .mrow.today .md{color:var(--accent)}
@@ -142,37 +141,28 @@
   .mrow.done .md{opacity:.65}
   .mrow.done .edit{color:var(--ink3);text-decoration:line-through}
   .tick2{appearance:none;flex:none;width:24px;height:24px;border-radius:8px;cursor:pointer;
-    border:1.5px solid #2c3a56;background:#0d1421;color:transparent;
+    border:1.5px solid #c9d4e6;background:#fff;color:transparent;
     display:inline-flex;align-items:center;justify-content:center;padding:0;font-family:inherit;
     transition:background .16s,border-color .16s,color .16s}
   .tick2::after{content:"";display:block;width:5px;height:9px;margin-top:-2px;border-radius:1px;
     border:2px solid currentColor;border-top:0;border-left:0;transform:rotate(45deg)}
   .tick2::before{content:"";position:absolute;inset:-7px}   /* 扩大点击范围，不改布局 */
   .tick2{position:relative}
-  .tick2:hover{border-color:#3d4e73}
-  .tick2.on{background:var(--down);border-color:var(--down);color:#04120c}
+  .tick2:hover{border-color:#94a9cc;background:#f6f9ff}
+  .tick2.on{background:var(--down);border-color:var(--down);color:#fff}
   .tick2.void{visibility:hidden;cursor:default}
   .mrow .edit{flex:1;min-width:0;background:transparent;border:none;outline:none;color:var(--ink);
     font:inherit;font-size:13.5px;padding:2px 4px;border-radius:7px}
-  .mrow .edit:focus{background:#0b111c;box-shadow:inset 0 0 0 1px var(--line2)}
+  .mrow .edit:focus{background:#f4f7fd;box-shadow:inset 0 0 0 1px var(--line2)}
   .mrow .del2{flex:none;width:22px;height:22px;border-radius:7px;border:none;background:transparent;
     color:var(--ink3);cursor:pointer;font-size:12px;line-height:1;opacity:0;
     transition:opacity .16s,background .16s,color .16s}
   .mrow:hover .del2{opacity:1}
   @media (hover:none){.mrow .del2{opacity:.65}}
-  .mrow .del2:hover{background:rgba(246,70,93,.16);color:#f6465d}
-  .wadd{display:flex;gap:8px;margin-top:12px}
-  .wadd input{flex:1;min-width:0;background:#0b111c;border:1px solid var(--line);border-radius:11px;
-    padding:9px 12px;color:var(--ink);font:inherit;font-size:13px}
-  .wadd input:focus{outline:none;border-color:var(--line2)}
-  .wadd input::placeholder{color:var(--ink3)}
-  .wadd button{flex:none;appearance:none;font:inherit;font-size:13px;font-weight:650;cursor:pointer;
-    padding:9px 15px;border-radius:11px;border:1px solid var(--line);background:var(--panel2);color:var(--ink2);
-    transition:color .18s,border-color .18s}
-  .wadd button:hover{color:var(--ink);border-color:var(--line2)}
+  .mrow .del2:hover{background:rgba(229,72,77,.12);color:#e5484d}
   .empty2{padding:12px 0;font-size:13px;color:var(--ink3)}
   .hint2{margin-top:10px;font-size:11.5px;color:var(--ink3)}
-  .hint2.warn{color:#e0a93b}
+  .hint2.warn{color:#b45309}
 </style>
 </head>
 <body>
@@ -191,27 +181,29 @@
     <a class="card acc-blue wide" href="./deepseek.html">
       <div class="meta split">
         <div class="mcol">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 8.6l3 3.9 3-3.9"/><path d="M12 12.5V16"/><path d="M9.6 13.6h4.8M9.6 15.4h4.8"/></svg></span>
           <div class="k">01 / DEEPSEEK API USAGE</div>
           <h2>DeepSeek 余额与消耗</h2>
-          <p>每天 00:00 自动记录余额 · 满油按 ¥500 算，指针越靠 E 越该充值</p>
-          <div class="stats">
-            <div class="st"><i>近 24h 使用</i><b class="dswarm" id="dsUsed">&#8212;</b></div>
-            <div class="st"><i>满油线</i><b class="dsbal">&#165;500</b></div>
-          </div>
+          <p>每天 00:00 自动记录余额与消耗，趋势一页看完。</p>
           <div class="go">打开详情 &#8594;</div>
         </div>
         <div class="mcol">
-          <div class="mhead"><span>余额油表</span><b id="dsPct"></b></div>
-          <div class="gauge" id="dsGauge"><div class="empty2">读取中…</div></div>
+          <div class="mhead"><span>账户</span><b id="dsMeta">&#8212;</b></div>
+          <div class="stats">
+            <div class="st"><i>当前余额</i><b class="dsbal" id="dsBal">&#8212;</b></div>
+            <div class="st"><i>近 24h 使用</i><b class="dswarm" id="dsUsed">&#8212;</b></div>
+          </div>
         </div>
       </div>
     </a>
     <a class="card acc-sky wide" href="./asu.html">
       <div class="meta split">
         <div class="mcol">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.9l8 4.6v9L12 21.1l-8-4.6v-9z"/><path d="M4 7.5l8 4.6 8-4.6M12 12.1v9"/></svg></span>
           <div class="k">02 / AIR SEPARATION UNIT · 3D</div>
           <h2>空分装置工艺流程</h2>
           <p>三维布置 · 压缩 / 预冷 / 纯化 / 制冷 / 精馏 / 储运 / 外送</p>
+          <div class="go">打开三维图 &#8594;</div>
         </div>
         <div class="mcol">
           <div class="mhead"><span>交互方式</span><b>3D</b></div>
@@ -219,7 +211,7 @@
             <div class="st"><i>工序</i><b>7 步可点选</b></div>
             <div class="st"><i>视角</i><b>可旋转缩放</b></div>
           </div>
-          <div class="go">打开三维图 &#8594;</div>
+          <div class="hint2">点工序节点看参数，拖动旋转、滚轮缩放</div>
         </div>
       </div>
     </a>
@@ -228,6 +220,7 @@
     <div class="card live wide acc-green" id="cardHM">
       <div class="meta split">
         <div class="mcol">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13.4" r="7.6"/><path d="M12 9.6v3.9l2.6 1.6"/><path d="M9.4 2.6h5.2M12 2.6v3.2"/></svg></span>
           <div class="k">01 / HALF MARATHON PLAN</div>
           <h2>半马训练计划</h2>
           <p class="now"><span id="hmWhen">今天</span>：<b id="hmWhat">—</b></p>
@@ -247,6 +240,7 @@
     </div>
     <a class="card acc-red" href="./portfolio.html">
       <div class="meta">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M7.6 15.4l3.4-3.8 2.8 2.3 4.2-6"/></svg></span>
         <div class="k">02 / INVESTMENT OVERVIEW</div>
         <h2>投资总览 · 收益与持仓</h2>
         <p>每日盈亏记录 + 实时持仓行情，一页看完</p>
@@ -259,6 +253,7 @@
     </a>
     <a class="card acc-warm" href="./wujiang.html">
       <div class="meta">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c4.6-4.4 7-7.7 7-10.6A7 7 0 0 0 5 10.4C5 13.3 7.4 16.6 12 21z"/><circle cx="12" cy="10.3" r="2.6"/></svg></span>
         <div class="k">03 / LOCAL DEVELOPMENT WATCH</div>
         <h2>婺江路片区实时追踪</h2>
         <p>杭州望江单元 WJ-01 · 拆迁 / 出让 / 建设进展 · 项目档案</p>
@@ -617,57 +612,12 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
     });
   })();
 
-  // DeepSeek 余额卡片：油表（满油 = ¥500）+ 近 24 小时使用额
+  // DeepSeek 余额卡片：读云端记录，展示当前余额与过去 24 小时使用额
   (function () {
-    var FULL = 500;                                  // 满油 = ¥500
-    function money(v) { return "\u00A5" + v.toFixed(2); }
-
-    function gaugeSvg(bal) {
-      var v = Math.max(0, Math.min(1, bal / FULL));
-      var cx = 120, cy = 104, R = 86;
-      var tone = v < 0.15 ? "#f6465d" : (v < 0.35 ? "#e0a93b" : "#2ebd85");
-      function pt(fi, rad) {
-        var a = Math.PI * (1 - fi);
-        return [(cx + rad * Math.cos(a)).toFixed(1), (cy - rad * Math.sin(a)).toFixed(1)];
-      }
-      function nn(n) { return Number(n).toFixed(1); }
-      var p0 = pt(0, R), p1 = pt(1, R), pz = pt(0.15, R);
-      var s = '<svg viewBox="0 0 240 168" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DeepSeek 余额油表">';
-      s += '<path d="M' + nn(p0[0]) + ',' + nn(p0[1]) + ' A' + R + ',' + R + ' 0 0 1 ' + nn(p1[0]) + ',' + nn(p1[1]) +
-           '" fill="none" stroke="#1b2436" stroke-width="12" stroke-linecap="round"/>';
-      if (v > 0.005) {
-        var pv = pt(v, R);
-        s += '<path d="M' + nn(p0[0]) + ',' + nn(p0[1]) + ' A' + R + ',' + R + ' 0 0 1 ' + nn(pv[0]) + ',' + nn(pv[1]) +
-             '" fill="none" stroke="' + tone + '" stroke-width="12" stroke-linecap="round"/>';
-      }
-      // 低油量警示带：贴在油量弧外侧的一段细红条，满油时也看得见
-      var q0 = pt(0, R + 9), qz = pt(0.15, R + 9);
-      s += '<path d="M' + nn(q0[0]) + ',' + nn(q0[1]) + ' A' + (R + 9) + ',' + (R + 9) + ' 0 0 1 ' +
-           nn(qz[0]) + ',' + nn(qz[1]) + '" fill="none" stroke="rgba(246,70,93,.6)" stroke-width="4" stroke-linecap="round"/>';
-      for (var i = 0; i <= 8; i++) {
-        var major = (i % 2 === 0);
-        var a1 = pt(i / 8, R - 20), a2 = pt(i / 8, R - (major ? 34 : 28));
-        s += '<line x1="' + nn(a1[0]) + '" y1="' + nn(a1[1]) + '" x2="' + nn(a2[0]) + '" y2="' + nn(a2[1]) +
-             '" stroke="' + (major ? "#3a4a6d" : "#26314a") + '" stroke-width="2" stroke-linecap="round"/>';
-      }
-      s += '<g transform="rotate(' + (-180 * v).toFixed(1) + ' ' + cx + ' ' + cy + ')">' +
-             '<line x1="' + cx + '" y1="' + cy + '" x2="' + (cx + R - 12) + '" y2="' + cy +
-             '" stroke="' + tone + '" stroke-width="3.5" stroke-linecap="round"/></g>' +
-           '<circle cx="' + cx + '" cy="' + cy + '" r="6.5" fill="#0e1420" stroke="' + tone + '" stroke-width="3"/>';
-      s += '<text x="28" y="' + (cy + 20) + '" text-anchor="middle" fill="#66748d" style="font-size:12px;font-weight:700">E</text>';
-      s += '<text x="212" y="' + (cy + 20) + '" text-anchor="middle" fill="#66748d" style="font-size:12px;font-weight:700">F</text>';
-      s += '<text x="' + cx + '" y="' + (cy + 36) + '" text-anchor="middle" fill="#e9eff9" style="font-size:24px;font-weight:750">' +
-           money(bal) + '</text>';
-      s += '<text x="' + cx + '" y="' + (cy + 54) + '" text-anchor="middle" fill="#98a7bf" style="font-size:12px">油箱 ' +
-           Math.round(v * 100) + '% · 满油 \u00A5' + FULL + '</text>';
-      return s + '</svg>';
-    }
-
     function fill() {
       var eBal = document.getElementById("dsBal");
       var eUsed = document.getElementById("dsUsed");
-      var eG = document.getElementById("dsGauge");
-      var ePct = document.getElementById("dsPct");
+      var eMeta = document.getElementById("dsMeta");
       var d = (window.WB && WB.ready) ? WB.data : {};
       var keys = [];
       for (var k in d) {
@@ -682,17 +632,21 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
         if (bal !== null && prev && typeof prev.bal === "number") used = +(prev.bal - bal).toFixed(2);
       }
       if (eBal) {
-        eBal.textContent = bal === null ? "\u2014" : money(bal);
+        eBal.textContent = (bal === null) ? "\u2014" : ("\u00A5" + bal.toFixed(2));
         eBal.className = (bal !== null && bal < 50) ? "up" : "dsbal";
       }
       if (eUsed) {
         if (used === null) { eUsed.textContent = "\u2014"; eUsed.className = ""; }
-        else if (used >= 0) { eUsed.textContent = money(used); eUsed.className = "dswarm"; }
-        else { eUsed.textContent = "充值 " + money(-used); eUsed.className = "down"; }
+        else if (used >= 0) { eUsed.textContent = "\u00A5" + used.toFixed(2); eUsed.className = "dswarm"; }
+        else { eUsed.textContent = "充值 \u00A5" + (-used).toFixed(2); eUsed.className = "down"; }
       }
-      if (eG) eG.innerHTML = (bal === null) ? '<div class="empty2">还没有余额记录</div>' : gaugeSvg(bal);
-      if (ePct) ePct.textContent = (bal === null) ? "" :
-        ("油箱 " + Math.round(Math.max(0, Math.min(1, bal / FULL)) * 100) + "%");
+      if (eMeta) {
+        if (!keys.length) { eMeta.textContent = "\u2014"; }
+        else {
+          var day = keys[keys.length - 1].slice(9).split("-");
+          eMeta.textContent = "最近 " + (+day[1]) + "/" + (+day[2]) + " · 共 " + keys.length + " 天";
+        }
+      }
     }
     fill();
     if (window.WB) WB.onReady(fill);
@@ -708,7 +662,7 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
 
 
 <!-- VER-BLOCK -->
-<script>var PAGE_VER="20260924210000";</script>
+<script>var PAGE_VER="20260924220000";</script>
 <script>
 /* 版本自检 + 地址栏净化：
    1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
