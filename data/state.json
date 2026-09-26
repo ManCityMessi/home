@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T14:29:37.521Z",
+  "updated": "2026-09-26T14:29:39.797Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -355,6 +355,15 @@
           "lat": 32.0603,
           "lon": 118.7969,
           "createdAt": "2026-09-26T14:29:36.416Z"
+        },
+        {
+          "id": "77ea85a4-8cff-4df4-a937-3537c4200557",
+          "placeId": "cn-zhejiang",
+          "name": "浙江",
+          "scope": "domestic",
+          "lat": 30.2741,
+          "lon": 120.1551,
+          "createdAt": "2026-09-26T14:29:38.747Z"
         }
       ],
       "deletedIds": []
