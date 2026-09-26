@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:31:30.338Z",
+  "updated": "2026-09-26T16:31:31.868Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -616,6 +616,24 @@
           "lat": 23,
           "lon": -102,
           "createdAt": "2026-09-26T16:31:29.249Z"
+        },
+        {
+          "id": "4384ef71-bc3e-41ad-b4f8-b881991a6ae5",
+          "placeId": "us",
+          "name": "美国",
+          "scope": "international",
+          "lat": 38,
+          "lon": -97,
+          "createdAt": "2026-09-26T16:31:30.177Z"
+        },
+        {
+          "id": "b76f0fc3-29a4-4aab-9f42-9d8da11dd1a9",
+          "placeId": "ca",
+          "name": "加拿大",
+          "scope": "international",
+          "lat": 60,
+          "lon": -95,
+          "createdAt": "2026-09-26T16:31:30.707Z"
         }
       ],
       "deletedIds": []
