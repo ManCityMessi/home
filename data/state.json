@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T14:30:31.260Z",
+  "updated": "2026-09-26T14:30:38.839Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -463,6 +463,15 @@
           "lat": 25.0389,
           "lon": 102.7183,
           "createdAt": "2026-09-26T14:30:29.723Z"
+        },
+        {
+          "id": "bdaf3d88-27e7-4c30-a933-fa5612bce0e8",
+          "placeId": "cn-shaanxi",
+          "name": "陕西",
+          "scope": "domestic",
+          "lat": 34.3416,
+          "lon": 108.9398,
+          "createdAt": "2026-09-26T14:30:37.481Z"
         }
       ],
       "deletedIds": []
