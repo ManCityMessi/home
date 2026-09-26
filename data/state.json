@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T14:27:28.558Z",
+  "updated": "2026-09-26T14:27:32.341Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -178,6 +178,15 @@
           "lat": 31.2304,
           "lon": 121.4737,
           "createdAt": "2026-09-26T14:27:27.463Z"
+        },
+        {
+          "id": "17ef5b94-22b5-40f0-bfbe-0145c068f5f8",
+          "placeId": "cn-cq",
+          "name": "重庆",
+          "scope": "domestic",
+          "lat": 29.4316,
+          "lon": 106.9123,
+          "createdAt": "2026-09-26T14:27:31.074Z"
         }
       ],
       "deletedIds": []
