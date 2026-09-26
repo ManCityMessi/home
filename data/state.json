@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:32:43.325Z",
+  "updated": "2026-09-26T16:32:44.984Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -778,6 +778,15 @@
           "lat": 46,
           "lon": 2,
           "createdAt": "2026-09-26T16:32:41.963Z"
+        },
+        {
+          "id": "c74c962d-b474-4c7e-bcaa-2675b234cb34",
+          "placeId": "nl",
+          "name": "荷兰",
+          "scope": "international",
+          "lat": 52.5,
+          "lon": 5.75,
+          "createdAt": "2026-09-26T16:32:43.231Z"
         }
       ],
       "deletedIds": []
