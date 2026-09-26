@@ -14,7 +14,8 @@
     { file: "halfmarathon.html", label: "半马" },
     { file: "deepseek.html", label: "DeepSeek" },
     { file: "asu.html", label: "空分 3D" },
-    { file: "wujiang.html", label: "婺江路" }
+    { file: "wujiang.html", label: "婺江路" },
+    { file: "travel-map.html", label: "旅行地图" }
   ];
 
   function el(tag, cls, html) {
