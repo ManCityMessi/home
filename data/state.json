@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:03:04.248Z",
+  "updated": "2026-09-26T16:33:44.413Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -331,6 +331,15 @@
           "lat": 4.2105,
           "lon": 101.9758,
           "createdAt": "2026-09-26T14:32:10.809Z"
+        },
+        {
+          "id": "801d29c6-204b-462a-8eb1-01b99b24b359",
+          "placeId": "cn",
+          "name": "中国",
+          "scope": "international",
+          "lat": 35,
+          "lon": 105,
+          "createdAt": "2026-09-26T16:33:24.067Z"
         }
       ],
       "deletedIds": []
@@ -571,6 +580,276 @@
           "lat": 15.87,
           "lon": 100.9925,
           "createdAt": "2026-09-26T14:33:14.058Z"
+        },
+        {
+          "id": "0f6e11a8-05bd-4d61-90cd-17fc3f13b8d6",
+          "placeId": "qa",
+          "name": "卡塔尔",
+          "scope": "international",
+          "lat": 25.5,
+          "lon": 51.25,
+          "createdAt": "2026-09-26T16:30:08.786Z"
+        },
+        {
+          "id": "ad311dd1-7264-4308-8d07-034d9b590e89",
+          "placeId": "cn",
+          "name": "中国",
+          "scope": "international",
+          "lat": 35,
+          "lon": 105,
+          "createdAt": "2026-09-26T16:30:45.885Z"
+        },
+        {
+          "id": "f533935f-8953-4fea-ae4c-f7f8b176c77f",
+          "placeId": "tr",
+          "name": "土耳其",
+          "scope": "international",
+          "lat": 39,
+          "lon": 35,
+          "createdAt": "2026-09-26T16:30:55.402Z"
+        },
+        {
+          "id": "37c30983-9d6d-4803-82f3-fb28affa0f38",
+          "placeId": "ae",
+          "name": "阿拉伯联合酋长国",
+          "scope": "international",
+          "lat": 24,
+          "lon": 54,
+          "createdAt": "2026-09-26T16:31:07.641Z"
+        },
+        {
+          "id": "4874532e-4bd2-4627-9488-06c017cfb113",
+          "placeId": "mx",
+          "name": "墨西哥",
+          "scope": "international",
+          "lat": 23,
+          "lon": -102,
+          "createdAt": "2026-09-26T16:31:29.249Z"
+        },
+        {
+          "id": "4384ef71-bc3e-41ad-b4f8-b881991a6ae5",
+          "placeId": "us",
+          "name": "美国",
+          "scope": "international",
+          "lat": 38,
+          "lon": -97,
+          "createdAt": "2026-09-26T16:31:30.177Z"
+        },
+        {
+          "id": "b76f0fc3-29a4-4aab-9f42-9d8da11dd1a9",
+          "placeId": "ca",
+          "name": "加拿大",
+          "scope": "international",
+          "lat": 60,
+          "lon": -95,
+          "createdAt": "2026-09-26T16:31:30.707Z"
+        },
+        {
+          "id": "55fb2c5d-1d9a-48e9-92cc-f4158cf9f8b7",
+          "placeId": "cr",
+          "name": "哥斯达黎加",
+          "scope": "international",
+          "lat": 10,
+          "lon": -84,
+          "createdAt": "2026-09-26T16:31:41.838Z"
+        },
+        {
+          "id": "71ed49bd-1ab7-459c-bd42-5fe9deaa7ed9",
+          "placeId": "pa",
+          "name": "巴拿马",
+          "scope": "international",
+          "lat": 9,
+          "lon": -80,
+          "createdAt": "2026-09-26T16:31:43.555Z"
+        },
+        {
+          "id": "a8de50f9-ebd7-49b5-9e52-e2162df73082",
+          "placeId": "ar",
+          "name": "阿根廷",
+          "scope": "international",
+          "lat": -34,
+          "lon": -64,
+          "createdAt": "2026-09-26T16:31:47.424Z"
+        },
+        {
+          "id": "bed6c022-68d8-48ec-a81d-edada18310e8",
+          "placeId": "br",
+          "name": "巴西",
+          "scope": "international",
+          "lat": -10,
+          "lon": -55,
+          "createdAt": "2026-09-26T16:31:54.029Z"
+        },
+        {
+          "id": "8bdc3622-2350-4156-989c-493bddcfcbd4",
+          "placeId": "ec",
+          "name": "厄瓜多尔",
+          "scope": "international",
+          "lat": -2,
+          "lon": -77.5,
+          "createdAt": "2026-09-26T16:31:57.481Z"
+        },
+        {
+          "id": "eff002a7-9600-40f2-be18-03f20ed2582c",
+          "placeId": "co",
+          "name": "哥伦比亚",
+          "scope": "international",
+          "lat": 4,
+          "lon": -72,
+          "createdAt": "2026-09-26T16:31:59.100Z"
+        },
+        {
+          "id": "303ba67a-180e-41a0-ac68-62b78750e62a",
+          "placeId": "pe",
+          "name": "秘鲁",
+          "scope": "international",
+          "lat": -10,
+          "lon": -76,
+          "createdAt": "2026-09-26T16:32:00.572Z"
+        },
+        {
+          "id": "2cbe97c0-660a-468f-b0f7-0a251f52ddd2",
+          "placeId": "cl",
+          "name": "智利",
+          "scope": "international",
+          "lat": -30,
+          "lon": -71,
+          "createdAt": "2026-09-26T16:32:05.862Z"
+        },
+        {
+          "id": "750ed4fd-00a7-469f-bbea-64e9551a8d42",
+          "placeId": "uy",
+          "name": "乌拉圭",
+          "scope": "international",
+          "lat": -33,
+          "lon": -56,
+          "createdAt": "2026-09-26T16:32:07.991Z"
+        },
+        {
+          "id": "82f8f079-96d0-4fe4-a367-f21524aaa1f4",
+          "placeId": "in",
+          "name": "印度",
+          "scope": "international",
+          "lat": 20,
+          "lon": 77,
+          "createdAt": "2026-09-26T16:32:19.647Z"
+        },
+        {
+          "id": "38a2b05b-cc74-4052-96de-932e81871216",
+          "placeId": "al",
+          "name": "阿尔巴尼亚",
+          "scope": "international",
+          "lat": 41,
+          "lon": 20,
+          "createdAt": "2026-09-26T16:32:24.565Z"
+        },
+        {
+          "id": "675db3b7-ee3a-4712-a14b-d11f89d37e22",
+          "placeId": "ie",
+          "name": "爱尔兰",
+          "scope": "international",
+          "lat": 53,
+          "lon": -8,
+          "createdAt": "2026-09-26T16:32:29.147Z"
+        },
+        {
+          "id": "2cda7e4a-de90-40a4-a708-1cdee13db1c0",
+          "placeId": "pl",
+          "name": "波兰",
+          "scope": "international",
+          "lat": 52,
+          "lon": 20,
+          "createdAt": "2026-09-26T16:32:32.789Z"
+        },
+        {
+          "id": "73bd4438-0a39-47ed-876f-7b9ee96c702d",
+          "placeId": "dk",
+          "name": "丹麦",
+          "scope": "international",
+          "lat": 56,
+          "lon": 10,
+          "createdAt": "2026-09-26T16:32:36.763Z"
+        },
+        {
+          "id": "00481e52-76bd-413f-8c04-f611f5fa6e04",
+          "placeId": "de",
+          "name": "德国",
+          "scope": "international",
+          "lat": 51,
+          "lon": 9,
+          "createdAt": "2026-09-26T16:32:37.315Z"
+        },
+        {
+          "id": "0de87ec3-d441-422c-9700-ad7c6b846a60",
+          "placeId": "fr",
+          "name": "法国",
+          "scope": "international",
+          "lat": 46,
+          "lon": 2,
+          "createdAt": "2026-09-26T16:32:41.963Z"
+        },
+        {
+          "id": "c74c962d-b474-4c7e-bcaa-2675b234cb34",
+          "placeId": "nl",
+          "name": "荷兰",
+          "scope": "international",
+          "lat": 52.5,
+          "lon": 5.75,
+          "createdAt": "2026-09-26T16:32:43.231Z"
+        },
+        {
+          "id": "be3ba90d-9aa2-41bc-9554-f127b54551d5",
+          "placeId": "rs",
+          "name": "塞尔维亚",
+          "scope": "international",
+          "lat": 44,
+          "lon": 21,
+          "createdAt": "2026-09-26T16:33:03.161Z"
+        },
+        {
+          "id": "8747b04a-5ce3-4e6f-b5b2-4a2970b22a48",
+          "placeId": "es",
+          "name": "西班牙",
+          "scope": "international",
+          "lat": 40,
+          "lon": -4,
+          "createdAt": "2026-09-26T16:33:06.805Z"
+        },
+        {
+          "id": "af23c36c-26b1-4999-a87f-9997f7b9abfc",
+          "placeId": "it",
+          "name": "意大利",
+          "scope": "international",
+          "lat": 42.83333333,
+          "lon": 12.83333333,
+          "createdAt": "2026-09-26T16:33:09.919Z"
+        },
+        {
+          "id": "a5be0bde-6cd4-4009-8872-7b761ddd164b",
+          "placeId": "gb",
+          "name": "英国",
+          "scope": "international",
+          "lat": 54,
+          "lon": -2,
+          "createdAt": "2026-09-26T16:33:10.439Z"
+        },
+        {
+          "id": "9cab4b5a-9231-4134-9187-657920c93376",
+          "placeId": "ro",
+          "name": "罗马尼亚",
+          "scope": "international",
+          "lat": 46,
+          "lon": 25,
+          "createdAt": "2026-09-26T16:33:15.459Z"
+        },
+        {
+          "id": "b8a2e698-36ed-4f27-8a66-063b67ad4b5c",
+          "placeId": "au",
+          "name": "澳大利亚",
+          "scope": "international",
+          "lat": -27,
+          "lon": 133,
+          "createdAt": "2026-09-26T16:33:43.302Z"
         }
       ],
       "deletedIds": []
