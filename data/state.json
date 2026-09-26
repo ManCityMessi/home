@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:32:02.884Z",
+  "updated": "2026-09-26T16:32:06.961Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -697,6 +697,15 @@
           "lat": -10,
           "lon": -76,
           "createdAt": "2026-09-26T16:32:00.572Z"
+        },
+        {
+          "id": "2cbe97c0-660a-468f-b0f7-0a251f52ddd2",
+          "placeId": "cl",
+          "name": "智利",
+          "scope": "international",
+          "lat": -30,
+          "lon": -71,
+          "createdAt": "2026-09-26T16:32:05.862Z"
         }
       ],
       "deletedIds": []
