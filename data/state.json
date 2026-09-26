@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T14:29:35.216Z",
+  "updated": "2026-09-26T14:29:37.521Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -346,6 +346,15 @@
           "lat": 45.8038,
           "lon": 126.535,
           "createdAt": "2026-09-26T14:29:34.115Z"
+        },
+        {
+          "id": "a32ddb6e-7fa0-4d35-888f-3b63570ed58d",
+          "placeId": "cn-jiangsu",
+          "name": "江苏",
+          "scope": "domestic",
+          "lat": 32.0603,
+          "lon": 118.7969,
+          "createdAt": "2026-09-26T14:29:36.416Z"
         }
       ],
       "deletedIds": []
