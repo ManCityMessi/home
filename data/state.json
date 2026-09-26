@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:32:30.234Z",
+  "updated": "2026-09-26T16:32:33.871Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -742,6 +742,15 @@
           "lat": 53,
           "lon": -8,
           "createdAt": "2026-09-26T16:32:29.147Z"
+        },
+        {
+          "id": "2cda7e4a-de90-40a4-a708-1cdee13db1c0",
+          "placeId": "pl",
+          "name": "波兰",
+          "scope": "international",
+          "lat": 52,
+          "lon": 20,
+          "createdAt": "2026-09-26T16:32:32.789Z"
         }
       ],
       "deletedIds": []
