@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T14:29:51.808Z",
+  "updated": "2026-09-26T14:29:55.510Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -400,6 +400,15 @@
           "lat": 36.6512,
           "lon": 117.1201,
           "createdAt": "2026-09-26T14:29:50.685Z"
+        },
+        {
+          "id": "9dd95f32-c0a0-49aa-8013-ba5f2e023a7a",
+          "placeId": "cn-henan",
+          "name": "河南",
+          "scope": "domestic",
+          "lat": 34.7466,
+          "lon": 113.6253,
+          "createdAt": "2026-09-26T14:29:53.999Z"
         }
       ],
       "deletedIds": []
