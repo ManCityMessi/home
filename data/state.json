@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:33:44.413Z",
+  "updated": "2026-09-26T16:38:32.746Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -340,6 +340,15 @@
           "lat": 35,
           "lon": 105,
           "createdAt": "2026-09-26T16:33:24.067Z"
+        },
+        {
+          "id": "666b1781-dc52-439c-9d87-e30b5318868e",
+          "placeId": "ly",
+          "name": "利比亚",
+          "scope": "international",
+          "lat": 25,
+          "lon": 17,
+          "createdAt": "2026-09-26T16:38:31.690Z"
         }
       ],
       "deletedIds": []
