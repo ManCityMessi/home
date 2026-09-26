@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:32:25.668Z",
+  "updated": "2026-09-26T16:32:30.234Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -733,6 +733,15 @@
           "lat": 41,
           "lon": 20,
           "createdAt": "2026-09-26T16:32:24.565Z"
+        },
+        {
+          "id": "675db3b7-ee3a-4712-a14b-d11f89d37e22",
+          "placeId": "ie",
+          "name": "爱尔兰",
+          "scope": "international",
+          "lat": 53,
+          "lon": -8,
+          "createdAt": "2026-09-26T16:32:29.147Z"
         }
       ],
       "deletedIds": []
