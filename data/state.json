@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:30:09.929Z",
+  "updated": "2026-09-26T16:30:46.984Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -580,6 +580,15 @@
           "lat": 25.5,
           "lon": 51.25,
           "createdAt": "2026-09-26T16:30:08.786Z"
+        },
+        {
+          "id": "ad311dd1-7264-4308-8d07-034d9b590e89",
+          "placeId": "cn",
+          "name": "中国",
+          "scope": "international",
+          "lat": 35,
+          "lon": 105,
+          "createdAt": "2026-09-26T16:30:45.885Z"
         }
       ],
       "deletedIds": []
