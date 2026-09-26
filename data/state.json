@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T14:30:05.852Z",
+  "updated": "2026-09-26T14:30:18.085Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -436,6 +436,15 @@
           "lat": 23.1291,
           "lon": 113.2644,
           "createdAt": "2026-09-26T14:30:04.368Z"
+        },
+        {
+          "id": "d6ce7fe0-968b-482f-b2ee-745b77b02acd",
+          "placeId": "cn-hainan",
+          "name": "海南",
+          "scope": "domestic",
+          "lat": 20.044,
+          "lon": 110.199,
+          "createdAt": "2026-09-26T14:30:16.965Z"
         }
       ],
       "deletedIds": []
