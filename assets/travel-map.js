@@ -61,6 +61,8 @@
   var map = null;
   var fittedBounds = null;
   var currentBounds = null;
+  var mapLoadErrors = { domestic: "", international: "" };
+  var worldMapPromise = null;
   var cloudReady = false;
   var cloudWritable = false;
   var syncQueue = Promise.resolve();
@@ -203,9 +205,18 @@
     $("explorerTitle").textContent = scope === "domestic" ? "选择省份" : "选择国家 / 地区";
     $("placeCount").textContent = scope === "domestic" ? DOMESTIC.length + " 个省级地区" : countries.length + " 个国家";
     $("filterHint").textContent = personView === "both" ? "点地图可同时更新两人" : "点状态按钮切换个人足迹";
-    $("mapOverlay").innerHTML = personView === "both"
-      ? "<b>快速标记：</b>点击地图区域将切换为共同去过；也可在列表中分别点 YY / Evelyn。"
-      : "<b>快速标记：</b>点击地图区域或列表状态，切换 " + ownerName(personView) + " 的足迹。";
+    var overlay = $("mapOverlay");
+    overlay.classList.remove("error");
+    if (mapLoadErrors[scope]) {
+      overlay.textContent = mapLoadErrors[scope];
+      overlay.classList.add("error");
+    } else if (!geo[scope]) {
+      overlay.textContent = scope === "domestic" ? "正在载入中国地图边界…" : "正在载入世界地图边界…";
+    } else {
+      overlay.innerHTML = personView === "both"
+        ? "<b>快速标记：</b>点击地图区域将切换为共同去过；也可在列表中分别点 YY / Evelyn。"
+        : "<b>快速标记：</b>点击地图区域或列表状态，切换 " + ownerName(personView) + " 的足迹。";
+    }
   }
   function setScope(next) {
     scope = next;
@@ -217,6 +228,7 @@
     updateMapLabels();
     render();
     fitMap();
+    if (scope === "international" && !geo.international) loadWorldMapData();
   }
   function setPerson(next) {
     personView = next;
@@ -505,22 +517,46 @@
       return response.json();
     });
   }
-  function loadMapData() {
-    return Promise.all([fetchJson("china-provinces.geojson"),fetchJson("world-countries.geojson"),fetchJson("countries.json")]).then(function(values) {
+  function loadWorldMapData() {
+    if (geo.international || worldMapPromise) return worldMapPromise || Promise.resolve();
+    mapLoadErrors.international = "";
+    updateMapLabels();
+    worldMapPromise = fetchJson("world-countries.geojson").then(function(value) {
+      geo.international = value;
+      worldMapPromise = null;
+      mapLoadErrors.international = "";
+      if (scope === "international") {
+        updateMapLabels();
+        render();
+        fitPending = true;
+        fitMap();
+      }
+    }).catch(function(error) {
+      worldMapPromise = null;
+      mapLoadErrors.international = "国际地图边界载入失败；国家列表仍可使用，点击“国际”可重试。";
+      if (scope === "international") updateMapLabels();
+      console.error("travel map world data error",error);
+    });
+    return worldMapPromise;
+  }
+  function loadDomesticMapData() {
+    mapLoadErrors.domestic = "";
+    updateMapLabels();
+    return Promise.all([fetchJson("china-provinces.geojson"),fetchJson("countries.json")]).then(function(values) {
       geo.domestic=values[0];
-      geo.international=values[1];
-      countries=values[2];
+      countries=values[1];
       countryById=new Map(countries.map(function(place){return[place.id,place];}));
+      if(countries.length!==195 || DOMESTIC.length!==34) throw new Error("Map catalogue count mismatch");
+      mapLoadErrors.domestic = "";
       updateMapLabels();
       render();
       fitPending=true;
       fitMap();
-      if(countries.length!==195 || DOMESTIC.length!==34) throw new Error("Map catalogue count mismatch");
+      if(scope === "international") loadWorldMapData();
     }).catch(function(error) {
-      $("mapOverlay").textContent="地图边界载入失败；可先用搜索列表查看。"+(error.message||"");
-      $("mapOverlay").classList.add("error");
-      $("regionList").innerHTML='<div class="empty">地图文件未能载入。请刷新页面重试。</div>';
-      console.error("travel map data error",error);
+      mapLoadErrors.domestic = "中国地图边界载入失败；请检查网络后重试。";
+      if(scope === "domestic") updateMapLabels();
+      console.error("travel map domestic data error",error);
     });
   }
   function init() {
@@ -529,7 +565,7 @@
     map=$("map");
     setScope("domestic");
     setPerson("both");
-    loadMapData();
+    loadDomesticMapData();
     if(window.WB && window.WB.onReady) window.WB.onReady(onCloudReady);
     else setCloudStatus("云端接口不可用 · 足迹暂存在本机","error");
   }
