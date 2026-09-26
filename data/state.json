@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T04:20:29.527Z",
+  "updated": "2026-09-26T16:03:04.248Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -157,6 +157,429 @@
       "bal": 378.02,
       "grt": 0,
       "top": 378.02
+    },
+    "travel:yy:v1": {
+      "version": 1,
+      "records": [
+        {
+          "id": "ae9e1b9e-fdf0-4461-a002-34f2971f242a",
+          "placeId": "cn-bj",
+          "name": "北京",
+          "scope": "domestic",
+          "lat": 39.9042,
+          "lon": 116.4074,
+          "createdAt": "2026-09-26T14:27:18.038Z"
+        },
+        {
+          "id": "3f94813f-7b83-4d57-8da0-286b81a80f64",
+          "placeId": "cn-sh",
+          "name": "上海",
+          "scope": "domestic",
+          "lat": 31.2304,
+          "lon": 121.4737,
+          "createdAt": "2026-09-26T14:27:27.463Z"
+        },
+        {
+          "id": "17ef5b94-22b5-40f0-bfbe-0145c068f5f8",
+          "placeId": "cn-cq",
+          "name": "重庆",
+          "scope": "domestic",
+          "lat": 29.4316,
+          "lon": 106.9123,
+          "createdAt": "2026-09-26T14:27:31.074Z"
+        },
+        {
+          "id": "7157a283-a1b0-4178-9f91-6ff7c6139a93",
+          "placeId": "cn-hebei",
+          "name": "河北",
+          "scope": "domestic",
+          "lat": 38.0428,
+          "lon": 114.5149,
+          "createdAt": "2026-09-26T14:27:34.430Z"
+        },
+        {
+          "id": "3bd93b81-86b8-4333-8ece-0030373eda95",
+          "placeId": "cn-jiangsu",
+          "name": "江苏",
+          "scope": "domestic",
+          "lat": 32.0603,
+          "lon": 118.7969,
+          "createdAt": "2026-09-26T14:27:38.603Z"
+        },
+        {
+          "id": "72eec65f-a9de-4fac-9db9-0b61c5d80ab0",
+          "placeId": "cn-zhejiang",
+          "name": "浙江",
+          "scope": "domestic",
+          "lat": 30.2741,
+          "lon": 120.1551,
+          "createdAt": "2026-09-26T14:27:41.074Z"
+        },
+        {
+          "id": "12744581-f2a3-4ed9-8e4a-1f510e5cbbad",
+          "placeId": "cn-anhui",
+          "name": "安徽",
+          "scope": "domestic",
+          "lat": 31.8206,
+          "lon": 117.2272,
+          "createdAt": "2026-09-26T14:27:47.888Z"
+        },
+        {
+          "id": "7ffef24c-59e2-489c-bd7b-513ae3952e31",
+          "placeId": "cn-shandong",
+          "name": "山东",
+          "scope": "domestic",
+          "lat": 36.6512,
+          "lon": 117.1201,
+          "createdAt": "2026-09-26T14:27:52.060Z"
+        },
+        {
+          "id": "26351fbb-c25e-4ab1-b67b-416a6b67ba5c",
+          "placeId": "cn-henan",
+          "name": "河南",
+          "scope": "domestic",
+          "lat": 34.7466,
+          "lon": 113.6253,
+          "createdAt": "2026-09-26T14:27:56.544Z"
+        },
+        {
+          "id": "62c45c6b-9965-4367-a879-316ab6df9e42",
+          "placeId": "cn-hubei",
+          "name": "湖北",
+          "scope": "domestic",
+          "lat": 30.5928,
+          "lon": 114.3055,
+          "createdAt": "2026-09-26T14:27:59.241Z"
+        },
+        {
+          "id": "76f19f60-3394-4789-a1e1-5b3ee8043f1d",
+          "placeId": "cn-hunan",
+          "name": "湖南",
+          "scope": "domestic",
+          "lat": 28.2282,
+          "lon": 112.9388,
+          "createdAt": "2026-09-26T14:28:01.275Z"
+        },
+        {
+          "id": "d349e653-e1d0-4b7b-a6ef-66ddaaa6feb7",
+          "placeId": "cn-guangdong",
+          "name": "广东",
+          "scope": "domestic",
+          "lat": 23.1291,
+          "lon": 113.2644,
+          "createdAt": "2026-09-26T14:28:05.343Z"
+        },
+        {
+          "id": "c028fe3a-d5cd-4caf-8dda-c0227f2d7869",
+          "placeId": "cn-sichuan",
+          "name": "四川",
+          "scope": "domestic",
+          "lat": 30.5728,
+          "lon": 104.0668,
+          "createdAt": "2026-09-26T14:28:10.852Z"
+        },
+        {
+          "id": "ff0aca84-7502-48b0-9503-117de586af2a",
+          "placeId": "cn-guangxi",
+          "name": "广西",
+          "scope": "domestic",
+          "lat": 22.817,
+          "lon": 108.3665,
+          "createdAt": "2026-09-26T14:28:21.535Z"
+        },
+        {
+          "id": "68474f97-355b-4e14-9cd1-78f3acdee5d8",
+          "placeId": "cn-ningxia",
+          "name": "宁夏",
+          "scope": "domestic",
+          "lat": 38.4872,
+          "lon": 106.2309,
+          "createdAt": "2026-09-26T14:28:28.517Z"
+        },
+        {
+          "id": "c7ccab63-0d03-4aac-bade-e87ca423c129",
+          "placeId": "cn-hongkong",
+          "name": "香港",
+          "scope": "domestic",
+          "lat": 22.3193,
+          "lon": 114.1694,
+          "createdAt": "2026-09-26T14:28:31.255Z"
+        },
+        {
+          "id": "416107b3-26fa-4154-a010-1b2c79cf7049",
+          "placeId": "sg",
+          "name": "新加坡",
+          "scope": "international",
+          "lat": 1.3521,
+          "lon": 103.8198,
+          "createdAt": "2026-09-26T14:31:31.648Z"
+        },
+        {
+          "id": "cd3545ed-99c8-47a3-a543-0e5e3fd2c94e",
+          "placeId": "kr",
+          "name": "韩国",
+          "scope": "international",
+          "lat": 35.9078,
+          "lon": 127.7669,
+          "createdAt": "2026-09-26T14:31:34.605Z"
+        },
+        {
+          "id": "88122306-d04c-4660-bff4-3c467437a01a",
+          "placeId": "my",
+          "name": "马来西亚",
+          "scope": "international",
+          "lat": 4.2105,
+          "lon": 101.9758,
+          "createdAt": "2026-09-26T14:32:10.809Z"
+        }
+      ],
+      "deletedIds": []
+    },
+    "travel:evelyn:v1": {
+      "version": 1,
+      "records": [
+        {
+          "id": "6256c503-7ee6-4d5b-9d10-18a252025bc0",
+          "placeId": "cn-bj",
+          "name": "北京",
+          "scope": "domestic",
+          "lat": 39.9042,
+          "lon": 116.4074,
+          "createdAt": "2026-09-26T14:29:13.604Z"
+        },
+        {
+          "id": "53434737-94b2-4de6-8e66-ddfdd65ba891",
+          "placeId": "cn-sh",
+          "name": "上海",
+          "scope": "domestic",
+          "lat": 31.2304,
+          "lon": 121.4737,
+          "createdAt": "2026-09-26T14:29:22.834Z"
+        },
+        {
+          "id": "7ebd254e-f3df-4703-af72-0f3d3cee4fdc",
+          "placeId": "cn-cq",
+          "name": "重庆",
+          "scope": "domestic",
+          "lat": 29.4316,
+          "lon": 106.9123,
+          "createdAt": "2026-09-26T14:29:27.440Z"
+        },
+        {
+          "id": "585d714c-dac4-4e08-9fbe-90a195a7a511",
+          "placeId": "cn-heilongjiang",
+          "name": "黑龙江",
+          "scope": "domestic",
+          "lat": 45.8038,
+          "lon": 126.535,
+          "createdAt": "2026-09-26T14:29:34.115Z"
+        },
+        {
+          "id": "a32ddb6e-7fa0-4d35-888f-3b63570ed58d",
+          "placeId": "cn-jiangsu",
+          "name": "江苏",
+          "scope": "domestic",
+          "lat": 32.0603,
+          "lon": 118.7969,
+          "createdAt": "2026-09-26T14:29:36.416Z"
+        },
+        {
+          "id": "77ea85a4-8cff-4df4-a937-3537c4200557",
+          "placeId": "cn-zhejiang",
+          "name": "浙江",
+          "scope": "domestic",
+          "lat": 30.2741,
+          "lon": 120.1551,
+          "createdAt": "2026-09-26T14:29:38.747Z"
+        },
+        {
+          "id": "eed405d9-e375-4b1a-b6e4-f83d2bfce2dd",
+          "placeId": "cn-anhui",
+          "name": "安徽",
+          "scope": "domestic",
+          "lat": 31.8206,
+          "lon": 117.2272,
+          "createdAt": "2026-09-26T14:29:43.270Z"
+        },
+        {
+          "id": "df33f8a9-dba9-4344-9e43-edec0c4de37f",
+          "placeId": "cn-fujian",
+          "name": "福建",
+          "scope": "domestic",
+          "lat": 26.0745,
+          "lon": 119.2965,
+          "createdAt": "2026-09-26T14:29:45.412Z"
+        },
+        {
+          "id": "621bd2f9-7a49-422d-9468-5528b0181e93",
+          "placeId": "cn-jiangxi",
+          "name": "江西",
+          "scope": "domestic",
+          "lat": 28.682,
+          "lon": 115.8579,
+          "createdAt": "2026-09-26T14:29:48.179Z"
+        },
+        {
+          "id": "8d058ada-cee6-42ce-b505-012360bec6ee",
+          "placeId": "cn-shandong",
+          "name": "山东",
+          "scope": "domestic",
+          "lat": 36.6512,
+          "lon": 117.1201,
+          "createdAt": "2026-09-26T14:29:50.685Z"
+        },
+        {
+          "id": "9dd95f32-c0a0-49aa-8013-ba5f2e023a7a",
+          "placeId": "cn-henan",
+          "name": "河南",
+          "scope": "domestic",
+          "lat": 34.7466,
+          "lon": 113.6253,
+          "createdAt": "2026-09-26T14:29:53.999Z"
+        },
+        {
+          "id": "316614fb-ed3e-4daf-80b1-75d286c5ccd2",
+          "placeId": "cn-hubei",
+          "name": "湖北",
+          "scope": "domestic",
+          "lat": 30.5928,
+          "lon": 114.3055,
+          "createdAt": "2026-09-26T14:29:57.956Z"
+        },
+        {
+          "id": "b457eb7e-ac93-4b1c-98ef-c68d88015f04",
+          "placeId": "cn-hunan",
+          "name": "湖南",
+          "scope": "domestic",
+          "lat": 28.2282,
+          "lon": 112.9388,
+          "createdAt": "2026-09-26T14:30:00.564Z"
+        },
+        {
+          "id": "c18550a8-e24b-478e-9861-1a2475402021",
+          "placeId": "cn-guangdong",
+          "name": "广东",
+          "scope": "domestic",
+          "lat": 23.1291,
+          "lon": 113.2644,
+          "createdAt": "2026-09-26T14:30:04.368Z"
+        },
+        {
+          "id": "d6ce7fe0-968b-482f-b2ee-745b77b02acd",
+          "placeId": "cn-hainan",
+          "name": "海南",
+          "scope": "domestic",
+          "lat": 20.044,
+          "lon": 110.199,
+          "createdAt": "2026-09-26T14:30:16.965Z"
+        },
+        {
+          "id": "d304bcdf-9704-4d99-8825-51baec578285",
+          "placeId": "cn-sichuan",
+          "name": "四川",
+          "scope": "domestic",
+          "lat": 30.5728,
+          "lon": 104.0668,
+          "createdAt": "2026-09-26T14:30:20.411Z"
+        },
+        {
+          "id": "d84358dc-2c6f-449c-970b-7a49ca65448b",
+          "placeId": "cn-yunnan",
+          "name": "云南",
+          "scope": "domestic",
+          "lat": 25.0389,
+          "lon": 102.7183,
+          "createdAt": "2026-09-26T14:30:29.723Z"
+        },
+        {
+          "id": "bdaf3d88-27e7-4c30-a933-fa5612bce0e8",
+          "placeId": "cn-shaanxi",
+          "name": "陕西",
+          "scope": "domestic",
+          "lat": 34.3416,
+          "lon": 108.9398,
+          "createdAt": "2026-09-26T14:30:37.481Z"
+        },
+        {
+          "id": "a99be164-285f-4a1f-9620-c3f85188308c",
+          "placeId": "cn-xinjiang",
+          "name": "新疆",
+          "scope": "domestic",
+          "lat": 43.8256,
+          "lon": 87.6168,
+          "createdAt": "2026-09-26T14:30:41.694Z"
+        },
+        {
+          "id": "54a6bdfc-1d3d-4c30-9770-08e1e9be4831",
+          "placeId": "cn-ningxia",
+          "name": "宁夏",
+          "scope": "domestic",
+          "lat": 38.4872,
+          "lon": 106.2309,
+          "createdAt": "2026-09-26T14:30:45.296Z"
+        },
+        {
+          "id": "02326492-8b52-438d-9190-3018628bb350",
+          "placeId": "cn-neimenggu",
+          "name": "内蒙古",
+          "scope": "domestic",
+          "lat": 40.8426,
+          "lon": 111.7492,
+          "createdAt": "2026-09-26T14:30:48.034Z"
+        },
+        {
+          "id": "8077fd2d-6cfb-4a98-b0fe-522cba1104bf",
+          "placeId": "cn-hongkong",
+          "name": "香港",
+          "scope": "domestic",
+          "lat": 22.3193,
+          "lon": 114.1694,
+          "createdAt": "2026-09-26T14:30:59.811Z"
+        },
+        {
+          "id": "0b832e6c-5cf4-4a96-8f83-9962211d5a57",
+          "placeId": "jp",
+          "name": "日本",
+          "scope": "international",
+          "lat": 36.2048,
+          "lon": 138.2529,
+          "createdAt": "2026-09-26T14:32:39.809Z"
+        },
+        {
+          "id": "83960070-3a26-4a80-81d9-d84bb00043f9",
+          "placeId": "sg",
+          "name": "新加坡",
+          "scope": "international",
+          "lat": 1.3521,
+          "lon": 103.8198,
+          "createdAt": "2026-09-26T14:32:42.907Z"
+        },
+        {
+          "id": "2301dfa6-2a20-48c3-9405-c5a564eb07ad",
+          "placeId": "my",
+          "name": "马来西亚",
+          "scope": "international",
+          "lat": 4.2105,
+          "lon": 101.9758,
+          "createdAt": "2026-09-26T14:32:45.054Z"
+        },
+        {
+          "id": "127bd6c6-09eb-4449-b20c-05122f773562",
+          "placeId": "th",
+          "name": "泰国",
+          "scope": "international",
+          "lat": 15.87,
+          "lon": 100.9925,
+          "createdAt": "2026-09-26T14:33:14.058Z"
+        }
+      ],
+      "deletedIds": []
+    },
+    "deepseek:2026-09-27": {
+      "ts": "2026-09-27T00:03:00+08:00",
+      "bal": 670.54,
+      "grt": 0,
+      "top": 670.54
     }
   }
 }
