@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T04:20:29.527Z",
+  "updated": "2026-09-26T14:27:19.064Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -157,6 +157,21 @@
       "bal": 378.02,
       "grt": 0,
       "top": 378.02
+    },
+    "travel:yy:v1": {
+      "version": 1,
+      "records": [
+        {
+          "id": "ae9e1b9e-fdf0-4461-a002-34f2971f242a",
+          "placeId": "cn-bj",
+          "name": "北京",
+          "scope": "domestic",
+          "lat": 39.9042,
+          "lon": 116.4074,
+          "createdAt": "2026-09-26T14:27:18.038Z"
+        }
+      ],
+      "deletedIds": []
     }
   }
 }
