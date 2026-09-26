@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:32:20.725Z",
+  "updated": "2026-09-26T16:32:25.668Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -724,6 +724,15 @@
           "lat": 20,
           "lon": 77,
           "createdAt": "2026-09-26T16:32:19.647Z"
+        },
+        {
+          "id": "38a2b05b-cc74-4052-96de-932e81871216",
+          "placeId": "al",
+          "name": "阿尔巴尼亚",
+          "scope": "international",
+          "lat": 41,
+          "lon": 20,
+          "createdAt": "2026-09-26T16:32:24.565Z"
         }
       ],
       "deletedIds": []
