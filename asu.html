@@ -54,7 +54,7 @@
       <span class="kicker">AIR SEPARATION UNIT / 3D</span>
     </div>
     <h1>空分装置工艺流程 · 三维布置</h1>
-    <p>按工艺顺序排列的装置三维示意：压缩 → 预冷 → 纯化 → 制冷 → 精馏 → 储运 → 外送。可点步骤看设备，或点「镜头巡游」自动逐段巡航。</p>
+    <p>按工艺顺序排列的装置三维示意：过滤压缩 → 空冷塔 / 水冷塔预冷 → 分子筛纯化 → 冷箱换热与精馏 → 储运外送。可点步骤看设备，或点「镜头巡游」自动逐段巡航。</p>
   </div>
   <div style="margin-top:16px">
 <div id="asu3d-root">
@@ -95,7 +95,7 @@
     <h2>空分装置工艺流程 · 3D</h2>
     <div class="asu-legend text-small text-muted">
       <span><span class="sw" style="background:#1f7ae0"></span>空气</span>
-      <span><span class="sw" style="background:#12a86f"></span>氮气</span>
+      <span><span class="sw" style="background:#12a86f"></span>氮气 / 污氮</span>
       <span><span class="sw" style="background:#e8a33d"></span>氧气</span>
       <span><span class="sw" style="background:#8a6bd8"></span>氩气</span>
       <span><span class="sw" style="background:#e2574c"></span>循环水</span>
@@ -105,7 +105,7 @@
 
   <div class="asu-stage">
     <canvas id="asu3d-canvas" role="img"
-      aria-label="空分装置三维流程：空气过滤压缩、预冷与循环水、分子筛纯化、主换热与膨胀制冷、精馏冷箱（剖切）、低温储存与汽化、产品压缩外送"></canvas>
+      aria-label="空分装置三维流程：空气过滤压缩、空冷塔和水冷塔预冷、分子筛纯化、净化空气进入冷箱主换热与膨胀制冷、精馏、低温储存与汽化、产品压缩外送"></canvas>
     <div class="asu-labels" id="asu3d-labels"></div>
     <div class="asu-hint text-small">拖拽旋转 · 滚轮缩放 · 点步骤看设备 · 巡游自动切镜头</div>
   </div>
@@ -144,30 +144,30 @@
       { label: '1 压缩', name: '空气过滤与压缩', en: 'CLEAN AIR COMPRESSION',
         desc: '自洁式过滤器与消音器把大气吸入离心空压机，多级压缩、级间冷却后送预冷系统。',
         params: [['空压机出口压力', '0.50 ~ 0.60 MPa'], ['出口温度', '≈ 35 ℃'], ['驱动方式', '电机 + 增速箱']] },
-      { label: '2 预冷', name: '预冷与循环水', en: 'PRE-COOLING & COOLING WATER',
-        desc: '压缩空气在后冷器/预冷机组中被冷冻水冷却并析出冷凝水，循环水经冷却塔降温回用。',
-        params: [['预冷出口温度', '8 ~ 15 ℃'], ['循环水供 / 回水', '32 / 42 ℃'], ['冷却塔', '机力通风']] },
+      { label: '2 预冷', name: '空冷塔 + 水冷塔', en: 'AIR COOLING & WATER COOLING TOWERS',
+        desc: '压缩空气从空冷塔下部进入，与塔内喷淋水直接接触降温、洗涤；升温后的循环水进入水冷塔，与冷箱返流污氮逆流接触降温，再由循环水泵送回空冷塔。空冷塔顶部空气进入分子筛。',
+        params: [['设备组成', '空冷塔 + 水冷塔 + 循环水泵'], ['空气路径', '空压机 → 空冷塔 → 分子筛'], ['水冷却介质', '冷箱返流污氮']] },
       { label: '3 纯化', name: '分子筛纯化', en: 'MOLECULAR SIEVE PURIFICATION',
         desc: '两只吸附器一用一再生，脱除水分、CO₂ 与乙炔等碳氢化合物，备用再生气电加热器。',
         params: [['吸附压力', '≈ 0.55 MPa'], ['切换周期', '约 4 h'], ['出口 CO₂', '< 1 ppm']] },
-      { label: '4 制冷', name: '主换热与膨胀制冷', en: 'MAIN HEAT EXCHANGE & EXPANSION',
-        desc: '板翅式主换热器内空气与返流气体换热降温，透平膨胀机等熵膨胀产生冷量。',
+      { label: '4 冷箱换热', name: '冷箱主换热与膨胀制冷', en: 'COLD BOX / MAIN HEAT EXCHANGE & EXPANSION',
+        desc: '分子筛净化后的空气进入冷箱，在板翅式主换热器内与返流气体换热降温；透平膨胀机提供精馏所需冷量。',
         params: [['主换热出口', '约 −170 ℃'], ['膨胀机进口', '−100 ~ −140 ℃'], ['冷量', '平衡装置冷损']] },
-      { label: '5 精馏', name: '精馏分离（冷箱剖切）', en: 'DISTILLATION',
+      { label: '5 精馏', name: '冷箱内精馏分离', en: 'DISTILLATION IN COLD BOX',
         desc: '冷箱内下塔初步分离、主冷提供回流液，上塔完成氧氮分离；中压气抽出送至氩系统。',
         params: [['下塔压力', '≈ 0.50 MPa'], ['上塔压力', '≈ 0.13 MPa'], ['氧纯度', '99.6 % O₂'], ['氮纯度', 'O₂ ≤ 10 ppm']] },
       { label: '6 储运', name: '低温储存与汽化', en: 'STORAGE & VAPORIZATION',
-        desc: '液氧、液氮、液氩进真空粉末绝热储罐；外送前经水浴式汽化器汽化，液体由低温泵装车。',
-        params: [['储罐', 'LOX / LIN / LAR'], ['液位控制', '30 ~ 85 %'], ['汽化器', '水浴式 / 空温式']] },
+        desc: '液氧、液氮、液氩分别进入对应低温储罐；液氧可经水浴汽化后接入氧压机，液氩由低温泵送至槽车充装。',
+        params: [['储罐', 'LOX / LIN / LAR 分罐存放'], ['液氧汽化', 'LOX 罐 → 水浴汽化器'], ['液氩装车', '低温泵 → 槽车']] },
       { label: '7 外送', name: '产品压缩与外送', en: 'PRODUCT COMPRESSION & DELIVERY',
-        desc: '氧气、氮气经透平或活塞压缩机升压并入管网，液氩由低温泵送至充装台装车。',
+        desc: '冷箱气氧、气氮分别进入氧压机和氮压机升压后并入产品管网；汽化后的液氧也可接入氧气外送线。',
         params: [['氧气管网', '1.6 ~ 3.0 MPa'], ['氮气管网', '0.8 ~ 2.5 MPa'], ['充装', '低温泵 + 槽车']] }
     ];
 
     /* 每个工序的镜头预设：目标点、方位角、俯仰角、距离 */
     var SHOTS = [
       { t: [-58, 12, -22], a: -0.44, p: 0.40, r: 138 },
-      { t: [-26, 12, 2], a: -0.42, p: 0.42, r: 156 },
+      { t: [-37, 12, 4], a: -0.42, p: 0.42, r: 164 },
       { t: [-4, 16, 0], a: -0.36, p: 0.40, r: 140 },
       { t: [16, 17, 8], a: -0.48, p: 0.38, r: 136 },
       { t: [34, 24, 4], a: -0.54, p: 0.30, r: 134 },
@@ -365,43 +365,58 @@
         label('离心式空压机机组（电机 + 增速箱 + 压缩机）', -50, 17, -24, 0);
       })();
 
-      /* ---------- 2 后冷 / 预冷 + 冷却塔 + 循环水泵 ---------- */
+      /* ---------- 2 空冷塔 + 水冷塔预冷系统 ---------- */
       (function () {
-        var g = new THREE.Group(); g.position.set(-28, 0, -24); world.add(g);
-        function exchanger(x, z, mat) {
-          var e = new THREE.Group(); e.position.set(x, 0, z); g.add(e);
-          add(e, box(4, 1.2, 4, CFG.concrete), 0, 0.6, 0);
-          add(e, cyl(2.6, 2.6, 16, mat, 24), 0, 4.4, 0, 0, 0, Math.PI / 2);
-          add(e, dome(2.6, mat), -8, 4.4, 0); add(e, dome(2.6, mat), 8, 4.4, 0);
-          add(e, cyl(1.4, 1.4, 3, CFG.steel, 16), -6, 7.4, 0);
-          add(e, cyl(1.4, 1.4, 3, CFG.steel, 16), 6, 7.4, 0);
+        /* 压缩空气在空冷塔内自下而上，与自上而下的喷淋水直接接触。 */
+        var at = new THREE.Group(); at.position.set(-28, 0, -24); world.add(at);
+        add(at, cyl(8.5, 8.5, 1.8, CFG.concrete, 30), 0, 0.9, 0);
+        add(at, cyl(7.0, 7.4, 4, CFG.blueDeep, 28), 0, 3.8, 0);
+        add(at, cyl(7.0, 7.0, 26, CFG.clad, 30), 0, 18.8, 0);
+        add(at, dome(7.0, CFG.clad), 0, 31.8, 0);
+        add(at, ring(8.4, 8.4, 0.24, CFG.steel, 30), 0, 14, 0);
+        add(at, ring(8.4, 8.4, 0.12, CFG.rail, 30), 0, 14.8, 0);
+        add(at, ring(7.5, 7.5, 0.3, CFG.blue, 30), 0, 28, 0);
+        /* 顶部布水环和喷淋支管 */
+        add(at, ring(5.2, 5.2, 0.42, CFG.cw, 28), 0, 28.8, 0);
+        for (var aj = 0; aj < 8; aj++) {
+          var aa = aj / 8 * Math.PI * 2;
+          add(at, cyl(0.28, 0.28, 4.8, CFG.cw, 10), Math.cos(aa) * 5.2, 28.8, Math.sin(aa) * 5.2, Math.PI / 2, 0, aa);
         }
-        exchanger(-6, -6, CFG.insul);
-        exchanger(-6, 7, CFG.insul);
-        add(g, box(12, 8, 10, CFG.clad), 10, 5, 0);
-        g.traverse(function (o) { if (o.isMesh) tag(o, 1); });
-        label('后冷器 / 预冷机组', -28, 12, -24, 1);
+        add(at, box(0.15, 22, 0.15, CFG.steel), 8, 14, 0);
+        add(at, box(0.15, 22, 0.15, CFG.steel), 8, 14, 1.2);
+        at.traverse(function (o) { if (o.isMesh) tag(o, 1); });
+        label('空冷塔', -28, 42, -24, 1);
 
-        var t = new THREE.Group(); t.position.set(-30, 0, 30); world.add(t);
-        add(t, cyl(12, 12, 2.4, CFG.concrete, 30), 0, 1.2, 0);
-        add(t, cyl(8.6, 11.8, 21, CFG.clad, 30), 0, 12.9, 0);
-        add(t, ring(8.8, 8.8, 3, CFG.blue, 30), 0, 24.9, 0);
-        add(t, cyl(4.8, 4.8, 1.2, CFG.steel, 22), 0, 27, 0);
-        for (var k = 0; k < 5; k++) add(t, box(4, 0.2, 1, CFG.steel), Math.cos(k * 1.26) * 2, 26.3, Math.sin(k * 1.26) * 2, 0, k * 1.26, 0.1);
-        for (var j = 0; j < 20; j++) {
-          var a = j / 20 * Math.PI * 2;
-          add(t, box(0.5, 2.2, 0.16, CFG.blue), Math.cos(a) * 11.6, 3, Math.sin(a) * 11.6, 0, -a, 0);
+        /* 水冷塔由冷箱返流污氮自下而上冷却循环水；塔顶排出湿污氮。 */
+        var wt = new THREE.Group(); wt.position.set(-48, 0, 30); world.add(wt);
+        add(wt, cyl(11.5, 11.5, 2.2, CFG.concrete, 30), 0, 1.1, 0);
+        add(wt, cyl(8.2, 10.2, 18, M(0xdceaf0, { m: 0.08, r: 0.6, op: 0.42 }), 30), 0, 11.2, 0);
+        add(wt, cyl(8.5, 8.5, 1.5, CFG.water), 0, 2.65, 0);
+        add(wt, ring(8.5, 8.5, 0.3, CFG.blue, 30), 0, 20.4, 0);
+        /* 填料层、顶部布水环和除沫层；用剖透外壳显示气液接触段。 */
+        for (var wi = 0; wi < 3; wi++) {
+          add(wt, ring(6.4, 6.4, 0.32, wi === 1 ? CFG.cw : CFG.steel, 28), 0, 8.2 + wi * 3.5, 0);
         }
-        add(t, box(0.2, 22, 0.2, CFG.steel), 12.8, 12, 0);
-        t.traverse(function (o) { if (o.isMesh) tag(o, 1); });
-        label('冷却塔', -30, 32, 30, 1);
+        add(wt, ring(5.8, 5.8, 0.36, CFG.cw, 28), 0, 19.1, 0);
+        for (var ws = 0; ws < 6; ws++) {
+          var wa = ws / 6 * Math.PI * 2;
+          add(wt, cyl(0.22, 0.22, 5.6, CFG.cw, 8), Math.cos(wa) * 5.8, 19.1, Math.sin(wa) * 5.8, Math.PI / 2, 0, wa);
+        }
+        add(wt, cyl(0.55, 0.75, 2.8, CFG.steel, 16), 0, 24.3, 0);
+        add(wt, ring(9.0, 9.0, 0.18, CFG.steel, 30), 0, 4, 0);
+        wt.traverse(function (o) { if (o.isMesh) tag(o, 1); });
+        label('水冷塔（污氮冷却循环水）', -48, 31, 30, 1);
 
-        var p = new THREE.Group(); p.position.set(-2, 0, 34); world.add(p);
-        add(p, box(14, 6, 9, CFG.clad), 0, 3, 0);
-        for (var q = 0; q < 3; q++) add(p, cyl(1.4, 1.4, 3.2, CFG.blueDeep, 16), -4 + q * 4, 1.6, 6);
-        add(p, cyl(1.0, 1.0, 18, CFG.cw, 18), 6, 7, 0, 0, 0, Math.PI / 2);
+        var p = new THREE.Group(); p.position.set(-15, 0, 34); world.add(p);
+        add(p, box(20, 0.7, 12, CFG.concrete), 0, 0.35, 2);
+        for (var q = 0; q < 3; q++) {
+          add(p, box(3.8, 2.4, 2.8, CFG.blueDeep), -5 + q * 5, 2.1, 2);
+          add(p, cyl(1.15, 1.15, 3.2, CFG.steel, 18), -5 + q * 5, 2.1, 4.7, Math.PI / 2, 0, 0);
+        }
+        add(p, box(3.4, 3.2, 2.8, CFG.blue), 8, 2.3, 2);
+        add(p, cyl(1.0, 1.0, 8, CFG.cw, 18), 8, 5.1, 2, 0, 0, Math.PI / 2);
         p.traverse(function (o) { if (o.isMesh) tag(o, 1); });
-        label('循环水泵站', -2, 10, 34, 1, true);
+        label('预冷循环水泵组', -15, 9, 36, 1, true);
       })();
 
       /* ---------- 3 分子筛 ---------- */
@@ -476,7 +491,8 @@
         }
         column(cx + 4, cz - 7, 5.0, 22, 4, '精馏下塔');
         column(cx + 4, cz + 9, 5.6, 32, 4, '精馏上塔');
-        column(cx + 15, cz + 13, 2.6, 22, 4, '粗氩 / 精氩塔');
+        column(cx + 15, cz + 8, 2.2, 30, 4, '粗氩塔');
+        column(cx + 15, cz + 14, 1.8, 22, 4, '精氩塔');
         var mc = new THREE.Group(); mc.position.set(cx + 4, 0, cz + 1); inner.add(mc);
         add(mc, cyl(6.8, 6.8, 6.5, CFG.insul, 30), 0, 11, 0);
         add(mc, dome(6.8, CFG.insul), 0, 14.2, 0);
@@ -494,27 +510,9 @@
         label('透平膨胀机 / 增压机', cx - 20, 11, 26, 3);
       })();
 
-      /* ---------- Linde 字标（贴在两台大储罐与冷箱上） ---------- */
+      /* ---------- Linde 官方标识（Wikimedia Commons，Linde plc 提供） ---------- */
       function lindeTexture() {
-        var c = document.createElement('canvas');
-        c.width = 512; c.height = 256;
-        var g2 = c.getContext('2d');
-        g2.fillStyle = '#0b3a75';
-        g2.beginPath();
-        var r = 26, w = 512, h = 256;
-        g2.moveTo(r, 0); g2.lineTo(w - r, 0); g2.quadraticCurveTo(w, 0, w, r);
-        g2.lineTo(w, h - r); g2.quadraticCurveTo(w, h, w - r, h);
-        g2.lineTo(r, h); g2.quadraticCurveTo(0, h, 0, h - r);
-        g2.lineTo(0, r); g2.quadraticCurveTo(0, 0, r, 0);
-        g2.closePath(); g2.fill();
-        g2.fillStyle = '#ffffff';
-        g2.font = 'bold 132px "Segoe UI", Arial, sans-serif';
-        g2.textAlign = 'center'; g2.textBaseline = 'middle';
-        g2.fillText('Linde', w / 2, h / 2 + 6);
-        g2.font = 'bold 40px "Segoe UI", Arial, sans-serif';
-        g2.fillStyle = 'rgba(255,255,255,.86)';
-        g2.fillText('AIR SEPARATION', w / 2, h / 2 + 88);
-        var tex = new THREE.CanvasTexture(c);
+        var tex = new THREE.TextureLoader().load('https://upload.wikimedia.org/wikipedia/commons/6/6f/Linde_plc_logo.png');
         tex.encoding = THREE.sRGBEncoding;
         return tex;
       }
@@ -528,6 +526,7 @@
         world.add(p);
         return p;
       }
+      lindePlate(26, 41, 17.42, 15, 7.5, 0);
 
       /* ---------- 6 储罐 / 汽化器 / 充装 ---------- */
       (function () {
@@ -549,12 +548,8 @@
         cryo(5, 88, -30, 7.4, 20, '液氧储罐');
         cryo(5, 88, 0, 7.4, 20, '液氮储罐');
         cryo(5, 88, 30, 5.6, 16, '液氩储罐');
-        lindePlate(88, 17, -30 + 7.62, 15.5, 5.4, 0);
-        lindePlate(88, 17, 0 + 7.62, 15.5, 5.4, 0);
-        lindePlate(88, 13.5, 30 + 5.75, 12.5, 4.4, 0);
-
         /* 水浴式汽化器：水面 + 气泡 + 排汽 */
-        var v = new THREE.Group(); v.position.set(64, 0, 30); world.add(v);
+        var v = new THREE.Group(); v.position.set(64, 0, -30); world.add(v);
         add(v, box(13, 9, 10, CFG.clad), 0, 4.5, 0);
         add(v, box(12.2, 0.6, 9.2, CFG.water), 0, 9.2, 0);
         for (var i = 0; i < 7; i++) add(v, box(12, 8, 0.4, CFG.steel), 0, 4.5, -4 + i * 1.4);
@@ -576,7 +571,7 @@
           vapors.push({ mesh: puff, y0: 18 + vp * 2.6, phase: vp * 0.8 });
         }
         v.traverse(function (o) { if (o.isMesh) tag(o, 5); });
-        label('水浴式汽化器', 64, 17, 30, 5);
+        label('水浴式汽化器（LOX）', 64, 17, -30, 5);
 
         /* 充装台 + 槽车 */
         var s = new THREE.Group(); s.position.set(112, 0, 30); world.add(s);
@@ -604,10 +599,16 @@
         add(g, box(26, 13, 17, CFG.clad), 0, 6.5, 0);
         add(g, box(20, 2.6, 4, CFG.blue), 0, 14.4, 0);
         add(g, box(20.4, 0.6, 17.4, CFG.concrete), 0, 13.4, 0);
+        add(g, box(5, 2.2, 3.8, CFG.blueDeep), -5, 3.2, -3.5);
+        add(g, cyl(1.5, 1.5, 8, CFG.o2, 20), 0, 7.0, -3.5, 0, 0, Math.PI / 2);
+        add(g, box(5, 2.2, 3.8, CFG.blueDeep), -5, 3.2, 3.5);
+        add(g, cyl(1.5, 1.5, 8, CFG.n2, 20), 0, 7.0, 3.5, 0, 0, Math.PI / 2);
         add(g, cyl(1.0, 1.0, 14, CFG.o2, 16), 13, 8, 0, 0, 0, Math.PI / 2);
         add(g, cyl(1.0, 1.0, 14, CFG.n2, 16), 13, 5, 3, 0, 0, Math.PI / 2);
         g.traverse(function (o) { if (o.isMesh) tag(o, 6); });
-        label('氧压机 / 氮压机厂房', 122, 17, -26, 6);
+        label('产品压缩厂房', 122, 17, -26, 6);
+        label('氧压机', 119, 10, -30, 6, true);
+        label('氮压机', 119, 10, -22, 6, true);
       })();
 
       /* ---------- 公用工程 ---------- */
@@ -675,17 +676,35 @@
         flows.push({ curve: curve, dots: dots, speed: speed });
       }
       pipe([[-68, 12, -24], [-52, 13, -24], [-34, 13, -24]], MEDIA.air, 1.5, 0.075, 4);
-      pipe([[-34, 13, -24], [-18, 14, -20], [-4, 15, -16], [14, 16, -12], [26, 16, -8]], MEDIA.air, 1.4, 0.075, 6);
-      pipe([[26, 16, -8], [32, 17, -4], [34, 14, -10]], MEDIA.air, 1.2, 0.085, 3);
-      pipe([[-30, 7, 30], [-34, 6, 40], [-38, 6, 46]], MEDIA.cw, 1.0, 0.055, 3);
-      pipe([[-4, 8, 34], [14, 9, 30], [34, 9, 24], [56, 9, 18]], MEDIA.cw, 0.9, 0.05, 5);
-      pipe([[36, 24, 20], [58, 22, 24], [76, 20, 18], [88, 18, 0]], MEDIA.n2, 1.2, 0.07, 5);
-      pipe([[88, 18, 0], [106, 16, -10], [122, 13, -22]], MEDIA.n2, 1.1, 0.07, 4);
-      pipe([[36, 22, -12], [62, 20, -22], [80, 18, -30], [88, 16, -30]], MEDIA.o2, 1.15, 0.07, 5);
-      pipe([[88, 16, -30], [106, 14, -28], [122, 12, -26]], MEDIA.o2, 1.05, 0.07, 4);
-      pipe([[48, 18, 14], [62, 16, 20], [76, 14, 26], [88, 12, 30]], MEDIA.ar, 0.9, 0.065, 4);
-      pipe([[88, 12, 30], [100, 10, 32], [110, 9, 30]], MEDIA.ar, 0.85, 0.065, 3);
-      pipe([[64, 11, 30], [66, 11, 22], [74, 12, 6], [72, 12, -14]], MEDIA.o2, 0.7, 0.06, 3);
+      /* 压缩空气：空压机 → 空冷塔 → 双床分子筛 → 冷箱主换热器。 */
+      pipe([[-34, 13, -24], [-32, 13, -24], [-31, 9, -24], [-21, 8, -24]], MEDIA.air, 1.25, 0.075, 4);
+      pipe([[-28, 33, -24], [-22, 33, -24], [-16, 31, -24], [-13, 29, -24], [-13, 8, -24]], MEDIA.air, 1.05, 0.075, 5);
+      pipe([[-13, 8, -24], [-13, 8, -16], [-9.2, 8, -16]], MEDIA.air, 0.95, 0.075, 3);
+      pipe([[-13, 8, -16], [-13, 8, -3], [-13, 8, 10]], MEDIA.air, 0.85, 0.075, 4);
+      pipe([[-13, 8, 10], [-9.2, 8, 10]], MEDIA.air, 0.95, 0.075, 3);
+      pipe([[-4, 27, -16], [1.5, 27, -16], [7, 29, -16]], MEDIA.air, 1.0, 0.075, 3);
+      pipe([[-4, 27, 10], [1.5, 27, 10], [7, 29, 10]], MEDIA.air, 1.0, 0.075, 3);
+      pipe([[7, 29, -16], [7, 29, -3], [7, 29, 10]], MEDIA.air, 0.9, 0.075, 4);
+      pipe([[7, 29, -3], [14, 29, -3], [16, 26, -3], [16, 16, -3], [24, 16, -7]], MEDIA.air, 1.15, 0.075, 5);
+      /* 循环水：水冷塔底部 → 循环水泵组 → 空冷塔顶部；空冷塔回水到水冷塔。 */
+      pipe([[-48, 2, 30], [-38, 3, 36], [-26, 3, 40], [-15, 3, 40]], MEDIA.cw, 0.85, 0.055, 4);
+      pipe([[-15, 2.1, 40.3], [-15, 13, 32], [-19, 21, 10], [-24, 29, -8], [-28, 34, -24]], MEDIA.cw, 0.8, 0.055, 5);
+      pipe([[-21, 3, -24], [-23, 3, -10], [-35, 3, -10], [-44, 3, 6], [-48, 14, 22], [-48, 23, 30]], MEDIA.cw, 0.8, 0.05, 5);
+      pipe([[20, 10, 12], [12, 9, 32], [4, 9, 50], [-24, 9, 52], [-58, 9, 52], [-66, 8, 42], [-66, 6, 30], [-56, 6, 30], [-50, 7, 30], [-48, 11, 30], [-48, 20, 30], [-48, 26, 30], [-48, 34, 30], [-62, 37, 30]], MEDIA.n2, 0.7, 0.045, 9);
+      label('污氮进塔冷却循环水，塔顶排空', -64, 27, 30, 1, true);
+      /* 液体产品分别入罐；气体产品绕过储罐，单独送产品压缩厂房。 */
+      pipe([[42, 10, -8], [50, 10, -18], [64, 10, -20], [74, 11, -24], [80.6, 14, -30]], MEDIA.o2, 0.9, 0.06, 5);
+      pipe([[42, 10, 0], [52, 10, 8], [66, 10, 9], [76, 12, 5], [80.6, 14, 0]], MEDIA.n2, 0.9, 0.06, 5);
+      pipe([[48, 18, 14], [62, 16, 20], [74, 14, 27], [82.4, 12, 30]], MEDIA.ar, 0.9, 0.065, 4);
+      pipe([[93.6, 10, 30], [100, 10, 32], [110, 9, 30]], MEDIA.ar, 0.85, 0.065, 3);
+      pipe([[48, 24, -9], [60, 30, -15], [74, 39, -26], [98, 41, -34], [108, 22, -34], [110, 8, -30], [118, 7, -30]], MEDIA.o2, 0.9, 0.07, 6);
+      pipe([[48, 30, 9], [60, 35, 13], [78, 43, 13], [98, 43, 0], [108, 22, -14], [110, 7, -22], [118, 7, -22]], MEDIA.n2, 0.9, 0.07, 6);
+      /* LOX 储罐 → 水浴汽化器 → 氧压机，作为液氧汽化外送线。 */
+      pipe([[80.6, 14, -30], [75, 12, -30], [70.5, 10, -30]], MEDIA.o2, 0.8, 0.06, 3);
+      pipe([[70.5, 13, -30], [76, 13, -40], [97, 13, -40], [108, 10, -34], [110, 8, -30], [118, 7, -30]], MEDIA.o2, 0.8, 0.06, 5);
+      /* 产品压缩机出口接入公用管廊，分别送氧气与氮气用户管网。 */
+      pipe([[126, 7, -30], [135, 8, -30], [141, 10, -34], [141, 15, -40], [134, 9.9, -47.6]], MEDIA.o2, 0.85, 0.065, 5);
+      pipe([[126, 7, -22], [135, 6, -22], [141, 9, -27], [141, 15, -35], [134, 14.2, -44.1]], MEDIA.n2, 0.85, 0.065, 5);
 
       /* ---------- 交互 ---------- */
       var stepButtons = [];
