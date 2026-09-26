@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:31:44.702Z",
+  "updated": "2026-09-26T16:31:48.491Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -652,6 +652,15 @@
           "lat": 9,
           "lon": -80,
           "createdAt": "2026-09-26T16:31:43.555Z"
+        },
+        {
+          "id": "a8de50f9-ebd7-49b5-9e52-e2162df73082",
+          "placeId": "ar",
+          "name": "阿根廷",
+          "scope": "international",
+          "lat": -34,
+          "lon": -64,
+          "createdAt": "2026-09-26T16:31:47.424Z"
         }
       ],
       "deletedIds": []
