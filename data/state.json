@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T14:28:09.941Z",
+  "updated": "2026-09-26T14:28:12.586Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -268,6 +268,15 @@
           "lat": 23.1291,
           "lon": 113.2644,
           "createdAt": "2026-09-26T14:28:05.343Z"
+        },
+        {
+          "id": "c028fe3a-d5cd-4caf-8dda-c0227f2d7869",
+          "placeId": "cn-sichuan",
+          "name": "四川",
+          "scope": "domestic",
+          "lat": 30.5728,
+          "lon": 104.0668,
+          "createdAt": "2026-09-26T14:28:10.852Z"
         }
       ],
       "deletedIds": []
