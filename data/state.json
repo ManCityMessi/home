@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T14:29:39.797Z",
+  "updated": "2026-09-26T14:29:44.330Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -364,6 +364,15 @@
           "lat": 30.2741,
           "lon": 120.1551,
           "createdAt": "2026-09-26T14:29:38.747Z"
+        },
+        {
+          "id": "eed405d9-e375-4b1a-b6e4-f83d2bfce2dd",
+          "placeId": "cn-anhui",
+          "name": "安徽",
+          "scope": "domestic",
+          "lat": 31.8206,
+          "lon": 117.2272,
+          "createdAt": "2026-09-26T14:29:43.270Z"
         }
       ],
       "deletedIds": []
