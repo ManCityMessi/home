@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:32:09.092Z",
+  "updated": "2026-09-26T16:32:20.725Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -715,6 +715,15 @@
           "lat": -33,
           "lon": -56,
           "createdAt": "2026-09-26T16:32:07.991Z"
+        },
+        {
+          "id": "82f8f079-96d0-4fe4-a367-f21524aaa1f4",
+          "placeId": "in",
+          "name": "印度",
+          "scope": "international",
+          "lat": 20,
+          "lon": 77,
+          "createdAt": "2026-09-26T16:32:19.647Z"
         }
       ],
       "deletedIds": []
