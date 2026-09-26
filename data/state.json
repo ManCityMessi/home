@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:33:04.291Z",
+  "updated": "2026-09-26T16:33:08.080Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -796,6 +796,15 @@
           "lat": 44,
           "lon": 21,
           "createdAt": "2026-09-26T16:33:03.161Z"
+        },
+        {
+          "id": "8747b04a-5ce3-4e6f-b5b2-4a2970b22a48",
+          "placeId": "es",
+          "name": "西班牙",
+          "scope": "international",
+          "lat": 40,
+          "lon": -4,
+          "createdAt": "2026-09-26T16:33:06.805Z"
         }
       ],
       "deletedIds": []
