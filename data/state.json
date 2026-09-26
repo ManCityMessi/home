@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26T16:32:44.984Z",
+  "updated": "2026-09-26T16:33:04.291Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -787,6 +787,15 @@
           "lat": 52.5,
           "lon": 5.75,
           "createdAt": "2026-09-26T16:32:43.231Z"
+        },
+        {
+          "id": "be3ba90d-9aa2-41bc-9554-f127b54551d5",
+          "placeId": "rs",
+          "name": "塞尔维亚",
+          "scope": "international",
+          "lat": 44,
+          "lon": 21,
+          "createdAt": "2026-09-26T16:33:03.161Z"
         }
       ],
       "deletedIds": []
