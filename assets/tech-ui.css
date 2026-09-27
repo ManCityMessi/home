@@ -1128,6 +1128,197 @@ body[data-depth-page="home3"] .card.t-depth-card {
 }
 body[data-depth-page="home3"] .card.t-depth-card:hover {
   transform: perspective(900px) translateY(-6px) rotateX(var(--depth-rx)) rotateY(var(--depth-ry));
+  }
+
+/* ---------------------------------------------------- 8. 浅色主题可读性
+   部分内页沿用原来的深色硬编码组件。切换浅色主题后，深色表面与主题变量
+   里的深色文字叠在一起，下面按组件覆盖为浅表面，并提高弱化文字的对比度。
+*/
+html.t-light {
+  --t-ink-3: #596780;
+  --ink3: #596780;
+  --ink-3: #596780;
+}
+
+/* 投资页：导航、摘要、筛选控件、持仓标签和月度选择 */
+html.t-light .portfolio-sidebar,
+html.t-light .radar-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(242,247,255,.97)) !important;
+  border-color: var(--t-line-2) !important;
+}
+html.t-light .radar-meta .big {
+  background-image: linear-gradient(90deg, #243a65, #80620c) !important;
+}
+html.t-light .section-jump .jump-icon { color: #315ba8 !important; }
+html.t-light .section-jump a:last-child .jump-icon { color: #765700 !important; }
+html.t-light .toolbar,
+html.t-light .seg,
+html.t-light .sh {
+  background-color: rgba(238,243,252,.92) !important;
+  border-color: var(--t-line-2) !important;
+}
+html.t-light .seg button.on,
+html.t-light .months button.on {
+  background: linear-gradient(135deg, #dce8ff, #eef3ff) !important;
+  border-color: #a9c1f3 !important;
+  color: #1f3c72 !important;
+  box-shadow: 0 2px 8px rgba(37,75,145,.12) !important;
+}
+html.t-light .chk input,
+html.t-light .sel,
+html.t-light .icon-btn,
+html.t-light .months button,
+html.t-light .grow .inp {
+  background-color: #fff !important;
+  color: var(--t-ink) !important;
+  border-color: var(--t-line-2) !important;
+  color-scheme: light;
+}
+html.t-light body[data-depth-page="portfolio"] .f input,
+html.t-light body[data-depth-page="portfolio"] .f select,
+html.t-light body[data-depth-page="portfolio"] .f textarea {
+  background: #fff !important;
+  color: var(--t-ink) !important;
+  border-color: var(--t-line-2) !important;
+}
+html.t-light body[data-depth-page="portfolio"] .btn:not(.primary):not(.gold):hover,
+html.t-light .icon-btn:hover,
+html.t-light .months button:hover {
+  background: #edf3ff !important;
+  color: #1f3c72 !important;
+  border-color: #a9c1f3 !important;
+}
+html.t-light body[data-depth-page="portfolio"] .badge,
+html.t-light body[data-depth-page="portfolio"] .vchip {
+  background: #f2f6fd !important;
+  color: #40516d !important;
+  border-color: var(--t-line-2) !important;
+}
+html.t-light body[data-depth-page="portfolio"] .badge.hit,
+html.t-light body[data-depth-page="portfolio"] .vchip.q {
+  color: #725300 !important;
+  background: #fff6d9 !important;
+  border-color: rgba(174,128,0,.34) !important;
+}
+html.t-light body[data-depth-page="portfolio"] .panel.hl { background: rgba(47,107,255,.055) !important; }
+
+/* 工作日志：编辑框、悬停按钮和装饰卡片 */
+html.t-light .addrow input,
+html.t-light .item input.txt:focus {
+  background: #fff !important;
+  color: var(--t-ink) !important;
+  border-color: var(--t-line-2) !important;
+}
+html.t-light input[type="date"] { color-scheme: light !important; }
+html.t-light body[data-depth-page="work"] .btn:not(.primary):not(.gold):hover,
+html.t-light .dnav:hover,
+html.t-light .aitem .undo:hover {
+  background: #edf3ff !important;
+  color: #1f3c72 !important;
+  border-color: #a9c1f3 !important;
+}
+html.t-light .bears {
+  background:
+    radial-gradient(120% 170% at 10% 0%, rgba(240,185,11,.12), transparent 58%),
+    radial-gradient(110% 150% at 92% 10%, rgba(91,140,255,.12), transparent 60%),
+    linear-gradient(180deg, #f7f9fd, #eaf0fa) !important;
+  border-color: var(--t-line-2) !important;
+}
+
+/* 旅行地图：统计卡片、筛选区和地点列表 */
+html.t-light body[data-depth-page="travel-map"] .panel,
+html.t-light body[data-depth-page="travel-map"] .stat-card {
+  background: linear-gradient(145deg, #fff, #f3f7fe) !important;
+  border-color: var(--t-line-2) !important;
+  color: var(--t-ink) !important;
+}
+html.t-light body[data-depth-page="travel-map"] .brand-mark {
+  color: #315ba8 !important;
+  border-color: rgba(47,107,255,.26) !important;
+  background: rgba(47,107,255,.09) !important;
+}
+html.t-light body[data-depth-page="travel-map"] .eyebrow { color: #365f9d !important; }
+html.t-light body[data-depth-page="travel-map"] .cloud-state { color: #765800 !important; }
+html.t-light body[data-depth-page="travel-map"] .cloud-state[data-state="ok"] { color: #176846 !important; }
+html.t-light body[data-depth-page="travel-map"] .cloud-state[data-state="error"] { color: #9b3448 !important; }
+html.t-light body[data-depth-page="travel-map"] .stat-card.selected {
+  background: linear-gradient(145deg, #fff8e4, #fffdf7) !important;
+  border-color: rgba(174,128,0,.42) !important;
+}
+html.t-light body[data-depth-page="travel-map"] .stat-rail { background: #e2e9f3 !important; }
+html.t-light body[data-depth-page="travel-map"] .seg,
+html.t-light body[data-depth-page="travel-map"] .filter-tabs {
+  background: #edf2fb !important;
+  border-color: var(--t-line-2) !important;
+}
+html.t-light body[data-depth-page="travel-map"] .seg button,
+html.t-light body[data-depth-page="travel-map"] .filter-tabs button {
+  color: #43516b !important;
+}
+html.t-light body[data-depth-page="travel-map"] .seg button[aria-pressed="true"],
+html.t-light body[data-depth-page="travel-map"] .filter-tabs button[aria-pressed="true"] {
+  background: #dce8ff !important;
+  color: #1f3c72 !important;
+  box-shadow: inset 0 0 0 1px #adc4f1 !important;
+}
+html.t-light body[data-depth-page="travel-map"] .seg button[data-person="yy"][aria-pressed="true"] {
+  background: rgba(47,107,255,.14) !important;
+  color: #244e9e !important;
+}
+html.t-light body[data-depth-page="travel-map"] .seg button[data-person="evelyn"][aria-pressed="true"] {
+  background: rgba(213,66,101,.12) !important;
+  color: #96394f !important;
+}
+html.t-light body[data-depth-page="travel-map"] .seg button[data-person="both"][aria-pressed="true"] {
+  background: rgba(201,151,20,.16) !important;
+  color: #705300 !important;
+}
+html.t-light body[data-depth-page="travel-map"] .search input {
+  background: #fff !important;
+  color: var(--t-ink) !important;
+  border-color: var(--t-line-2) !important;
+}
+html.t-light body[data-depth-page="travel-map"] .search input::placeholder { color: #68758b !important; }
+html.t-light body[data-depth-page="travel-map"] .region-section-head {
+  background: rgba(239,244,252,.97) !important;
+  border-color: var(--t-line) !important;
+  color: #263750 !important;
+}
+html.t-light body[data-depth-page="travel-map"] .place-row { border-color: var(--t-line) !important; }
+html.t-light body[data-depth-page="travel-map"] .place-name { color: #17243a !important; }
+html.t-light body[data-depth-page="travel-map"] .place-row.state-unvisited .place-name { color: #66748b !important; }
+html.t-light body[data-depth-page="travel-map"] .place-code {
+  background: #edf2fa !important;
+  color: #3d4e69 !important;
+  border-color: #cad5e7 !important;
+}
+html.t-light body[data-depth-page="travel-map"] .owner-toggle {
+  background: #f7f9fd !important;
+  color: #46546c !important;
+  border-color: #cbd5e4 !important;
+}
+html.t-light body[data-depth-page="travel-map"] .owner-toggle:hover {
+  background: #edf3ff !important;
+  color: #234680 !important;
+  border-color: #9db6e8 !important;
+}
+html.t-light body[data-depth-page="travel-map"] .owner-toggle.yy.is-visited {
+  background: rgba(47,107,255,.12) !important;
+  color: #244e9e !important;
+}
+html.t-light body[data-depth-page="travel-map"] .owner-toggle.evelyn.is-visited {
+  background: rgba(213,66,101,.11) !important;
+  color: #96394f !important;
+}
+html.t-light body[data-depth-page="travel-map"] .action-message { color: #3f5b8e !important; }
+html.t-light body[data-depth-page="travel-map"] .action-message[data-kind="error"] { color: #9b3448 !important; }
+html.t-light body[data-depth-page="travel-map"] .action-message[data-kind="ok"] { color: #176846 !important; }
+
+/* 其它内页的输入控件统一使用可读的浅底与主题文字色 */
+html.t-light input:not([type="checkbox"]),
+html.t-light select,
+html.t-light textarea {
+  color-scheme: light;
 }
 body[data-depth-page="home3"] .card.t-depth-card::after {
   content: "";
