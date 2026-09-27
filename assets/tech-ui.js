@@ -10,6 +10,7 @@
 
   var PAGES = [
     { file: "home3.html", label: "首页" },
+    { file: "daily-consultation.html", label: "每日资讯" },
     { file: "portfolio.html", label: "投资" },
     { file: "halfmarathon.html", label: "半马" },
     { file: "deepseek.html", label: "DeepSeek" },
