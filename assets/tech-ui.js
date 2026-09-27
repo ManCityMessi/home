@@ -1,7 +1,7 @@
 /* ============================================================================
    tech-ui.js — HUD 顶栏 / 实时时钟 / 云端状态 / 首页数据流条
    ----------------------------------------------------------------------------
-   只做展示层，不碰任何业务数据；读不到元素就安静跳过。
+   只记录本机的快捷入口点击次数，不碰业务数据，也不上传该计数；读不到元素就安静跳过。
    ========================================================================== */
 (function () {
   "use strict";
@@ -10,6 +10,7 @@
 
   var PAGES = [
     { file: "home3.html", label: "首页" },
+    { file: "daily-consultation.html", label: "每日资讯" },
     { file: "portfolio.html", label: "投资" },
     { file: "halfmarathon.html", label: "半马" },
     { file: "deepseek.html", label: "DeepSeek" },
@@ -130,10 +131,34 @@
     bar.appendChild(brand);
 
     var nav = el("nav", "t-nav");
-    PAGES.forEach(function (p) {
+    nav.setAttribute("aria-label", "快速入口，按本机打开次数排序");
+    var countKey = "mancity.quick-entry-counts.v1";
+    function readCounts() {
+      try {
+        var value = JSON.parse(localStorage.getItem(countKey) || "{}");
+        return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+      } catch (e) { return {}; }
+    }
+    var counts = readCounts();
+    var sortedPages = PAGES.slice().sort(function (a, b) {
+      if (a.file === "home3.html") return b.file === "home3.html" ? 0 : -1;
+      if (b.file === "home3.html") return 1;
+      var delta = (Number(counts[b.file]) || 0) - (Number(counts[a.file]) || 0);
+      return delta || PAGES.indexOf(a) - PAGES.indexOf(b);
+    });
+    sortedPages.forEach(function (p) {
       var a = el("a", null, p.label);
       a.href = "./" + p.file;
+      a.title = "已打开 " + (Number(counts[p.file]) || 0) + " 次 · 点击后按使用频次排序";
       if (p.file.toLowerCase() === current) a.className = "on";
+      a.addEventListener("click", function (event) {
+        if (event.button !== 0) return;
+        try {
+          var next = readCounts();
+          next[p.file] = (Number(next[p.file]) || 0) + 1;
+          localStorage.setItem(countKey, JSON.stringify(next));
+        } catch (e) { /* 存储不可用时仍正常打开入口 */ }
+      });
       nav.appendChild(a);
     });
     bar.appendChild(nav);
