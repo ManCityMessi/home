@@ -18,6 +18,20 @@
     { file: "wujiang.html", label: "婺江路" },
     { file: "travel-map.html", label: "旅行地图" }
   ];
+  var ENTRY_COUNT_KEY = "mancity.quick-entry-counts.v1";
+  function readEntryCounts() {
+    try {
+      var value = JSON.parse(localStorage.getItem(ENTRY_COUNT_KEY) || "{}");
+      return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+    } catch (e) { return {}; }
+  }
+  function recordEntry(file) {
+    try {
+      var counts = readEntryCounts();
+      counts[file] = (Number(counts[file]) || 0) + 1;
+      localStorage.setItem(ENTRY_COUNT_KEY, JSON.stringify(counts));
+    } catch (e) { /* 本机存储不可用时仍正常打开入口 */ }
+  }
 
   function el(tag, cls, html) {
     var n = document.createElement(tag);
@@ -132,14 +146,7 @@
 
     var nav = el("nav", "t-nav");
     nav.setAttribute("aria-label", "快速入口，按本机打开次数排序");
-    var countKey = "mancity.quick-entry-counts.v1";
-    function readCounts() {
-      try {
-        var value = JSON.parse(localStorage.getItem(countKey) || "{}");
-        return value && typeof value === "object" && !Array.isArray(value) ? value : {};
-      } catch (e) { return {}; }
-    }
-    var counts = readCounts();
+    var counts = readEntryCounts();
     var sortedPages = PAGES.slice().sort(function (a, b) {
       if (a.file === "home3.html") return b.file === "home3.html" ? 0 : -1;
       if (b.file === "home3.html") return 1;
@@ -153,14 +160,20 @@
       if (p.file.toLowerCase() === current) a.className = "on";
       a.addEventListener("click", function (event) {
         if (event.button !== 0) return;
-        try {
-          var next = readCounts();
-          next[p.file] = (Number(next[p.file]) || 0) + 1;
-          localStorage.setItem(countKey, JSON.stringify(next));
-        } catch (e) { /* 存储不可用时仍正常打开入口 */ }
+        recordEntry(p.file);
       });
       nav.appendChild(a);
     });
+    if (current === "home3.html") {
+      var cards = document.querySelectorAll("#paneWork > a.card[href], #paneLife > a.card[href]");
+      Array.prototype.forEach.call(cards, function (card) {
+        card.addEventListener("click", function (event) {
+          if (event.button !== 0) return;
+          var file = (card.getAttribute("href") || "").split(/[?#]/)[0].split("/").pop();
+          if (file) recordEntry(file);
+        });
+      });
+    }
     bar.appendChild(nav);
 
     var meta = el("div", "t-meta");
