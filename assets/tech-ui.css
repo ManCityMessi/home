@@ -1373,3 +1373,65 @@ body[data-depth-page="home3"] .card.t-depth-card > .meta {
   body[data-depth-page="home3"] .card.t-depth-card:hover { transform: none !important; will-change: auto; }
   body[data-depth-page="home3"] .card.t-depth-card > .meta { transform: none; }
 }
+
+/* 半马页顶部：浅色模式下将深色 Hero 与今日训练卡切换为明亮表面 */
+html.t-light body[data-depth-page="halfmarathon"] .hero {
+  background: linear-gradient(128deg, #fafdff 0%, #edf4ff 58%, #fff3f5 100%) !important;
+  color: var(--t-ink) !important;
+  border: 1px solid var(--t-line-2) !important;
+  box-shadow: 0 24px 54px -40px rgba(31, 66, 128, .36) !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .hero > .wrap > a,
+html.t-light body[data-depth-page="halfmarathon"] .hero .sub {
+  color: var(--t-ink-2) !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .hero .chip {
+  background: rgba(255, 255, 255, .78) !important;
+  border-color: var(--t-line-2) !important;
+  color: var(--t-ink-2) !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .hero .chip b {
+  color: #b8324b !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .today {
+  background: linear-gradient(140deg, #fff 0%, #f5f9ff 68%, #fff8f8 100%) !important;
+  color: var(--t-ink) !important;
+  border: 1px solid var(--t-line-2) !important;
+  box-shadow: 0 20px 44px -28px rgba(31, 62, 115, .25) !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .td-date,
+html.t-light body[data-depth-page="halfmarathon"] .td-meta {
+  color: var(--t-ink-2) !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .td-day,
+html.t-light body[data-depth-page="halfmarathon"] .td-foot {
+  color: var(--t-ink-3) !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .td-meta .tagline {
+  color: #a92f46 !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .td-meta .tagline.ok {
+  color: #126b45 !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .td-bar {
+  background: rgba(16, 26, 51, .12) !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .td-check {
+  background: color-mix(in srgb, var(--t-acc) 6%, #fff) !important;
+  border-color: var(--t-line-2) !important;
+  color: var(--t-ink) !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .td-check small {
+  color: var(--t-ink-3) !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .td-check .box {
+  border-color: #9aa8bd !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .td-check.on {
+  background: #0b7a43 !important;
+  border-color: #0b7a43 !important;
+  color: #fff !important;
+}
+html.t-light body[data-depth-page="halfmarathon"] .td-check.on small {
+  color: #dcfce9 !important;
+}
