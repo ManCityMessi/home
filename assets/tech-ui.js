@@ -1,7 +1,7 @@
 /* ============================================================================
    tech-ui.js — HUD 顶栏 / 实时时钟 / 云端状态 / 首页数据流条
    ----------------------------------------------------------------------------
-   只做展示层，不碰任何业务数据；读不到元素就安静跳过。
+   只记录本机的快捷入口点击次数，不碰业务数据，也不上传该计数；读不到元素就安静跳过。
    ========================================================================== */
 (function () {
   "use strict";
@@ -18,6 +18,20 @@
     { file: "wujiang.html", label: "婺江路" },
     { file: "travel-map.html", label: "旅行地图" }
   ];
+  var ENTRY_COUNT_KEY = "mancity.quick-entry-counts.v1";
+  function readEntryCounts() {
+    try {
+      var value = JSON.parse(localStorage.getItem(ENTRY_COUNT_KEY) || "{}");
+      return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+    } catch (e) { return {}; }
+  }
+  function recordEntry(file) {
+    try {
+      var counts = readEntryCounts();
+      counts[file] = (Number(counts[file]) || 0) + 1;
+      localStorage.setItem(ENTRY_COUNT_KEY, JSON.stringify(counts));
+    } catch (e) { /* 本机存储不可用时仍正常打开入口 */ }
+  }
 
   function el(tag, cls, html) {
     var n = document.createElement(tag);
@@ -131,12 +145,35 @@
     bar.appendChild(brand);
 
     var nav = el("nav", "t-nav");
-    PAGES.forEach(function (p) {
+    nav.setAttribute("aria-label", "快速入口，按本机打开次数排序");
+    var counts = readEntryCounts();
+    var sortedPages = PAGES.slice().sort(function (a, b) {
+      if (a.file === "home3.html") return b.file === "home3.html" ? 0 : -1;
+      if (b.file === "home3.html") return 1;
+      var delta = (Number(counts[b.file]) || 0) - (Number(counts[a.file]) || 0);
+      return delta || PAGES.indexOf(a) - PAGES.indexOf(b);
+    });
+    sortedPages.forEach(function (p) {
       var a = el("a", null, p.label);
       a.href = "./" + p.file;
+      a.title = "已打开 " + (Number(counts[p.file]) || 0) + " 次 · 点击后按使用频次排序";
       if (p.file.toLowerCase() === current) a.className = "on";
+      a.addEventListener("click", function (event) {
+        if (event.button !== 0) return;
+        recordEntry(p.file);
+      });
       nav.appendChild(a);
     });
+    if (current === "home3.html") {
+      var cards = document.querySelectorAll("#paneWork > a.card[href], #paneLife > a.card[href]");
+      Array.prototype.forEach.call(cards, function (card) {
+        card.addEventListener("click", function (event) {
+          if (event.button !== 0) return;
+          var file = (card.getAttribute("href") || "").split(/[?#]/)[0].split("/").pop();
+          if (file) recordEntry(file);
+        });
+      });
+    }
     bar.appendChild(nav);
 
     var meta = el("div", "t-meta");
