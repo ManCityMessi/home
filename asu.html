@@ -515,16 +515,34 @@
         label('透平膨胀机 / 增压机', cx - 20, 11, 26, 3);
       })();
 
-      /* ---------- Linde 官方标识（Wikimedia Commons，Linde plc 提供） ---------- */
-      function lindeTexture() {
-        var tex = new THREE.TextureLoader().load('https://upload.wikimedia.org/wikipedia/commons/6/6f/Linde_plc_logo.png');
+      /* ---------- 冷箱标识：本地字样兜底，网络可达时替换为官方图像 ---------- */
+      function lindeFallbackTexture() {
+        var canvas = document.createElement('canvas');
+        canvas.width = 512; canvas.height = 256;
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 512, 256);
+        ctx.fillStyle = '#0757a0';
+        ctx.font = 'bold 132px Arial, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('Linde', 256, 132);
+        var tex = new THREE.CanvasTexture(canvas);
         tex.encoding = THREE.sRGBEncoding;
         return tex;
       }
-      var lindeTex = lindeTexture();
+      var lindeMat = new THREE.MeshBasicMaterial({ map: lindeFallbackTexture(), transparent: true });
+      new THREE.TextureLoader().load(
+        'https://upload.wikimedia.org/wikipedia/commons/6/6f/Linde_plc_logo.png',
+        function (tex) {
+          tex.encoding = THREE.sRGBEncoding;
+          lindeMat.map.dispose();
+          lindeMat.map = tex;
+          lindeMat.needsUpdate = true;
+        },
+        undefined,
+        function () { /* 离线时保留冷箱上的本地字样。 */ }
+      );
       function lindePlate(x, y, z, w, h, ry) {
-        var m = new THREE.MeshBasicMaterial({ map: lindeTex, transparent: true });
-        var p = new THREE.Mesh(new THREE.PlaneGeometry(w, h), m);
+        var p = new THREE.Mesh(new THREE.PlaneGeometry(w, h), lindeMat);
         p.position.set(x, y, z);
         if (ry) p.rotation.y = ry;
         p.userData.noDim = true;
