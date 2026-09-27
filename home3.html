@@ -163,6 +163,14 @@
   .empty2{padding:12px 0;font-size:13px;color:var(--ink3)}
   .hint2{margin-top:10px;font-size:11.5px;color:var(--ink3)}
   .hint2.warn{color:#b45309}
+  .card.daily-card{background:linear-gradient(112deg,#fff 0%,#f7f7ff 57%,#f1fbff 100%);border-color:#dcdffd}
+  .card.daily-card::before{height:4px;background:linear-gradient(90deg,#6757e8,#3f9eff,#37c8b5)}
+  .daily-card .ico{background:linear-gradient(145deg,rgba(103,87,232,.15),rgba(55,200,181,.15));color:#5c61d8}
+  .daily-badges{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
+  .daily-badge{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(88,103,201,.13);border-radius:12px;background:rgba(255,255,255,.78);font-size:12px;color:#5b6684}
+  .daily-badge b{font-size:13px;color:#26314f}
+  .daily-live{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.1em;color:#167d68;background:#e8f8f3;border:1px solid #ccefe5;padding:4px 8px;border-radius:999px}
+  .daily-live::before{content:"";width:6px;height:6px;border-radius:50%;background:#22a987;box-shadow:0 0 0 3px rgba(34,169,135,.13)}
 </style>
 <link rel="stylesheet" href="./assets/tech-ui.css?v=20260927160000">
 <script>(function(){try{var t=localStorage.getItem("tech-theme");if(t==="light"||t==="dark")document.documentElement.className="t-"+t;}catch(e){}})();</script>
@@ -202,11 +210,31 @@
     <button class="wb-btn" id="tabLife" role="tab" type="button" aria-selected="false" aria-controls="paneLife">生活</button>
   </div>
   <div class="grid" id="paneWork" role="tabpanel" aria-labelledby="tabWork">
+    <a class="card daily-card wide" href="./daily-consultation.html">
+      <div class="meta split">
+        <div class="mcol">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h14a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18V6A1.5 1.5 0 0 1 5 4.5Z"/><path d="M7.5 8h9M7.5 11.5h5.5M7.5 15h3"/><circle cx="17" cy="15" r="2.5"/></svg></span>
+          <div class="k">01 / DAILY BRIEF · 24H</div>
+          <h2>每日咨询</h2>
+          <p>全球大模型动态 · 六家公司公告资讯 · 摩根 QDII 申购限额。每天 08:00 更新当日简报。</p>
+          <div class="go">查看今日简报 &#8594;</div>
+        </div>
+        <div class="mcol">
+          <div class="mhead"><span>内容速览</span><span class="daily-live">DAILY UPDATE</span></div>
+          <div class="daily-badges">
+            <span class="daily-badge"><b>AI</b> 大模型更新</span>
+            <span class="daily-badge"><b>6</b> 家重点公司</span>
+            <span class="daily-badge"><b>2</b> 只 QDII 限额</span>
+          </div>
+          <div class="hint2">只显示最新一天 · 页面只读 · 刷新查看最新版本</div>
+        </div>
+      </div>
+    </a>
     <a class="card acc-blue wide" href="./deepseek.html">
       <div class="meta split">
         <div class="mcol">
           <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 8.6l3 3.9 3-3.9"/><path d="M12 12.5V16"/><path d="M9.6 13.6h4.8M9.6 15.4h4.8"/></svg></span>
-          <div class="k">01 / DEEPSEEK API USAGE</div>
+          <div class="k">02 / DEEPSEEK API USAGE</div>
           <h2>DeepSeek 余额与消耗</h2>
           <p>每天 00:00 自动记录余额与消耗，趋势一页看完。</p>
           <div class="go">打开详情 &#8594;</div>
@@ -224,7 +252,7 @@
       <div class="meta split">
         <div class="mcol">
           <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.9l8 4.6v9L12 21.1l-8-4.6v-9z"/><path d="M4 7.5l8 4.6 8-4.6M12 12.1v9"/></svg></span>
-          <div class="k">02 / AIR SEPARATION UNIT · 3D</div>
+          <div class="k">03 / AIR SEPARATION UNIT · 3D</div>
           <h2>空分装置工艺流程</h2>
           <p>三维流程 · 空气压缩 → 空冷 / 水冷预冷 → 分子筛 → 冷箱精馏 → 储运外送</p>
           <div class="go">打开三维图 &#8594;</div>
