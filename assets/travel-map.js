@@ -61,6 +61,7 @@
   var map = null;
   var fittedBounds = null;
   var currentBounds = null;
+  var mapLongitudeCenter = 0;
   var mapLoadErrors = { domestic: "", international: "" };
   var worldMapPromise = null;
   var cloudReady = false;
@@ -171,6 +172,9 @@
   function countryVisited(continent) {
     return countries.filter(function (place) { return place.continent === continent && isVisibleVisited(place); }).length;
   }
+  function visitedCountryTotal() {
+    return countries.filter(isVisibleVisited).length;
+  }
   function buildStats() {
     var host = $("statsGrid");
     var places = scopePlaces();
@@ -184,13 +188,18 @@
       return;
     }
     $("statsHint").textContent = personView === "both" ? "各洲分别统计；双方都去过的国家只计一次" : "按当前查看人分别统计";
-    host.innerHTML = CONTINENT_ORDER.map(function (item) {
+    var total = countries.length, visited = visitedCountryTotal();
+    var overall = '<div class="stat-card international-total"><div class="stat-side"><span class="stat-name">国际合计 · 国家 / 地区</span><span class="stat-value">' + visited + '<small> / ' + total + '</small></span><div class="stat-rail"><i></i></div></div></div>';
+    host.innerHTML = overall + CONTINENT_ORDER.map(function (item) {
       var key = item[0], label = item[1], total = countryTotal(key), visited = countryVisited(key);
       var selected = continentFilter === key ? " selected" : "";
       return '<button type="button" class="stat-card clickable' + selected + '" data-stat-continent="' + esc(key) + '" aria-pressed="' + (continentFilter === key) + '">' +
         '<div class="stat-side"><span class="stat-name">' + esc(label) + '</span><span class="stat-value">' + visited + '<small> / ' + total + '</small></span><div class="stat-rail"><i></i></div></div></button>';
     }).join("");
+    var overallRail = host.querySelector(".international-total .stat-rail i");
+    if (overallRail) overallRail.style.width = (total ? visited / total * 100 : 0) + "%";
     Array.prototype.forEach.call(host.querySelectorAll(".stat-card"), function (card) {
+      if (!card.dataset.statContinent) return;
       var total = countryTotal(card.dataset.statContinent);
       var visited = countryVisited(card.dataset.statContinent);
       var rail = card.querySelector(".stat-rail i");
@@ -198,10 +207,13 @@
     });
   }
   function updateMapLabels() {
-    $("mapScopeName").textContent = scope === "domestic" ? "中国地图" : "世界地图";
+    var continentLabel = continentFilter ? countryContinent(continentFilter) : "";
+    $("mapScopeName").textContent = scope === "domestic" ? "中国地图" : continentLabel ? continentLabel + "地图" : "世界地图";
     $("mapSummary").textContent = scope === "domestic"
       ? DOMESTIC.length + " 个省级地区"
-      : countries.length + " 个国家";
+      : continentFilter
+        ? "去过 " + countryVisited(continentFilter) + " / " + countryTotal(continentFilter) + " 个国家 / 地区"
+        : countries.length + " 个国家 / 地区";
     $("explorerTitle").textContent = scope === "domestic" ? "选择省份" : "选择国家 / 地区";
     $("placeCount").textContent = scope === "domestic" ? DOMESTIC.length + " 个省级地区" : countries.length + " 个国家";
     $("filterHint").textContent = personView === "both" ? "点地图可同时更新两人" : "点状态按钮切换个人足迹";
@@ -247,10 +259,51 @@
     var id = featureId(feature);
     return scope === "domestic" ? domesticById.get(id) : countryById.get(id);
   }
+  function mapFeatures() {
+    var features = geo[scope] && Array.isArray(geo[scope].features) ? geo[scope].features : [];
+    if (scope !== "international" || !continentFilter) return features;
+    return features.filter(function (feature) {
+      var place = countryById.get(featureId(feature));
+      return place && place.continent === continentFilter;
+    });
+  }
+  function visitCoordinates(value, callback) {
+    if (!Array.isArray(value)) return;
+    if (value.length >= 2 && Number.isFinite(Number(value[0])) && Number.isFinite(Number(value[1]))) {
+      callback(Number(value[0]), Number(value[1]));
+      return;
+    }
+    value.forEach(function (child) { visitCoordinates(child, callback); });
+  }
+  function longitudeCenterForFeatures(features) {
+    var longitudes = [];
+    features.forEach(function (feature) {
+      if (feature.geometry) visitCoordinates(feature.geometry.coordinates, function (longitude) {
+        longitudes.push((longitude + 360) % 360);
+      });
+    });
+    if (!longitudes.length) return 0;
+    longitudes.sort(function (a, b) { return a - b; });
+    var largestGap = -1, start = longitudes[0];
+    for (var i = 0; i < longitudes.length; i++) {
+      var current = longitudes[i], next = i + 1 < longitudes.length ? longitudes[i + 1] : longitudes[0] + 360;
+      if (next - current > largestGap) {
+        largestGap = next - current;
+        start = next % 360;
+      }
+    }
+    var center = (start + (360 - largestGap) / 2) % 360;
+    return center > 180 ? center - 360 : center;
+  }
+  function normalizedLongitude(longitude) {
+    while (longitude - mapLongitudeCenter > 180) longitude -= 360;
+    while (longitude - mapLongitudeCenter < -180) longitude += 360;
+    return longitude;
+  }
   function ringPath(ring) {
     var previous = null;
     return ring.map(function (point, index) {
-      var longitude = Number(point[0]), latitude = Number(point[1]);
+      var longitude = normalizedLongitude(Number(point[0])), latitude = Number(point[1]);
       if (previous !== null) {
         while (longitude - previous > 180) longitude -= 360;
         while (longitude - previous < -180) longitude += 360;
@@ -268,22 +321,35 @@
   }
   function boundsFromFeatures(features) {
     var minX = Infinity, minLat = Infinity, maxX = -Infinity, maxLat = -Infinity;
-    function visit(value) {
-      if (!Array.isArray(value)) return;
-      if (value.length >= 2 && Number.isFinite(Number(value[0])) && Number.isFinite(Number(value[1]))) {
-        minX = Math.min(minX, Number(value[0])); maxX = Math.max(maxX, Number(value[0]));
-        minLat = Math.min(minLat, Number(value[1])); maxLat = Math.max(maxLat, Number(value[1]));
-        return;
-      }
-      value.forEach(visit);
-    }
-    features.forEach(function (feature) { if (feature.geometry) visit(feature.geometry.coordinates); });
+    features.forEach(function (feature) {
+      if (feature.geometry) visitCoordinates(feature.geometry.coordinates, function (longitude, latitude) {
+        longitude = normalizedLongitude(longitude);
+        // Russia is grouped with Europe in the catalogue, so use its western extent for the Europe view.
+        if (scope === "international" && continentFilter === "Europe" && featureId(feature) === "ru" && longitude > 70) return;
+        minX = Math.min(minX, longitude); maxX = Math.max(maxX, longitude);
+        minLat = Math.min(minLat, latitude); maxLat = Math.max(maxLat, latitude);
+      });
+    });
     if (![minX,minLat,maxX,maxLat].every(Number.isFinite)) return null;
     if (scope === "domestic") minLat = Math.max(minLat,17.5);
     var width = Math.max(1, maxX - minX), height = Math.max(1, maxLat - minLat);
-    if (scope === "international") return { x:-180, y:-85, width:360, height:170 };
-    var padX = width * .035, padY = height * .05;
-    return { x:minX-padX, y:-maxLat-padY, width:width+padX*2, height:height+padY*2 };
+    if (scope === "international" && !continentFilter) return { x:-180, y:-85, width:360, height:170 };
+    var padX = width * (scope === "international" ? .06 : .035);
+    var padY = height * (scope === "international" ? .07 : .05);
+    var bounds = { x:minX-padX, y:-maxLat-padY, width:width+padX*2, height:height+padY*2 };
+    if (scope === "international" && continentFilter && map && map.clientWidth && map.clientHeight) {
+      var aspect = map.clientWidth / map.clientHeight;
+      if (bounds.width / bounds.height < aspect) {
+        var expandedWidth = bounds.height * aspect;
+        bounds.x -= (expandedWidth - bounds.width) / 2;
+        bounds.width = expandedWidth;
+      } else {
+        var expandedHeight = bounds.width / aspect;
+        bounds.y -= (expandedHeight - bounds.height) / 2;
+        bounds.height = expandedHeight;
+      }
+    }
+    return bounds;
   }
   function applyViewBox() {
     var svg = map && map.querySelector("svg");
@@ -292,8 +358,11 @@
   }
   function renderMap() {
     if (!map) return;
-    var features = geo[scope] && Array.isArray(geo[scope].features) ? geo[scope].features : [];
+    var features = mapFeatures();
     if (!features.length) { map.innerHTML = ""; return; }
+    mapLongitudeCenter = scope === "international" && continentFilter
+      ? continentFilter === "Europe" ? 20 : longitudeCenterForFeatures(features)
+      : 0;
     var paths = features.map(function (feature) {
       var place = placeForFeature(feature);
       var name = place ? (place.nameZh || place.name) : (feature.properties && feature.properties.name) || "";
@@ -301,12 +370,13 @@
       var id = place ? ' data-place-id="' + esc(place.id) + '" role="button" tabindex="0" aria-label="标记 ' + esc(name) + '" aria-pressed="' + !!statusKind(place) + '"' : "";
       return '<path class="map-shape" fill="' + shapeColor(place) + '" d="' + geometryPath(feature.geometry) + '"' + id + '>' + label + '</path>';
     }).join("");
-    map.innerHTML = '<svg class="map-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-180 -85 360 170" preserveAspectRatio="xMidYMid meet" role="img" aria-label="' + (scope === "domestic" ? "中国省级行政区旅行足迹" : "全球国家旅行足迹") + '">' + paths + '</svg>';
+    var mapAria = scope === "domestic" ? "中国省级行政区旅行足迹" : continentFilter ? countryContinent(continentFilter) + "国家旅行足迹" : "全球国家旅行足迹";
+    map.innerHTML = '<svg class="map-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-180 -85 360 170" preserveAspectRatio="xMidYMid meet" role="img" aria-label="' + esc(mapAria) + '">' + paths + '</svg>';
     applyViewBox();
   }
   function fitMap() {
     if (!map || !geo[scope]) return;
-    var features = geo[scope].features || [];
+    var features = mapFeatures();
     fittedBounds = boundsFromFeatures(features);
     if (!fittedBounds) return;
     currentBounds = Object.assign({}, fittedBounds);
@@ -492,8 +562,9 @@
       var button=event.target.closest("[data-stat-continent]");
       if(!button) return;
       continentFilter=continentFilter===button.dataset.statContinent ? "" : button.dataset.statContinent;
-      buildStats();
-      renderList();
+      fitPending=true;
+      updateMapLabels();
+      render();
     });
     $("map").addEventListener("click",function(event) {
       var shape=event.target.closest("[data-place-id]");
@@ -509,7 +580,10 @@
     });
     $("zoomInBtn").addEventListener("click",function(){zoomMap(.78);});
     $("zoomOutBtn").addEventListener("click",function(){zoomMap(1.28);});
-    window.addEventListener("resize",function(){if(fitPending)fitMap();});
+    window.addEventListener("resize",function(){
+      if(scope === "international" && continentFilter) fitPending = true;
+      if(fitPending) fitMap();
+    });
   }
   function fetchJson(path) {
     return fetch(DATA_PATH+path,{cache:"force-cache"}).then(function(response) {
