@@ -27,7 +27,7 @@
       radial-gradient(40% 34% at 66% 92%,rgba(34,211,238,.18),transparent 72%);
     filter:blur(10px);
   }
-  .box{position:relative;z-index:1;height:100%;display:flex;align-items:center;justify-content:center;
+  .box{position:relative;z-index:1;height:100%;display:flex;align-items:center;justify-content:center;perspective:700px;
     flex-direction:column;gap:18px}
   .mark{width:76px;height:76px;border-radius:24px;display:grid;place-items:center;
     font:800 30px/1 ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;color:#fff;
@@ -36,6 +36,9 @@
     position:relative;animation:pop .7s cubic-bezier(.22,.68,.28,1) both}
   .mark::after{content:"";position:absolute;inset:-8px;border-radius:32px;
     border:1px solid rgba(79,140,255,.45);animation:ring 2.4s ease-in-out infinite}
+  .mark::before{content:"";position:absolute;inset:-20px;border:1px solid rgba(34,211,238,.6);
+    border-radius:50%;transform:rotateX(68deg);box-shadow:0 0 18px rgba(34,211,238,.2);
+    animation:orbit 3.6s linear infinite}
   h1{margin:0;font-size:20px;font-weight:750;letter-spacing:.02em;
     background:linear-gradient(96deg,#e8eefb,#4f8cff 60%,#a06bff);
     -webkit-background-clip:text;background-clip:text;color:transparent}
@@ -48,7 +51,8 @@
   @keyframes pop{from{opacity:0;transform:translateY(12px) scale(.94)}to{opacity:1;transform:none}}
   @keyframes ring{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.9;transform:scale(1.06)}}
   @keyframes load{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
-  @media (prefers-reduced-motion:reduce){.mark,.mark::after,.bar i{animation:none}}
+  @keyframes orbit{to{transform:rotateX(68deg) rotateZ(360deg)}}
+  @media (prefers-reduced-motion:reduce){.mark,.mark::before,.mark::after,.bar i{animation:none}}
 </style>
 <script>
 (function () {

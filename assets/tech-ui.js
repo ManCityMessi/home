@@ -49,6 +49,75 @@
 
   /* ------------------------------------------------------------- 顶栏 HUD */
   var current = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  /* 首页版本脚本会把地址栏规范成根路径，仍应按首页配置动效与导航。 */
+  if (current === "index.html" && document.getElementById("paneWork")) current = "home3.html";
+
+  /* 全站空间背景。只使用 CSS 立体面与 transform，不占用业务页的画布。 */
+  function buildDepthScene() {
+    var names = {
+      "home3.html": "10",
+      "portfolio.html": "¥",
+      "halfmarathon.html": "21K",
+      "deepseek.html": "AI",
+      "asu.html": "ASU",
+      "wujiang.html": "WJ",
+      "travel-map.html": "MAP",
+      "work.html": "WK",
+      "bind.html": "KEY"
+    };
+    var label = names[current] || "10";
+    document.body.setAttribute("data-depth-page", current.replace(/\.html$/, ""));
+    var scene = el("div", "t-depth-scene");
+    scene.setAttribute("aria-hidden", "true");
+    scene.innerHTML =
+      '<div class="t-depth-floor"></div>' +
+      '<div class="t-depth-orbit">' +
+        '<i class="t-depth-ring"></i><i class="t-depth-ring"></i><i class="t-depth-ring"></i>' +
+        '<div class="t-depth-cube">' +
+          '<span class="t-depth-face"><b></b></span><span class="t-depth-face"></span>' +
+          '<span class="t-depth-face"></span><span class="t-depth-face"></span>' +
+          '<span class="t-depth-face"></span><span class="t-depth-face"></span>' +
+        '</div>' +
+        '<i class="t-depth-spark"></i><i class="t-depth-spark"></i><i class="t-depth-spark"></i>' +
+      '</div>';
+    scene.querySelector(".t-depth-face b").textContent = label;
+    document.body.insertBefore(scene, document.body.firstChild);
+
+    var finePointer = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!finePointer || reduced) return;
+
+    var frame = 0, px = 0, py = 0;
+    window.addEventListener("pointermove", function (event) {
+      px = (event.clientX / Math.max(window.innerWidth, 1) - .5) * 18;
+      py = (event.clientY / Math.max(window.innerHeight, 1) - .5) * 14;
+      if (frame) return;
+      frame = requestAnimationFrame(function () {
+        scene.style.setProperty("--depth-px", px.toFixed(1) + "px");
+        scene.style.setProperty("--depth-py", py.toFixed(1) + "px");
+        frame = 0;
+      });
+    }, { passive: true });
+
+    if (current !== "home3.html") return;
+    var cards = document.querySelectorAll("#paneWork > a.card, #paneLife > a.card");
+    Array.prototype.forEach.call(cards, function (card) {
+      card.classList.add("t-depth-card");
+      card.addEventListener("pointermove", function (event) {
+        var box = card.getBoundingClientRect();
+        var x = Math.max(0, Math.min(1, (event.clientX - box.left) / box.width));
+        var y = Math.max(0, Math.min(1, (event.clientY - box.top) / box.height));
+        card.style.setProperty("--depth-rx", ((.5 - y) * 7).toFixed(2) + "deg");
+        card.style.setProperty("--depth-ry", ((x - .5) * 9).toFixed(2) + "deg");
+        card.style.setProperty("--depth-mx", (x * 100).toFixed(1) + "%");
+        card.style.setProperty("--depth-my", (y * 100).toFixed(1) + "%");
+      }, { passive: true });
+      card.addEventListener("pointerleave", function () {
+        card.style.setProperty("--depth-rx", "0deg");
+        card.style.setProperty("--depth-ry", "0deg");
+      });
+    });
+  }
 
   function buildBar() {
     var bar = el("div", "t-bar");
@@ -387,6 +456,7 @@
   }
 
   function boot() {
+    buildDepthScene();
     buildBar();
     watchSync();
     buildTicker();

@@ -41,7 +41,7 @@
   #asu3d-root h2{font-size:18px}
   .foot{margin-top:22px;color:var(--muted-foreground);font-size:12.5px}
 </style>
-<link rel="stylesheet" href="./assets/tech-ui.css">
+<link rel="stylesheet" href="./assets/tech-ui.css?v=20260927120000">
 <link rel="icon" href="./assets/favicon.svg">
 <script>(function(){try{var t=localStorage.getItem("tech-theme");if(t==="light"||t==="dark")document.documentElement.className="t-"+t;}catch(e){}})();</script>
 </head>
@@ -88,7 +88,12 @@
     #asu3d-root .asu-info dd { margin: 0; font-variant-numeric: tabular-nums; }
     #asu3d-root .asu-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
     #asu3d-root .asu-tour { margin-left: auto; }
-    @media (max-width: 560px) { #asu3d-root .asu-stage { aspect-ratio: 4 / 3; } #asu3d-root .asu-tour { margin-left: 0; } }
+    @media (max-width: 560px) {
+      #asu3d-root .asu-stage { aspect-ratio: 4 / 3; }
+      #asu3d-root .asu-tour { margin-left: 0; }
+      #asu3d-root .asu-label:not(.is-active) { display: none !important; }
+      #asu3d-root .asu-label.is-active { max-width: 38vw; white-space: normal; text-align: center; font-size: 10px; line-height: 1.25; }
+    }
   </style>
 
   <div class="asu-title">
@@ -882,7 +887,8 @@
         var w = canvas.clientWidth, h = canvas.clientHeight;
         labels.forEach(function (L) {
           var pt = project(L.pos);
-          L.el.style.left = Math.max(36, Math.min(w - 36, pt.x)) + 'px';
+          var labelEdge = w < 560 ? Math.min(82, w * 0.23) : 36;
+          L.el.style.left = Math.max(labelEdge, Math.min(w - labelEdge, pt.x)) + 'px';
           L.el.style.top = Math.max(18, Math.min(h - 22, pt.y)) + 'px';
           var on = (L.step === current) || L.always;
           L.el.style.display = on ? '' : 'none';
@@ -916,6 +922,6 @@
   </div>
   <div class="foot">底图与参数为工艺流程示意（典型值），不构成工程设计依据。 · 曼城十号梅西</div>
 </div>
-<script src="./assets/tech-ui.js"></script>
+<script src="./assets/tech-ui.js?v=20260927120000"></script>
 </body>
 </html>

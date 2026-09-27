@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>旅行地图 · YY &amp; Evelyn</title>
 <link rel="icon" href="./assets/favicon.svg">
-<link rel="stylesheet" href="./assets/tech-ui.css">
+<link rel="stylesheet" href="./assets/tech-ui.css?v=20260927120000">
 <script>(function(){try{var t=localStorage.getItem("tech-theme");if(t==="light"||t==="dark")document.documentElement.className="t-"+t;}catch(e){}})();</script>
 <script>
-var PAGE_VER="20260927000100";
+var PAGE_VER="20260927120000";
 (function(){
   if(!/^https?:$/.test(location.protocol)) return;
   fetch("./version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.json();}).then(function(v){
@@ -76,5 +76,6 @@ main{padding-top:24px;padding-bottom:42px}.intro{display:flex;align-items:flex-e
 <script src="./assets/workbuddy-cloud-sdk.js"></script>
 <script src="./assets/wb-cloud-v2.js"></script>
 <script src="./assets/travel-map.js?v=20260927000100"></script>
+<script src="./assets/tech-ui.js?v=20260927120000"></script>
 </body>
 </html>

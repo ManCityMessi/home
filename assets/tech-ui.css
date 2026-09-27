@@ -987,3 +987,198 @@ html.t-dark .t-ring .ring::after { background: #0d1626; }
   .card, .t-hero, .t-ticker { animation: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* ---------------------------------------------------- 7. 空间层与立体动效 */
+body[data-depth-page] {
+  --depth-a: var(--t-acc);
+  --depth-b: var(--t-acc-2);
+  --depth-scene-opacity: .78;
+}
+html.t-light body[data-depth-page] { --depth-scene-opacity: .52; }
+body[data-depth-page="portfolio"] { --depth-a: #e5484d; --depth-b: #f0b90b; }
+body[data-depth-page="halfmarathon"] { --depth-a: #16a874; --depth-b: #63d5ab; }
+body[data-depth-page="deepseek"] { --depth-a: #5485ff; --depth-b: #ac78ff; }
+body[data-depth-page="asu"] { --depth-a: #31a6e8; --depth-b: #60dac5; }
+body[data-depth-page="wujiang"] { --depth-a: #d49b46; --depth-b: #f0c976; }
+body[data-depth-page="travel-map"] { --depth-a: #6a94ff; --depth-b: #f6a7ba; }
+body[data-depth-page="work"] { --depth-a: #30b8af; --depth-b: #7fd4c6; }
+body[data-depth-page="bind"] { --depth-a: #a57af5; --depth-b: #6bb6ff; }
+
+.t-depth-scene {
+  position: fixed;
+  inset: var(--t-bar-h) 0 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 900px;
+  perspective-origin: 72% 20%;
+  opacity: var(--depth-scene-opacity);
+  contain: layout paint;
+}
+.t-depth-floor {
+  position: absolute;
+  top: 40%;
+  left: -25%;
+  width: 150%;
+  height: 100%;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--depth-a) 23%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--depth-a) 23%, transparent) 1px, transparent 1px);
+  background-size: 62px 62px;
+  transform-origin: center top;
+  transform: rotateX(72deg) translateZ(-100px);
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, transparent 82%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, transparent 82%);
+  animation: t-depth-floor 16s ease-in-out infinite alternate;
+}
+.t-depth-orbit {
+  position: absolute;
+  top: clamp(64px, 13vh, 150px);
+  right: clamp(18px, 8vw, 150px);
+  width: clamp(190px, 22vw, 290px);
+  aspect-ratio: 1;
+  transform-style: preserve-3d;
+  transform: translate3d(var(--depth-px, 0px), var(--depth-py, 0px), 0) rotate(-13deg);
+  transition: transform .7s ease-out;
+}
+.t-depth-ring {
+  position: absolute;
+  inset: 6%;
+  border: 1px solid color-mix(in srgb, var(--depth-a) 65%, transparent);
+  border-radius: 50%;
+  box-shadow: inset 0 0 22px color-mix(in srgb, var(--depth-a) 10%, transparent),
+    0 0 20px color-mix(in srgb, var(--depth-a) 12%, transparent);
+  transform-style: preserve-3d;
+}
+.t-depth-ring:nth-child(1) { transform: rotateX(68deg) rotateY(12deg); animation: t-depth-ring-a 24s linear infinite; }
+.t-depth-ring:nth-child(2) { inset: 15%; border-color: color-mix(in srgb, var(--depth-b) 72%, transparent); transform: rotateY(72deg) rotateZ(24deg); animation: t-depth-ring-b 29s linear infinite; }
+.t-depth-ring:nth-child(3) { inset: 1%; border-style: dashed; border-color: color-mix(in srgb, var(--depth-a) 32%, transparent); transform: rotateX(24deg) rotateY(-28deg); animation: t-depth-ring-c 42s linear infinite; }
+.t-depth-cube {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 96px;
+  height: 96px;
+  margin: -48px;
+  transform-style: preserve-3d;
+  animation: t-depth-cube-spin 32s linear infinite;
+}
+.t-depth-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--depth-b) 75%, transparent);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--depth-a) 27%, transparent), color-mix(in srgb, var(--depth-b) 8%, transparent)),
+    linear-gradient(to right, color-mix(in srgb, var(--depth-a) 20%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--depth-a) 20%, transparent) 1px, transparent 1px);
+  background-size: auto, 24px 24px, 24px 24px;
+  box-shadow: inset 0 0 26px color-mix(in srgb, var(--depth-a) 15%, transparent),
+    0 0 22px color-mix(in srgb, var(--depth-a) 11%, transparent);
+  backface-visibility: hidden;
+}
+.t-depth-face:nth-child(1) { transform: translateZ(48px); }
+.t-depth-face:nth-child(2) { transform: rotateY(180deg) translateZ(48px); }
+.t-depth-face:nth-child(3) { transform: rotateY(90deg) translateZ(48px); }
+.t-depth-face:nth-child(4) { transform: rotateY(-90deg) translateZ(48px); }
+.t-depth-face:nth-child(5) { transform: rotateX(90deg) translateZ(48px); }
+.t-depth-face:nth-child(6) { transform: rotateX(-90deg) translateZ(48px); }
+.t-depth-face b {
+  font: 800 17px/1 ui-monospace, Consolas, monospace;
+  letter-spacing: .08em;
+  color: var(--t-ink);
+  text-shadow: 0 0 16px var(--depth-a);
+}
+.t-depth-spark {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--depth-b);
+  box-shadow: 0 0 14px 4px color-mix(in srgb, var(--depth-b) 35%, transparent);
+  animation: t-depth-spark 5s ease-in-out infinite alternate;
+}
+.t-depth-spark:nth-last-child(1) { top: 14%; left: 7%; }
+.t-depth-spark:nth-last-child(2) { top: 72%; right: 2%; animation-delay: -2s; }
+.t-depth-spark:nth-last-child(3) { bottom: 5%; left: 31%; animation-delay: -3s; }
+
+/* 业务面板在背景轨道上轻微抬起；地图和 3D 画布本身不参与倾斜。 */
+body[data-depth-page] :is(.panel, .kpi, .pcard, .scope-card, .radar-card, .stat-card) {
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--depth-a) 16%, transparent),
+    0 18px 42px -32px color-mix(in srgb, var(--depth-a) 46%, #000) !important;
+}
+body[data-depth-page] :is(.panel, .kpi, .pcard, .scope-card, .radar-card, .stat-card):hover {
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--depth-a) 25%, transparent),
+    0 25px 48px -30px color-mix(in srgb, var(--depth-a) 55%, #000) !important;
+}
+body[data-depth-page] .hero:not(.t-hero) {
+  box-shadow: 0 30px 70px -48px color-mix(in srgb, var(--depth-a) 65%, #000);
+}
+
+body[data-depth-page="home3"] .card.t-depth-card {
+  --depth-rx: 0deg;
+  --depth-ry: 0deg;
+  --depth-mx: 50%;
+  --depth-my: 50%;
+  transform-style: preserve-3d;
+  transform: perspective(900px) rotateX(var(--depth-rx)) rotateY(var(--depth-ry));
+  will-change: transform;
+  animation-name: t-depth-opacity;
+}
+body[data-depth-page="home3"] .card.t-depth-card:hover {
+  transform: perspective(900px) translateY(-6px) rotateX(var(--depth-rx)) rotateY(var(--depth-ry));
+}
+body[data-depth-page="home3"] .card.t-depth-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(340px circle at var(--depth-mx) var(--depth-my),
+    color-mix(in srgb, var(--acc, var(--depth-a)) 20%, transparent), transparent 72%);
+  transition: opacity .25s ease;
+}
+body[data-depth-page="home3"] .card.t-depth-card:hover::after { opacity: 1; }
+body[data-depth-page="home3"] .card.t-depth-card > .meta {
+  position: relative;
+  z-index: 1;
+  transform: translateZ(18px);
+}
+
+@keyframes t-depth-floor {
+  from { background-position: 0 0, 0 0; opacity: .3; }
+  to { background-position: 31px 32px, 31px 32px; opacity: .48; }
+}
+@keyframes t-depth-opacity { from { opacity: 0; } to { opacity: 1; } }
+@keyframes t-depth-ring-a { to { transform: rotateX(428deg) rotateY(12deg); } }
+@keyframes t-depth-ring-b { to { transform: rotateY(432deg) rotateZ(24deg); } }
+@keyframes t-depth-ring-c { to { transform: rotateX(384deg) rotateY(332deg); } }
+@keyframes t-depth-cube-spin {
+  from { transform: rotateX(-24deg) rotateY(28deg); }
+  to { transform: rotateX(336deg) rotateY(388deg); }
+}
+@keyframes t-depth-spark {
+  from { opacity: .3; transform: translateY(0) scale(.8); }
+  to { opacity: 1; transform: translateY(-12px) scale(1.25); }
+}
+
+@media (max-width: 700px) {
+  .t-depth-floor { top: 48%; opacity: .25; }
+  .t-depth-orbit { top: 20px; right: -88px; width: 178px; opacity: .4; }
+  body[data-depth-page="home3"] .card.t-depth-card,
+  body[data-depth-page="home3"] .card.t-depth-card:hover {
+    transform: none;
+    will-change: auto;
+  }
+  body[data-depth-page="home3"] .card.t-depth-card > .meta { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-depth-floor, .t-depth-ring, .t-depth-cube, .t-depth-spark { animation: none !important; }
+  .t-depth-orbit { transition: none; }
+  body[data-depth-page="home3"] .card.t-depth-card,
+  body[data-depth-page="home3"] .card.t-depth-card:hover { transform: none !important; will-change: auto; }
+  body[data-depth-page="home3"] .card.t-depth-card > .meta { transform: none; }
+}
