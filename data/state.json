@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T00:22:29.529Z",
+  "updated": "2026-09-28T06:52:45.435Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
@@ -24,24 +24,24 @@
       }
     },
     "signals:hik": {
+      "core": {
+        "sharesTxt": "4,000股",
+        "cost": 46.19,
+        "buy": 24.18,
+        "sell": 48.35,
+        "tone": "mid"
+      },
+      "swing": {
+        "sharesTxt": "1000/1,000股",
+        "rule": "3个月新低买入，盈利10%卖出",
+        "buy": 32,
+        "sell": 35,
+        "tone": "mid"
+      },
       "val": {
         "pe": "PE 20",
         "growth": "增长10%",
         "report": "26Q2A"
-      },
-      "core": {
-        "buy": 24.18,
-        "cost": 46.19,
-        "sell": 48.35,
-        "tone": "mid",
-        "sharesTxt": "4,000股"
-      },
-      "swing": {
-        "buy": 32,
-        "rule": "3个月新低买入，盈利10%卖出",
-        "sell": 35,
-        "tone": "mid",
-        "sharesTxt": "0/1,000股"
       }
     },
     "signals:tencent": {
