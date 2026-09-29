@@ -173,6 +173,15 @@
       });
   }
 
+  // Every GitHub write replaces one state.json file. Keep writes from this tab in
+  // order so a slower earlier request cannot overwrite a newer daily entry.
+  var writeTail = Promise.resolve();
+  function queueWrite(work) {
+    var next = writeTail.then(work, work);
+    writeTail = next.catch(function () {});
+    return next;
+  }
+
   var WB = {
     ready: false,
     error: null,
@@ -189,37 +198,49 @@
     },
     put: function (k, val) {
       WB.data[k] = val;
-      var key = writeKey();
-      if (!key) return Promise.reject(new Error("no-write-key"));
-      var job = isGhToken(key)
-        ? ghReadState(key).then(function (f) {
-            var state = f.state || {};
-            state[k] = val;
-            return ghWriteState(state, f.sha, "同步 " + k, key, 1);
-          })
-        : api("POST", "/state", { k: k, v: val });
-      return job.then(function (r) {
-        if (r && r.error) throw new Error(r.error);
-        clearDown();
-        return true;
-      }, function (e) { markDown(); throw e; });
+      return queueWrite(function () {
+        var ready = WB.ready ? Promise.resolve() : new Promise(function (resolve) { WB.onReady(resolve); });
+        return ready.then(function () {
+          WB.data[k] = val;
+          var key = writeKey();
+          if (!key) throw new Error("no-write-key");
+          var job = isGhToken(key)
+            ? ghReadState(key).then(function (f) {
+                var state = f.state || {};
+                state[k] = val;
+                return ghWriteState(state, f.sha, "同步 " + k, key, 1);
+              })
+            : api("POST", "/state", { k: k, v: val });
+          return job.then(function (r) {
+            if (r && r.error) throw new Error(r.error);
+            clearDown();
+            return true;
+          }, function (e) { markDown(); throw e; });
+        });
+      });
     },
     del: function (k) {
       delete WB.data[k];
-      var key = writeKey();
-      if (!key) return Promise.reject(new Error("no-write-key"));
-      var job = isGhToken(key)
-        ? ghReadState(key).then(function (f) {
-            var state = f.state || {};
-            delete state[k];
-            return ghWriteState(state, f.sha, "删除 " + k, key, 1);
-          })
-        : api("DELETE", "/state?k=" + encodeURIComponent(k));
-      return job.then(function (r) {
-        if (r && r.error) throw new Error(r.error);
-        clearDown();
-        return true;
-      }, function (e) { markDown(); throw e; });
+      return queueWrite(function () {
+        var ready = WB.ready ? Promise.resolve() : new Promise(function (resolve) { WB.onReady(resolve); });
+        return ready.then(function () {
+          delete WB.data[k];
+          var key = writeKey();
+          if (!key) throw new Error("no-write-key");
+          var job = isGhToken(key)
+            ? ghReadState(key).then(function (f) {
+                var state = f.state || {};
+                delete state[k];
+                return ghWriteState(state, f.sha, "删除 " + k, key, 1);
+              })
+            : api("DELETE", "/state?k=" + encodeURIComponent(k));
+          return job.then(function (r) {
+            if (r && r.error) throw new Error(r.error);
+            clearDown();
+            return true;
+          }, function (e) { markDown(); throw e; });
+        });
+      });
     }
   };
 

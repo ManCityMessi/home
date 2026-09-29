@@ -315,6 +315,15 @@
     flex-wrap:wrap;margin-bottom:14px}
   .card-head h2{font-size:16px;font-weight:700}
   .card-head .hint{font-size:12px;color:var(--ink3)}
+  .gain-save{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .gain-sync{font-size:12px;color:var(--ink2);padding:4px 9px;border-radius:8px;
+    border:1px solid var(--line2);background:var(--panel2)}
+  .gain-sync[data-state="saving"]{color:var(--accent)}
+  .gain-sync[data-state="success"]{color:var(--down)}
+  .gain-sync[data-state="error"]{color:var(--up)}
+  .gain-retry{border:1px solid var(--line2);border-radius:8px;background:var(--panel2);
+    color:var(--ink);padding:4px 9px;font:inherit;font-size:12px;cursor:pointer}
+  .gain-retry[hidden]{display:none}
   .chart svg{display:block;width:100%;height:auto}
 
   /* months */
@@ -415,7 +424,10 @@
   </section>
 
   <section class="card">
-    <div class="card-head"><h2>每日录入</h2><span class="hint">点击数字即可修改 · 自动保存到本机</span></div>
+    <div class="card-head"><h2>每日录入</h2><div class="gain-save">
+      <span class="gain-sync" id="gainSync" data-state="idle" role="status" aria-live="polite">修改后自动同步云端</span>
+      <button class="gain-retry" id="gainRetry" type="button" hidden>重试同步</button>
+    </div></div>
     <div class="months" id="months"></div>
     <div id="daylist"></div>
   </section>
@@ -423,7 +435,7 @@
   <div class="note">
     <div>· 每日盈亏为<b>已计入港股汇率波动与交易手续费的净额</b>，直接填最终数字即可。</div>
     <div>· 仅 <b>A股 / 港股交易日</b>需要填写；周末与两市同时休市日（元旦、春节初一至初三、清明+复活节、劳动节、端午、国庆）留白。</div>
-    <div>· 修改会立刻保存到本机浏览器；1/1–9/22 的初始数据来自你的 Excel。</div>
+    <div>· 修改先保存到本机；显示“云端已保存”后再离开页面。1/1–9/22 的初始数据来自你的 Excel。</div>
   </div>
   <!-- ==================== 持仓区块 ==================== -->
 
@@ -508,7 +520,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="./assets/workbuddy-cloud-sdk.js"></script>
-<script src="./assets/wb-cloud-v2.js"></script>
+<script src="./assets/wb-cloud-v2.js?v=20260929164100"></script>
 <script>
 (function () {
   "use strict";
@@ -1062,6 +1074,7 @@
 
   var YEAR = 2026;
   var STORE_KEY = "gain-2026-v1";
+  var PENDING_KEY = "gain-2026-pending-v1";
   var WEEK = ["日", "一", "二", "三", "四", "五", "六"];
 
   // 两市同时休市（周末之外），这些日期留白
@@ -1134,6 +1147,19 @@
   function saveStore(o) {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(o)); } catch (e) {}
   }
+  function readPending() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(PENDING_KEY) || "{}");
+      return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+    } catch (e) { return {}; }
+  }
+  var pending = readPending();
+  function savePending() {
+    try {
+      if (Object.keys(pending).length) localStorage.setItem(PENDING_KEY, JSON.stringify(pending));
+      else localStorage.removeItem(PENDING_KEY);
+    } catch (e) {}
+  }
   function loadStore() {
     var s = readLocalStore();
     if (window.WB && WB.ready) {
@@ -1141,6 +1167,12 @@
         if (k.indexOf("gain:") === 0) s[k.slice(5)] = WB.data[k];
       }
     }
+    // A local edit awaiting confirmation must not be replaced by an older cloud value.
+    Object.keys(pending).forEach(function (key) {
+      var edit = pending[key];
+      if (edit && edit.op === "delete") delete s[key];
+      else if (edit && edit.op === "put") s[key] = edit.value;
+    });
     return s;
   }
 
@@ -1369,7 +1401,7 @@
       html += '<div class="grow' + (trading ? "" : " closed") + (it.key === TODAY ? " today" : "") + '">' +
         '<span class="d">' + it.key.slice(5).replace("-", "/") + '</span>' +
         '<span class="w">周' + WEEK[it.w] + '</span>' +
-        '<span><input class="inp num ' + c + '" data-k="' + it.key + '" type="text" inputmode="numeric"' +
+        '<span><input class="inp num ' + c + '" data-k="' + it.key + '" type="text" inputmode="decimal"' +
         (trading ? "" : ' disabled placeholder="休市"') +
         ' value="' + (vv === "" ? "" : vv) + '"></span>' +
         (it.key === TODAY ? '<span class="tag">今天</span>' : "") +
@@ -1388,6 +1420,73 @@
     toastTimer = setTimeout(function () { el.classList.remove("on"); }, 2000);
   }
 
+  var cloudTimer = null;
+  var cloudBusy = false;
+  function setGainSync(state, message) {
+    var label = document.getElementById("gainSync");
+    label.setAttribute("data-state", state);
+    label.textContent = message;
+    document.getElementById("gainRetry").hidden = state !== "error";
+  }
+  function scheduleCloud() {
+    setGainSync("saving", "本机已保存 · 等待云端确认");
+    clearTimeout(cloudTimer);
+    cloudTimer = setTimeout(flushCloud, 700);
+  }
+  function cloudErrorMessage(error) {
+    if (error && error.message === "no-write-key") return "未绑定写入密钥，数据仅在本机";
+    if (error && error.message === "unauthorized") return "写入密钥无效，数据仅在本机";
+    return "云端同步失败，数据已留在本机";
+  }
+  function flushCloud() {
+    clearTimeout(cloudTimer);
+    cloudTimer = null;
+    if (cloudBusy || !Object.keys(pending).length) return;
+    if (!window.WB) {
+      setGainSync("error", "云端组件未加载，数据仅在本机");
+      return;
+    }
+    if (!WB.ready) {
+      setGainSync("saving", "本机已保存 · 等待云端连接");
+      return;
+    }
+    cloudBusy = true;
+    setGainSync("saving", "正在同步云端…");
+    var synced = 0;
+    var lastLabel = "";
+    function next() {
+      var key = Object.keys(pending)[0];
+      if (!key) {
+        cloudBusy = false;
+        if (synced) {
+          setGainSync("success", "云端已保存 · " + (synced === 1 ? lastLabel : synced + " 项"));
+          toast("云端已保存" + (synced === 1 ? " · " + lastLabel : " · " + synced + " 项"));
+        }
+        return;
+      }
+      if (cloudTimer) { cloudBusy = false; return; }
+      var edit = pending[key];
+      var job = edit.op === "delete" ? WB.del("gain:" + key) : WB.put("gain:" + key, edit.value);
+      job.then(function () {
+        if (pending[key] === edit) {
+          delete pending[key];
+          savePending();
+          synced++;
+          lastLabel = key.slice(5).replace("-", "/") + "：" +
+            (edit.op === "delete" || edit.value === null ? "已清空" : edit.value);
+        }
+        next();
+      }, function (error) {
+        if (pending[key] !== edit) { next(); return; }
+        cloudBusy = false;
+        var message = cloudErrorMessage(error);
+        setGainSync("error", message);
+        toast(message + " · 可点重试同步");
+      });
+    }
+    next();
+  }
+
   function refreshAll() {
     renderHero();
     renderCum();
@@ -1398,21 +1497,25 @@
 
   function commit(key, raw) {
     var t = String(raw).trim();
+    var edit;
     if (t === "") {
       if (BASE.hasOwnProperty(key)) {
         store[key] = null;   // 显式清空（覆盖 Excel 初值）
-        if (window.WB) WB.putSafe("gain:" + key, null);
+        edit = { op: "put", value: null };
       } else {
         delete store[key];
-        if (window.WB) WB.delSafe("gain:" + key);
+        edit = { op: "delete" };
       }
     } else {
       var n = Number(t.replace(/[,\s]/g, ""));
       if (!isFinite(n)) return false;
       store[key] = n;
-      if (window.WB) WB.putSafe("gain:" + key, n);
+      edit = { op: "put", value: n };
     }
     saveStore(store);
+    pending[key] = edit;
+    savePending();
+    scheduleCloud();
     return true;
   }
 
@@ -1436,7 +1539,10 @@
     var v = valueOf(key);
     el.value = (v === null || v === undefined) ? "" : v;
     renderHero(); renderCum(); renderMonth(); renderMonths();
+    flushCloud();
   }, true);
+
+  document.getElementById("gainRetry").addEventListener("click", flushCloud);
 
   document.getElementById("months").addEventListener("click", function (e) {
     var b = e.target.closest("button");
@@ -1468,14 +1574,17 @@
   })();
 
   refreshAll();
+  if (Object.keys(pending).length) setGainSync("saving", "本机有待同步记录 · 等待云端连接");
 
   if (window.WB) {
     WB.onNotify = toast;
     WB.onReady(function () {
       var ae = document.activeElement;
-      if (ae && ae.classList && ae.classList.contains("inp")) return;
-      store = loadStore();
-      refreshAll();
+      if (!(ae && ae.classList && ae.classList.contains("inp"))) {
+        store = loadStore();
+        refreshAll();
+      }
+      if (Object.keys(pending).length && !cloudTimer) flushCloud();
     });
   }
 
@@ -1496,7 +1605,7 @@
 
 
 <!-- VER-BLOCK -->
-<script>var PAGE_VER="20260927160000";</script>
+<script>var PAGE_VER="20260929164100";</script>
 <script>
 /* 版本自检 + 地址栏净化：
    1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
