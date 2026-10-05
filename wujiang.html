@@ -45,8 +45,13 @@
   .back{font-size:13px;color:var(--ink2);transition:color .18s ease}
   .back:hover{color:var(--ink)}
   .top-right{display:flex;align-items:center;gap:12px}
-  .pill{font-size:11.5px;padding:4px 11px;border-radius:999px;background:#eceae2;
+  .pill{font-size:11.5px;padding:4px 11px;border-radius:999px;background:var(--t-panel-2,#eceae2);
     border:1px solid var(--line);color:var(--ink2);letter-spacing:.02em}
+  .news-status{margin-top:18px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;
+    background:var(--card);color:var(--ink2);font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+  .news-status[data-state="warn"]{border-left:3px solid var(--gold)}
+  .news-source{display:inline-block;margin-top:9px;color:var(--green);font-size:12px;text-decoration:underline}
+  .btn:disabled{opacity:.65;cursor:wait}
   .btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:10px;
     border:1px solid var(--line2);background:var(--card);color:var(--ink);
     font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;
@@ -234,7 +239,7 @@
   <div class="wrap top-inner">
     <a class="back" href="./home3.html">&#8592; 曼城十号梅西</a>
     <div class="top-right">
-      <span class="pill">打开即刷新</span>
+      <span class="pill" id="newsState">正在读取资讯</span>
       <button class="btn" id="refreshBtn"><span class="ic">&#8635;</span>刷新进展</button>
     </div>
   </div>
@@ -248,6 +253,7 @@
   <h1>婺江路片区实时追踪</h1>
   <p class="lede">把一块地的变化，留在时间里</p>
   <p class="desc">以婺江路为中心，持续记录片区内地块的拆迁、出售与建设进展。</p>
+  <p class="news-status" id="newsStatus" role="status" aria-live="polite">正在检查最新发布的资讯…</p>
 </section>
 
 <section class="wrap scope">
@@ -292,13 +298,13 @@
         <div class="pins" id="pins"></div>
       </div>
       <div class="map-foot">
-        <div class="map-note">底图：你的片区地图截图 · 刷新于 <span class="num" id="refTime">--:--</span></div>
+        <div class="map-note">底图：你的片区地图截图 · 资讯采集于 <span class="num" id="refTime">尚未读取</span></div>
         <div class="map-tip">点位可拖动校准<button id="resetPins" type="button">恢复默认</button></div>
       </div>
     </div>
 
     <div class="panel">
-      <div class="panel-head">LIVE RESEARCH / 02 · 最新公开进展</div>
+      <div class="panel-head">PROJECT WATCH / 02 · 项目跟踪档案</div>
       <div id="plist"></div>
     </div>
   </div>
@@ -307,7 +313,7 @@
 <section class="wrap sec">
   <div class="sec-head">
     <span class="idx">AREA DISCOVERY / 03</span>
-    <h2>区域新增动态</h2>
+    <h2>区域公开动态</h2>
   </div>
   <div class="disc-count">共 <span class="num" id="discN">0</span> 条 · 来源：公开新闻与政府公告</div>
   <div class="disc-list" id="discList"></div>
@@ -348,87 +354,112 @@
 
   // px / py 为相对底图 wujiang-map-v4.jpg（768x880）的百分比位置，可拖动校准
   var PROJECTS = [
-    {
-      id: "p1", kind: "demolish", px: 63.0, py: 62.0,
-      name: "望江片居住区二期联建房",
-      loc: "婺江路地铁站旁（原汽车南站旧址一带）",
-      desc: "即婺江路二弄 2/4/6/8/10 幢「绿房子」（外立面淡绿色）。拆除工程公示工期 2026.06.10—09.30，最后几户已基本谈妥，计划 9 月 30 日前完成拆除。",
-      upd: "2026.09 · 潮新闻"
-    },
-    {
-      id: "p2", kind: "build", px: 35.0, py: 50.0,
-      name: "中海海潮TOD（杭政储出【2025】22号）",
-      loc: "始板桥直街与婺江路交会处，东至规划莫邪塘路、南至规划婺江路、西至始板桥直街、北至甘王路",
-      desc: "位于片区西北侧，规划与在建同步推进，持续跟踪公示与施工节点。",
-      upd: "更新于 2026.08.23"
-    },
-    {
-      id: "p3", kind: "sell", px: 74.0, py: 52.0,
-      name: "望江单元SC0402-B1/B2-14地块",
-      loc: "规划望清路—望北路—婺江路北侧一带",
-      desc: "CID 新篇章如何书写：望江新城两宗地块为企业预留「创新席位」。",
-      upd: "2026/5/20 · 浙江在线"
-    },
-    {
-      id: "p4", kind: "build", px: 64.0, py: 37.0,
-      name: "新世界·城市艺术中心（K11）",
-      loc: "新开河—海潮路—近江路—婺江路范围",
-      desc: "东至新开河、南至规划婺江路、西至规划海潮路、北至规划近江路，约 74 万㎡；江明月朗园已交付，购物艺术中心预计 2027 年四季度逐步开业。",
-      upd: "2026.09 · 潮新闻"
-    },
-    {
-      id: "p5", kind: "build", px: 52.0, py: 55.0,
-      name: "杭州地铁18号线莫邪塘站",
-      loc: "莫邪塘站（海潮路与婺江路交叉口附近）",
-      desc: "2026.07.30 公开信息显示，车站主体结构完成约 85%，转入二次结构施工。",
-      upd: "更新于 2026.08.23"
-    },
-    {
-      id: "p6", kind: "build", px: 61.0, py: 68.0,
-      name: "浙江第四广播转播台外迁及仁和迁建工程",
-      loc: "原址：秋涛路266-1号；新址：余杭区仁和街道",
-      desc: "原址为上城区秋涛路266-1号。2025 年迁建工程设计完成招标，中标人为中国联合工程有限公司；2026.06 发布迁建工程涉及 220kV 线路迁改环评公示，现阶段持续跟踪原址腾退及余杭区仁和街道新址建设。",
-      upd: "更新于 2026.06.17"
-    },
-    {
-      id: "p7", kind: "sell", px: 77.0, py: 70.0,
-      name: "望江单元SC0302-B1/B2-13A地块",
-      loc: "秋涛路—银鼓路—沙地路—婺江路范围",
-      desc: "CID 新篇章如何书写：望江新城两宗地块为企业预留「创新席位」。",
-      upd: "2026/5/20 · 浙江在线"
-    },
-    {
-      id: "p8", kind: "build", px: 67.0, py: 57.0,
-      name: "毛戈平总部大楼（SC0402-B1/B2/S2-15）",
-      loc: "婺江路与秋涛路交界处（杭政储出[2023]188 号地块）",
-      desc: "2023.12 以 59269 万元竞得，2024.10.29 奠基；2026.08 处于关键结构施工阶段，A 区第一、二道支撑已拆除完毕，地下室夹层与顶板结构施工推进中。规划两栋 14 层办公楼 + 4 层商业裙楼，建筑高度 63.99 米。",
-      upd: "2026.08.21 · 腾讯新闻"
-    }
-  ];
+  {
+    "id": "p1",
+    "kind": "demolish",
+    "px": 63,
+    "py": 62,
+    "name": "望江片居住区二期联建房",
+    "loc": "婺江路地铁站旁（原汽车南站旧址一带）",
+    "desc": "婺江路二弄 2/4/6/8/10 幢「绿房子」。2026 年 7 月实地报道记录已有一幢拆除，仍有少数住户未搬离；公示工期为 2026.06.10—09.30。该日期为计划节点，尚未取得截至本轮检索时已全部拆除的可靠确认。",
+    "upd": "2026.07.18 · 浙江在线（计划完成情况待核实）"
+  },
+  {
+    "id": "p2",
+    "kind": "build",
+    "px": 35,
+    "py": 50,
+    "name": "中海海潮TOD（杭政储出【2025】22号）",
+    "loc": "始板桥直街与婺江路交会处，东至规划莫邪塘路、南至规划婺江路、西至始板桥直街、北至甘王路",
+    "desc": "位于片区西北侧，规划与在建同步推进，持续跟踪公示与施工节点。",
+    "upd": "更新于 2026.08.23"
+  },
+  {
+    "id": "p3",
+    "kind": "sell",
+    "px": 74,
+    "py": 52,
+    "name": "望江单元SC0402-B1/B2-14地块",
+    "loc": "规划望清路—望北路—婺江路北侧一带",
+    "desc": "CID 新篇章如何书写：望江新城两宗地块为企业预留「创新席位」。",
+    "upd": "2026/5/20 · 浙江在线"
+  },
+  {
+    "id": "p4",
+    "kind": "build",
+    "px": 64,
+    "py": 37,
+    "name": "新世界·城市艺术中心（K11）",
+    "loc": "新开河—海潮路—近江路—婺江路范围",
+    "desc": "新世界·城市艺术中心位于杭州望江新城，约 74 万㎡，包含住宅、写字楼、购物艺术中心、服务式公寓及酒店。新世界 2026 财年中期简报列示杭州 K11 Art Mall 与 K11 Atelier 计划于 2027 年四季度开业；开业计划不等于当前已完工。",
+    "upd": "2026 财年中期简报 · 新世界发展"
+  },
+  {
+    "id": "p5",
+    "kind": "build",
+    "px": 52,
+    "py": 55,
+    "name": "杭州地铁18号线莫邪塘站",
+    "loc": "莫邪塘站（海潮路与婺江路交叉口附近）",
+    "desc": "2026.07.30 公开信息显示，车站主体结构完成约 85%，转入二次结构施工。",
+    "upd": "更新于 2026.08.23"
+  },
+  {
+    "id": "p6",
+    "kind": "build",
+    "px": 61,
+    "py": 68,
+    "name": "浙江第四广播转播台外迁及仁和迁建工程",
+    "loc": "原址：秋涛路266-1号；新址：余杭区仁和街道",
+    "desc": "原址为上城区秋涛路266-1号。2025 年迁建工程设计完成招标，中标人为中国联合工程有限公司；2026.06 发布迁建工程涉及 220kV 线路迁改环评公示，现阶段持续跟踪原址腾退及余杭区仁和街道新址建设。",
+    "upd": "更新于 2026.06.17"
+  },
+  {
+    "id": "p7",
+    "kind": "sell",
+    "px": 77,
+    "py": 70,
+    "name": "望江单元SC0302-B1/B2-13A地块",
+    "loc": "秋涛路—银鼓路—沙地路—婺江路范围",
+    "desc": "CID 新篇章如何书写：望江新城两宗地块为企业预留「创新席位」。",
+    "upd": "2026/5/20 · 浙江在线"
+  },
+  {
+    "id": "p8",
+    "kind": "build",
+    "px": 67,
+    "py": 57,
+    "name": "毛戈平总部大楼（SC0402-B1/B2/S2-15）",
+    "loc": "婺江路与秋涛路交界处（杭政储出[2023]188 号地块）",
+    "desc": "2023.12 以 59269 万元竞得，2024.10.29 奠基；2026.08 处于关键结构施工阶段，A 区第一、二道支撑已拆除完毕，地下室夹层与顶板结构施工推进中。规划两栋 14 层办公楼 + 4 层商业裙楼，建筑高度 63.99 米。",
+    "upd": "2026.08.21 · 腾讯新闻"
+  }
+];
 
-  // 区域新增动态（由定时任务从公开渠道收集后更新此处）
+  // 内嵌数据仅用于网络失败时的历史快照；最新资讯由 data/wujiang.json 提供。
   var DISCOVERIES = [
-    {
-      date: "2026.08.21", src: "腾讯新闻",
-      title: "毛戈平总部大楼进入关键结构施工阶段",
-      text: "望江新城婺江路与秋涛路交界处，A 区第一、二道支撑已全部拆除完毕，地下室夹层与顶板结构施工稳步推进；规划两栋 14 层办公楼 + 4 层商业裙楼。"
-    },
-    {
-      date: "2026.09", src: "潮新闻",
-      title: "望江片二期「绿房子」拆除进入收尾",
-      text: "婺江路二弄 2/4/6/8/10 幢拆除工程公示工期至 2026.09.30，最后几户已基本谈妥，近期搬离后即实施拆除；隔壁秋涛路 266-1 号暂未列入拆迁。"
-    },
-    {
-      date: "2026 年度计划", src: "上城区政府",
-      title: "望江新城十年征迁收官，路网建设推进",
-      text: "望江街道 2026 年度工作计划：完成回迁安置结算，推进甘王路、婺江路等道路路网建设，建成全市首个「生态廊桥」。"
-    },
-    {
-      date: "2026.04", src: "公开汇总",
-      title: "望江新城、海潮片区旧改进入收尾攻坚",
-      text: "核心区域已 100% 完成签约腾退，已腾空地块启动场地平整与管线迁改；拟 2027 年底安置房与配套全面交付。"
-    }
-  ];
+  {
+    "date": "2026.07.18",
+    "src": "浙江在线 · 住在杭州网",
+    "title": "婺江路站旁“绿房子”启动拆除，计划节点已到期",
+    "text": "7 月报道记录部分楼幢已经拆除，公示计划 9 月 30 日前完成。此次检索未取得全部完成的可靠后续确认，暂不将项目改为“已完成”。报道同时提到秋涛路 266-1 号暂未听到拆迁消息。",
+    "url": "https://zzhz.zjol.com.cn/ycpd/zhwgrym/202607/t20260717_31793173.shtml"
+  },
+  {
+    "date": "2026 财年中期简报",
+    "src": "新世界发展 · 官方简报",
+    "title": "杭州 K11 开业安排仍为计划节点",
+    "text": "集团中期简报列示杭州 K11 Art Mall 及 K11 Atelier 计划于 2027 年四季度开业。该安排为开发商计划，后续以新的官方披露为准。",
+    "url": "https://cms.nwd.com.hk/downloadIR/report/219/FY26%20interim%20PPT_EN_Media_vF_0.pdf"
+  },
+  {
+    "date": "2026.01.16",
+    "src": "新世界中国 · 官方消息",
+    "title": "杭州城市艺术中心的业态与总体规模",
+    "text": "开发商介绍项目约 74 万平方米，汇集购物艺术中心、甲级写字楼、住宅、服务式公寓及酒店。这是项目背景资料，不代表本日工程进度。",
+    "url": "https://www.nwcl.com.cn/press-room/news/1786.html"
+  }
+];
 
   var DEFAULT_POS = {};
   PROJECTS.forEach(function (p) { DEFAULT_POS[p.id] = { x: p.px, y: p.py }; });
@@ -525,9 +556,11 @@
       return;
     }
     box.innerHTML = DISCOVERIES.map(function (d) {
+      var url = safeUrl(d.url);
       return '<article class="disc-item">' +
         '<div class="dm"><b>' + esc(d.src) + '</b>' + esc(d.date) + '</div>' +
-        '<div><h3>' + esc(d.title) + '</h3><p>' + esc(d.text) + '</p></div>' +
+        '<div><h3>' + esc(d.title) + '</h3><p>' + esc(d.text) + '</p>' +
+        (url ? '<a class="news-source" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>' : '<small>历史记录 · 原始链接待补核</small>') + '</div>' +
         '</article>';
     }).join("");
   }
@@ -605,22 +638,89 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { el.classList.remove("on"); }, 2800);
   }
-  function hm() {
-    var d = new Date();
-    var p = function (n) { return n < 10 ? "0" + n : "" + n; };
-    return p(d.getHours()) + ":" + p(d.getMinutes());
-  }
-  function stamp() {
-    document.getElementById("refTime").textContent = hm();
-  }
-
   var rb = document.getElementById("refreshBtn");
-  rb.addEventListener("click", function () {
+  var latestData = null, refreshing = false, lastAttempt = 0;
+  function safeUrl(value) {
+    try { var u = new URL(value); return u.protocol === "https:" ? u.href : ""; } catch (e) { return ""; }
+  }
+  function dateLabel(value) {
+    return new Date(value).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", hour12: false });
+  }
+  function validateNews(data) {
+    if (!data || data.schemaVersion !== 1 || !Number.isFinite(Date.parse(data.checkedAt)) ||
+        Date.parse(data.checkedAt) > Date.now() + 600000 ||
+        !["ok", "partial"].includes(data.status) || typeof data.summary !== "string" ||
+        !Array.isArray(data.projects) || !data.projects.length || !Array.isArray(data.discoveries)) throw new Error("资讯格式错误");
+    var ids = {};
+    data.projects.forEach(function (p) {
+      if (!p || !/^[a-zA-Z0-9_-]+$/.test(p.id) || ids[p.id] || !KIND_TXT[p.kind] ||
+          !Number.isFinite(p.px) || !Number.isFinite(p.py) || p.px < 0 || p.px > 100 || p.py < 0 || p.py > 100 ||
+          [p.name, p.loc, p.desc, p.upd].some(function (v) { return typeof v !== "string"; })) throw new Error("项目格式错误");
+      ids[p.id] = true;
+    });
+    data.discoveries.forEach(function (d) {
+      if (!d || [d.date, d.src, d.title, d.text].some(function (v) { return typeof v !== "string"; }) || !safeUrl(d.url)) throw new Error("来源格式错误");
+    });
+    return data;
+  }
+  function applyNews(data) {
+    // CDN 传播期间不让旧文件覆盖本页已读到的新内容。
+    if (latestData && Date.parse(data.checkedAt) < Date.parse(latestData.checkedAt)) return;
+    latestData = data;
+    PROJECTS = data.projects;
+    DISCOVERIES = data.discoveries;
+    PROJECTS.forEach(function (p) { DEFAULT_POS[p.id] = { x: p.px, y: p.py }; });
+    renderPins(); renderList(); renderCards(); renderDisc(); counts();
+    document.getElementById("refTime").textContent = dateLabel(data.checkedAt);
+  }
+  function showNewsStatus(failed) {
+    var chip = document.getElementById("newsState"), status = document.getElementById("newsStatus");
+    if (!latestData) {
+      chip.textContent = "资讯读取失败";
+      status.textContent = "未取得最新资讯，当前显示页面内的历史记录。请稍后点击“刷新进展”重试。";
+      status.dataset.state = "warn";
+      return;
+    }
+    var stale = Date.now() - Date.parse(latestData.checkedAt) > 36 * 60 * 60 * 1000;
+    chip.textContent = failed ? "读取失败 · 保留上次内容" : stale ? "资讯待更新" : latestData.status === "partial" ? "部分来源待核实" : "已读取最新发布";
+    status.dataset.state = failed || stale || latestData.status === "partial" ? "warn" : "ok";
+    status.textContent = "上次采集：" + dateLabel(latestData.checkedAt) + "（北京时间） · " + latestData.summary +
+      (failed ? " · 本次读取失败，已保留上次内容。" : stale ? " · 已超过一天未更新，请检查采集任务。" : "") +
+      " · 每天采集一次；打开页面读取最新发布结果，各条消息保留原文日期。";
+  }
+  async function fetchNews(url) {
+    var controller = new AbortController();
+    var timer = setTimeout(function () { controller.abort(); }, 10000);
+    try {
+      var res = await fetch(url + "?t=" + Date.now(), { cache: "no-store", signal: controller.signal });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return validateNews(await res.json());
+    } finally { clearTimeout(timer); }
+  }
+  async function refreshNews(manual) {
+    if (refreshing) return;
+    refreshing = true; lastAttempt = Date.now(); rb.disabled = true;
     rb.classList.add("spin");
-    stamp();
-    setTimeout(function () { rb.classList.remove("spin"); }, 900);
-    toast("已刷新于 " + hm() + " · 现场数据为最近一次人工核对");
-  });
+    document.getElementById("newsState").textContent = "正在读取资讯";
+    var failed = false, data = null;
+    try {
+      try { data = await fetchNews("./data/wujiang.json"); } catch (e) {}
+      // Pages 不可达或快照过期时尝试仓库原文件，避免 CDN 的旧数据。
+      if (!data || Date.now() - Date.parse(data.checkedAt) > 36 * 60 * 60 * 1000) {
+        try {
+          var raw = await fetchNews("https://raw.githubusercontent.com/ManCityMessi/home/main/data/wujiang.json");
+          if (!data || Date.parse(raw.checkedAt) >= Date.parse(data.checkedAt)) data = raw;
+        } catch (e) {}
+      }
+      if (!data) throw new Error("无法读取资讯");
+      applyNews(data);
+    } catch (e) { failed = true; }
+    finally {
+      refreshing = false; rb.disabled = false; rb.classList.remove("spin"); showNewsStatus(failed);
+      if (manual) toast(failed ? "读取失败，已保留原有内容" : "已读取资讯 · 采集于 " + dateLabel(latestData.checkedAt));
+    }
+  }
+  rb.addEventListener("click", function () { refreshNews(true); });
 
   document.getElementById("plist").addEventListener("click", function (e) {
     var b = e.target.closest(".pi");
@@ -666,7 +766,7 @@
   renderDisc();
   counts();
   initDrag();
-  stamp();
+  refreshNews(false);
 
   // 内部链接追加时间戳：绕过浏览器与 CDN 缓存
   Array.prototype.forEach.call(document.querySelectorAll('a[href$=".html"]'), function (a) {
@@ -674,14 +774,12 @@
     if (h && h.indexOf("?") < 0) a.setAttribute("href", h + "?t=" + Date.now());
   });
 
-  // 打开即自动刷新
-  window.addEventListener("load", function () {
-    setTimeout(function () {
-      stamp();
-      toast("已刷新进展 · " + DISCOVERIES.length + " 条公开动态 · " + hm());
-    }, 500);
+  // 返回标签页或从浏览器前进/后退缓存恢复时也读取数据。
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden && Date.now() - lastAttempt > 60000) refreshNews(false);
   });
-  setInterval(function () { stamp(); }, 5 * 60 * 1000);
+  window.addEventListener("pageshow", function (e) { if (e.persisted) refreshNews(false); });
+  setInterval(function () { if (!document.hidden) refreshNews(false); }, 5 * 60 * 1000);
 })();
 </script>
 
@@ -693,11 +791,11 @@
 
 
 <!-- VER-BLOCK -->
-<script>var PAGE_VER="20260927160000";</script>
+<script>var PAGE_VER="20261005171000";</script>
 <script>
 /* 版本自检 + 地址栏净化：
    1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
-   2) 本机若见过更新的版本（localStorage.wbBuild），立即切到带时间戳的最新地址——无需联网；
+   2) 本机若见过本页更新的版本（localStorage.wbPageBuild），立即切到带时间戳的最新地址——无需联网；
    3) 否则与服务器 version.json 核对版本，旧版自动跳转；
    4) 确认自己是最新版时，抹掉地址栏 ?t= 参数。
    防循环：同一目标版本最多连续跳 5 次，跳到最新版后计数清零。 */
@@ -735,16 +833,17 @@
   if (!/^https?:$/.test(location.protocol) || typeof PAGE_VER === "undefined") return;
   if (isHome) cleanUrl();
   var myVer = parseInt(PAGE_VER, 10) || 0;
+  var versionKey = "wbPageBuild:" + nm;
   var seen = 0;
-  try { seen = parseInt(localStorage.getItem("wbBuild") || "0", 10) || 0; } catch (e) {}
+  try { seen = parseInt(localStorage.getItem(versionKey) || "0", 10) || 0; } catch (e) {}
   if (seen > myVer) { hop(seen); return; }
-  if (myVer > seen) { try { localStorage.setItem("wbBuild", String(myVer)); } catch (e) {} }
+  if (myVer > seen) { try { localStorage.setItem(versionKey, String(myVer)); } catch (e) {} }
   fetch("./version.json?t=" + Date.now(), { cache: "no-store" })
     .then(function (r) { return r.json(); })
     .then(function (j) {
       var latest = j && j[nm];
-      if (!latest || latest === PAGE_VER) { ok(); return; }
-      try { localStorage.setItem("wbBuild", String(latest)); } catch (e) {}
+      if (!latest || parseInt(latest, 10) <= myVer) { ok(); return; }
+      try { localStorage.setItem(versionKey, String(latest)); } catch (e) {}
       hop(latest);
     })
     .catch(function () { if (hadParam) cleanUrl(); });
