@@ -1,26 +1,26 @@
 {
-  "updated": "2026-10-06T08:11:38.560Z",
+  "updated": "2026-10-06T08:14:53.310Z",
   "state": {
     "gain:2026-09-22": 14519,
     "signals:jili": {
+      "core": {
+        "sharesTxt": "5,000股",
+        "cost": 16.93,
+        "buy": 14.3,
+        "sell": 28.6,
+        "tone": "mid"
+      },
+      "swing": {
+        "sharesTxt": "1,000/2,000股",
+        "rule": "3个月新低买入，盈利15%卖出",
+        "buy": 16.38,
+        "sell": 18.8,
+        "tone": "buy"
+      },
       "val": {
         "pe": "PE10",
         "growth": "增长15%",
         "report": "26Q2A"
-      },
-      "core": {
-        "buy": 14.3,
-        "cost": 16.93,
-        "sell": 28.6,
-        "tone": "mid",
-        "sharesTxt": "5,000股"
-      },
-      "swing": {
-        "buy": 16.38,
-        "rule": "3个月新低买入，盈利15%卖出",
-        "sell": 18.8,
-        "tone": "buy",
-        "sharesTxt": "1,000/1,000股"
       }
     },
     "signals:hik": {
