@@ -171,6 +171,7 @@
   .daily-badge b{font-size:13px;color:#26314f}
   .daily-live{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.1em;color:#167d68;background:#e8f8f3;border:1px solid #ccefe5;padding:4px 8px;border-radius:999px}
   .daily-live::before{content:"";width:6px;height:6px;border-radius:50%;background:#22a987;box-shadow:0 0 0 3px rgba(34,169,135,.13)}
+#investmentOverviewCard .investment-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}#investmentOverviewCard .st i{line-height:1.5}#investmentOverviewCard .st b{font-size:clamp(14px,1.5vw,17px);overflow-wrap:anywhere}#investmentOverviewCard .st small{font-size:10px;color:var(--ink3)}#investmentOverviewCard .investment-basis{font-size:10px;color:var(--ink3);margin-top:8px}
 </style>
 <link rel="stylesheet" href="./assets/tech-ui.css?v=20260927160000">
 <script>(function(){try{var t=localStorage.getItem("tech-theme");if(t==="light"||t==="dark")document.documentElement.className="t-"+t;}catch(e){}})();</script>
@@ -285,16 +286,13 @@
         </div>
       </div>
     </div>
-    <a class="card acc-red" href="./portfolio.html">
+    <a id="investmentOverviewCard" class="card acc-red" href="./portfolio.html">
       <div class="meta">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M7.6 15.4l3.4-3.8 2.8 2.3 4.2-6"/></svg></span>
         <div class="k">02 / INVESTMENT OVERVIEW</div>
         <h2>投资总览 · 收益与持仓</h2>
-        <p>每日盈亏记录 + 实时持仓行情，一页看完</p>
-        <div class="stats">
-          <div class="st"><i>今日收益</i><b id="mToday">&#8212;</b></div>
-          <div class="st"><i>年内收益</i><b id="mYear">&#8212;</b></div>
-        </div>
+        <p>最近交易日、年内与历史累计收益，一页看完</p>
+        <div class="stats investment-stats"><div class="st"><i>最近一个交易日收益</i><b id="mToday" class="up">+15,808.67</b><small id="mTradeDay">2026-10-09</small></div><div class="st"><i>年内收益</i><b id="mYear" class="up">+330.88</b></div><div class="st"><i>历史收益</i><b id="mHistory" class="down">-19,754.12</b></div></div><div id="mInvestmentBasis" class="investment-basis">毛收益 · 不扣机会成本</div>
         <div class="go">打开总览 &#8594;</div>
       </div>
     </a>
@@ -324,89 +322,7 @@
 <script src="./assets/workbuddy-cloud-sdk.js"></script>
 <script src="./assets/wb-cloud-v2.js"></script>
 
-<script>
-var GBASE = {
-    "2026-01-02":8929, "2026-01-05":8012, "2026-01-06":9327, "2026-01-07":-10686, "2026-01-08":-9500, "2026-01-09":-2993,
-    "2026-01-12":15283, "2026-01-13":-5710, "2026-01-14":-5332, "2026-01-15":-4351, "2026-01-16":-7987, "2026-01-19":-5614,
-    "2026-01-20":-3736, "2026-01-21":3452, "2026-01-22":-8981, "2026-01-23":-2522, "2026-01-26":5266, "2026-01-27":-1478,
-    "2026-01-28":1753, "2026-01-29":27381, "2026-01-30":-22408, "2026-02-02":1276, "2026-02-03":4715, "2026-02-04":6676,
-    "2026-02-05":33533, "2026-02-06":-10847, "2026-02-09":5400, "2026-02-10":-7755, "2026-02-11":-1845, "2026-02-12":-10623,
-    "2026-02-13":-5284, "2026-02-16":688, "2026-02-20":-5375, "2026-02-23":9647, "2026-02-24":-13297, "2026-02-25":1697,
-    "2026-02-26":-15492, "2026-02-27":-2701, "2026-03-02":-11005, "2026-03-03":-9388, "2026-03-04":-10241, "2026-03-05":4162,
-    "2026-03-06":17290, "2026-03-09":-5631, "2026-03-10":20877, "2026-03-11":6695, "2026-03-12":-1350, "2026-03-13":4733,
-    "2026-03-16":19593, "2026-03-17":7933, "2026-03-18":-5226, "2026-03-19":-22775, "2026-03-20":4622, "2026-03-23":-24966,
-    "2026-03-24":19044, "2026-03-25":9901, "2026-03-26":-11991, "2026-03-27":2981, "2026-03-30":-2081, "2026-03-31":3487,
-    "2026-04-01":16156, "2026-04-02":3126, "2026-04-03":-2588, "2026-04-06":0, "2026-04-07":-6419, "2026-04-08":24368,
-    "2026-04-09":-1880, "2026-04-10":44119, "2026-04-13":-2975, "2026-04-14":6951, "2026-04-15":2465, "2026-04-16":13719,
-    "2026-04-17":-19192, "2026-04-20":11962, "2026-04-21":-4396, "2026-04-22":-5453, "2026-04-23":-9840, "2026-04-24":2308,
-    "2026-04-27":-18101, "2026-04-28":-1133, "2026-04-29":4437, "2026-04-30":1706, "2026-05-04":4292, "2026-05-05":-1169,
-    "2026-05-06":-13113, "2026-05-07":6971, "2026-05-08":-5612, "2026-05-11":-8327, "2026-05-12":-9516, "2026-05-13":-4426,
-    "2026-05-14":-10071, "2026-05-15":-3838, "2026-05-18":-12428, "2026-05-19":5427, "2026-05-20":-7104, "2026-05-21":-17779,
-    "2026-05-22":-3688, "2026-05-25":1136, "2026-05-26":-8727, "2026-05-27":731, "2026-05-28":-20024, "2026-05-29":14241,
-    "2026-06-01":3214, "2026-06-02":39561, "2026-06-03":-19028, "2026-06-04":-11591, "2026-06-05":3388, "2026-06-08":-16075,
-    "2026-06-09":7639, "2026-06-10":17571, "2026-06-11":-7044, "2026-06-12":9189, "2026-06-15":-1349, "2026-06-16":-9319,
-    "2026-06-17":-8806, "2026-06-18":-17684, "2026-06-22":431, "2026-06-23":-23555, "2026-06-24":14474, "2026-06-25":-5003,
-    "2026-06-26":-17000, "2026-06-29":12518, "2026-06-30":4083, "2026-07-01":2768, "2026-07-02":8409, "2026-07-03":7333,
-    "2026-07-06":22687, "2026-07-07":7863, "2026-07-08":17104, "2026-07-09":-13197, "2026-07-10":247, "2026-07-13":-7980,
-    "2026-07-14":3039, "2026-07-15":25961, "2026-07-16":16183, "2026-07-17":-25409, "2026-07-20":37667, "2026-07-21":-9133,
-    "2026-07-22":-20553, "2026-07-23":8262, "2026-07-24":-2412, "2026-07-27":26801, "2026-07-28":10085, "2026-07-29":19131,
-    "2026-07-30":16176, "2026-07-31":821, "2026-08-03":14249, "2026-08-04":-13169, "2026-08-05":-1626, "2026-08-06":-16366,
-    "2026-08-07":-2094, "2026-08-10":15233, "2026-08-11":-16709, "2026-08-12":-8575, "2026-08-13":-13864, "2026-08-14":-10896,
-    "2026-08-17":-1156, "2026-08-18":-4471, "2026-08-19":5484, "2026-08-20":1062, "2026-08-21":817, "2026-08-24":-4839,
-    "2026-08-25":2965, "2026-08-26":168, "2026-08-27":-1022, "2026-08-28":2307, "2026-08-31":3638, "2026-09-01":-4441,
-    "2026-09-02":-6702, "2026-09-03":-2366, "2026-09-04":17455, "2026-09-07":-12929, "2026-09-08":-7196, "2026-09-09":-7631,
-    "2026-09-10":-10140, "2026-09-11":-2327, "2026-09-14":7284, "2026-09-15":-4430, "2026-09-16":-7585, "2026-09-17":-6934,
-    "2026-09-18":-4821, "2026-09-21":6897, "2026-09-22":14679
-  };
-var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-06", "2026-05-01", "2026-06-19", "2026-10-01"];
 
-(function () {
-  function pad(n) { return n < 10 ? "0" + n : "" + n; }
-  function k(y, m, d) { return y + "-" + pad(m) + "-" + pad(d); }
-  var localStore = {};
-  try { localStore = JSON.parse(localStorage.getItem("gain-2026-v1") || "{}") || {}; } catch (e) {}
-
-  function paint() {
-    var store = {};
-    for (var a in localStore) { if (localStore.hasOwnProperty(a)) store[a] = localStore[a]; }
-    if (window.WB && WB.ready) {
-      for (var b in WB.data) {
-        if (b.indexOf("gain:") === 0) store[b.slice(5)] = WB.data[b];
-      }
-    }
-    function val(key) {
-      if (store.hasOwnProperty(key)) {
-        var v = store[key];
-        return (v === null || v === "") ? null : Number(v);
-      }
-      return GBASE.hasOwnProperty(key) ? GBASE[key] : null;
-    }
-    var sum = 0;
-    Object.keys(GBASE).forEach(function (key) { var v = val(key); if (v !== null) sum += v; });
-    Object.keys(store).forEach(function (key) {
-      if (!GBASE.hasOwnProperty(key)) { var v = val(key); if (v !== null) sum += v; }
-    });
-    var now = new Date();
-    var today = val(k(now.getFullYear(), now.getMonth() + 1, now.getDate()));
-    function fmt(v) {
-      if (v === null || v === undefined) return "\u2014";
-      return (v > 0 ? "+" : "") + Math.round(v).toLocaleString("zh-CN");
-    }
-    function tone(v) { return v > 0 ? "up" : (v < 0 ? "down" : ""); }
-    var e1 = document.getElementById("mToday");
-    var e2 = document.getElementById("mYear");
-    if (e1 && e2) {
-      e1.textContent = fmt(today);
-      e2.textContent = fmt(sum);
-      e1.className = tone(today);
-      e2.className = tone(sum);
-    }
-  }
-
-  paint();
-  if (window.WB) WB.onReady(paint);
-})();
-</script>
 <script>
   // 内部跳转统一追加时间戳：绕过浏览器与 CDN 缓存，确保进入的永远是最新版本
   (function () {
@@ -803,5 +719,27 @@ var GCLOSED = ["2026-01-01", "2026-02-17", "2026-02-18", "2026-02-19", "2026-04-
 })();
 </script>
 <script src="./assets/tech-ui.js?v=20260927160002"></script>
+<script>
+(function(){
+const roundMoney=v=>Math.round((v+Number.EPSILON)*100)/100;
+function quoteDate(time){const m=String(time??'').match(/^(\d{4})[/-]?(\d{2})[/-]?(\d{2})/);return m?m[1]+'-'+m[2]+'-'+m[3]:null;}
+function calculateCardMetrics(feed,quotes=feed.quotes,fx=feed.fx){
+ const rate=Number(fx?.rate)>0?Number(fx.rate):feed.fx.rate;
+ const rows=feed.positions.map(p=>{const quote=quotes[p.symbol],r=p.currency==='HKD'?rate:1;return {...p,day:quoteDate(quote?.time),delta:quote?.price>0?roundMoney(p.quantity*quote.price*r)-p.snapshotValue:null,daily:quote?.previousClose>0?roundMoney((quote.price-quote.previousClose)*p.quantity*r):null};});
+ const complete=rows.every(r=>Number.isFinite(r.delta)),year=complete?roundMoney(feed.baseYearGross+rows.reduce((s,r)=>s+r.delta,0)):feed.yearGross;
+ const latestDay=rows.map(r=>r.day).filter(Boolean).sort().at(-1)??feed.tradingDay;
+ const dailyComplete=rows.every(r=>r.day===latestDay&&Number.isFinite(r.daily))&&feed.fundDaily.every(r=>r.asOf===latestDay&&Number.isFinite(r.dailyProfit));
+ return {tradingDay:latestDay,dailyGross:dailyComplete?roundMoney(rows.reduce((s,r)=>s+r.daily,0)+feed.fundDaily.reduce((s,r)=>s+r.dailyProfit,0)):null,yearGross:year,historyGross:roundMoney(feed.before2026Gross+year),complete,dailyComplete,fxRate:rate};
+}
+
+const initial={"schemaVersion":1,"baseYearGross":-8592.9,"before2026Gross":-20085,"yearGross":330.88,"positions":[{"recordId":"stock-胡的证券-国债ETF-0","market":"bond","account":"胡的证券","name":"国债ETF","symbol":"sh511010","quantity":2300,"snapshotPrice":140.735,"snapshotValue":323690.5,"currency":"CNY","isFund":false},{"recordId":"stock-胡的证券-十年国债-1","market":"bond","account":"胡的证券","name":"十年国债","symbol":"sh511260","quantity":1000,"snapshotPrice":134.804,"snapshotValue":134804,"currency":"CNY","isFund":false},{"recordId":"stock-胡的证券-贵州茅台-2","market":"a","account":"胡的证券","name":"贵州茅台","symbol":"sh600519","quantity":100,"snapshotPrice":1258.62,"snapshotValue":125862,"currency":"CNY","isFund":false},{"recordId":"stock-胡的证券-海康威视-3","market":"a","account":"胡的证券","name":"海康威视","symbol":"sz002415","quantity":1000,"snapshotPrice":32.46,"snapshotValue":32460,"currency":"CNY","isFund":false},{"recordId":"stock-胡的证券-吉利汽车-4","market":"hk","account":"胡的证券","name":"吉利汽车","symbol":"hk00175","quantity":1000,"snapshotPrice":14.97,"snapshotValue":12796.36,"currency":"HKD","isFund":false},{"recordId":"stock-胡的证券-腾讯控股-5","market":"hk","account":"胡的证券","name":"腾讯控股","symbol":"hk00700","quantity":300,"snapshotPrice":420.6,"snapshotValue":107858.66,"currency":"HKD","isFund":false},{"recordId":"stock-胡的证券-美团-W-6","market":"hk","account":"胡的证券","name":"美团-W","symbol":"hk03690","quantity":300,"snapshotPrice":70.15,"snapshotValue":17989.27,"currency":"HKD","isFund":false},{"recordId":"yang-position-1","market":"hk","account":"杨的证券","name":"腾讯控股","symbol":"hk00700","quantity":500,"snapshotPrice":420.6,"snapshotValue":179764.44,"currency":"HKD","isFund":false},{"recordId":"yang-position-2","market":"hk","account":"杨的证券","name":"吉利汽车","symbol":"hk00175","quantity":7000,"snapshotPrice":14.97,"snapshotValue":89574.49,"currency":"HKD","isFund":false},{"recordId":"yang-position-3","market":"hk","account":"杨的证券","name":"美团-W","symbol":"hk03690","quantity":500,"snapshotPrice":70.15,"snapshotValue":29982.11,"currency":"HKD","isFund":false},{"recordId":"yang-position-4","market":"a","account":"杨的证券","name":"海康威视","symbol":"sz002415","quantity":3900,"snapshotPrice":32.46,"snapshotValue":126594,"currency":"CNY","isFund":false},{"recordId":"yang-position-6","market":"a","account":"杨的证券","name":"招商银行","symbol":"sh600036","quantity":4700,"snapshotPrice":41.26,"snapshotValue":193922,"currency":"CNY","isFund":false},{"recordId":"yang-position-7","market":"a","account":"杨的证券","name":"贵州茅台","symbol":"sh600519","quantity":100,"snapshotPrice":1258.62,"snapshotValue":125862,"currency":"CNY","isFund":false}],"quotes":{"sh511010":{"symbol":"sh511010","name":"国债ETF国泰","price":140.737,"previousClose":140.705,"time":"20261009161453","change":0.032,"changeRate":0.02},"sh511260":{"symbol":"sh511260","name":"十年国债ETF国泰","price":134.829,"previousClose":134.73,"time":"20261009161438","change":0.099,"changeRate":0.07},"sh600519":{"symbol":"sh600519","name":"贵州茅台","price":1263,"previousClose":1255.79,"time":"20261009161459","change":7.21,"changeRate":0.57},"sz002415":{"symbol":"sz002415","name":"海康威视","price":32.97,"previousClose":33,"time":"20261009161433","change":-0.03,"changeRate":-0.09},"hk00175":{"symbol":"hk00175","name":"吉利汽车","price":15.13,"previousClose":14.61,"time":"2026/10/09 16:08:14","change":0.52,"changeRate":3.56},"hk00700":{"symbol":"hk00700","name":"腾讯控股","price":424.8,"previousClose":411.4,"time":"2026/10/09 16:08:14","change":13.4,"changeRate":3.26},"hk03690":{"symbol":"hk03690","name":"美团-W","price":71.5,"previousClose":69.4,"time":"2026/10/09 16:08:13","change":2.1,"changeRate":3.03},"sh600036":{"symbol":"sh600036","name":"招商银行","price":41.42,"previousClose":41.71,"time":"20261009161440","change":-0.29,"changeRate":-0.7},"whHKDCNY":{"symbol":"whHKDCNY","name":"港元人民币","price":0.8525,"previousClose":0,"time":"20261010045653","change":null,"changeRate":null}},"fx":{"rate":0.854564,"asOf":"2026-10-10T00:02:31.000Z","source":"https://open.er-api.com/v6/latest/HKD"},"fundDaily":[{"recordId":"fund-detail-1","account":"胡的理财通","fund":"摩根标普500指数(QDII)A","asOf":"2026-10-09","dailyProfit":463.78},{"recordId":"fund-detail-2","account":"胡的理财通","fund":"摩根纳斯达克100指数(QDII)人民币A","asOf":"2026-10-09","dailyProfit":303.97},{"recordId":"yang-sp500-fund","account":"杨的理财通","fund":"摩根标普500指数(QDII)人民币A","asOf":"2026-10-09","dailyProfit":463.83},{"recordId":"yang-nasdaq-fund","account":"杨的理财通","fund":"摩根纳斯达克100指数(QDII)人民币A","asOf":"2026-10-09","dailyProfit":320.91}],"fundYearDates":"持仓10月9日；收益胡10月9日、杨10月6日","sourceScope":"家庭证券与理财通基金，与投资看板同口径；证券单日按当前数量×价格变动，基金采用已提供当日收益。毛收益仍保留交易费用与参考汇率口径，不扣机会成本。","generatedAt":"2026-10-10T10:32:09.114Z","sourceSnapshotSha256":"9db935a760dce764211c7206e6d4e756f6b5507c19b7e8f8cd1305fd4ccdc372","tradingDay":"2026-10-09","dailyGross":15808.67,"historyGross":-19754.12,"complete":true,"dailyComplete":true,"fxRate":0.854564};
+let feed=initial;
+function paint(metrics){for(const [id,field] of [['mToday','dailyGross'],['mYear','yearGross'],['mHistory','historyGross']]){const el=document.getElementById(id),value=metrics[field];if(el){el.textContent=Number.isFinite(value)?(value>0?'+':'')+value.toLocaleString('zh-CN',{maximumFractionDigits:2}):'待更新';el.className=value>0?'up':value<0?'down':'';}}const date=document.getElementById('mTradeDay');if(date)date.textContent=metrics.tradingDay;const note=document.getElementById('mInvestmentBasis');if(note){note.textContent='毛收益 · 不扣机会成本'+(metrics.dailyComplete?'':' · 当日数据待补齐');note.title=feed.sourceScope+'；基金年度来源：'+feed.fundYearDates+'；港币参考汇率 '+metrics.fxRate+'；历史累计＝2025年底已确认累计＋年内毛收益';}}
+function refreshQuotes(){const symbols=[...new Set(feed.positions.map(p=>p.symbol))];if(!symbols.length)return;const script=document.createElement('script'),timer=setTimeout(()=>script.remove(),12000);script.src='https://qt.gtimg.cn/q='+symbols.join(',')+'&_='+Date.now();script.onload=()=>{clearTimeout(timer);const quotes={};for(const symbol of symbols){const raw=window['v_'+symbol];if(!raw)continue;const f=raw.split('~');if(Number(f[3])>0)quotes[symbol]={price:Number(f[3]),previousClose:Number(f[4]),time:f[30]||f[5]||''};}if(symbols.every(s=>quotes[s]))paint(calculateCardMetrics(feed,quotes));script.remove();};script.onerror=()=>{clearTimeout(timer);script.remove();};document.head.appendChild(script);}
+paint(calculateCardMetrics(feed));
+fetch('./data/investment-summary.json?t='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Summary unavailable');return r.json();}).then(next=>{if(next.schemaVersion===1&&Array.isArray(next.positions)&&Array.isArray(next.fundDaily)){feed=next;paint(calculateCardMetrics(feed));}refreshQuotes();}).catch(()=>refreshQuotes());
+
+})();
+</script>
 </body>
 </html>
