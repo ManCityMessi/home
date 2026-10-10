@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "baseYearGross": -8592.9,
+  "baseYearGross": -7865.9,
   "before2026Gross": -20085,
-  "yearGross": 330.88,
+  "yearGross": 1057.88,
   "positions": [
     {
       "recordId": "stock-胡的证券-国债ETF-0",
@@ -279,14 +279,14 @@
       "dailyProfit": 320.91
     }
   ],
-  "fundYearDates": "持仓10月9日；收益胡10月9日、杨10月6日",
+  "fundYearDates": "持仓胡杨均10月9日；收益胡10月9日、杨10月10日用户确认",
   "dailyScope": "securities",
   "sourceScope": "最近一个交易日仅统计证券账户，不含理财通基金；年内与历史收益包含家庭证券与理财通基金，与投资看板同口径。证券单日按当前数量×价格变动；毛收益仍保留交易费用与参考汇率口径，不扣机会成本。",
-  "generatedAt": "2026-10-10T11:04:45.890Z",
-  "sourceSnapshotSha256": "cae64e5112f7f2a3d4e91529828c4a1225a046740c29ba8fab590784cba8080c",
+  "generatedAt": "2026-10-10T12:20:53.474Z",
+  "sourceSnapshotSha256": "7a413dc65a8ff82ef0a783b3e044009e5f5773aebc92af58528e4396f5473b42",
   "tradingDay": "2026-10-09",
   "dailyGross": 14256.18,
-  "historyGross": -19754.12,
+  "historyGross": -19027.12,
   "complete": true,
   "dailyComplete": true,
   "fxRate": 0.854564
