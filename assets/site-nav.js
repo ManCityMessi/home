@@ -171,7 +171,6 @@
     home.innerHTML = ARROW + '<span>首页</span>';
     box.appendChild(home);
     box.appendChild(themeControl(function () {}));
-    box.appendChild(statusControl());
     box.appendChild(clockControl());
     host.appendChild(box);
   }
