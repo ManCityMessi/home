@@ -20,6 +20,71 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1120px;margin:0 auto;paddin
 .sources{display:flex;flex-wrap:wrap;gap:8px}.source{border:1px solid #e7edf6;border-radius:999px;background:#fff;padding:7px 10px;font-size:11px;color:#52658a}.source:hover,.nav a:hover{border-color:#bbc9eb;color:#345fd1}.foot{padding:22px 0 42px;color:#8792a7;font-size:11px;text-align:center}.foot strong{color:#65718b}.spacer{height:10px}
 @media(max-width:760px){.wrap{padding:0 15px}.daily-top{padding-top:10px}.hero{padding:24px 20px;border-radius:22px}.hero-row{display:block}.stamp{display:inline-block;margin-top:15px;text-align:left}.metrics{gap:8px}.metric{padding:12px 11px}.metric b{font-size:16px}.companies{grid-template-columns:1fr 1fr}.section-head{padding:17px 17px 12px}.body{padding:0 17px 18px}.funds{grid-template-columns:1fr}.company-item-top{flex-direction:column;gap:5px}.company-item .credibility{flex:0 1 auto;max-width:100%;align-self:flex-start}}
 @media(max-width:440px){.metrics{grid-template-columns:1fr}.metric{display:grid;grid-template-columns:1fr auto;align-items:center}.metric b{grid-column:2;grid-row:1/3;margin:0}.metric span{grid-column:1}.companies{grid-template-columns:1fr}.actions .btn{padding:8px 10px}.section h2{font-size:16px}}
+/* ===== 深色主题适配：本页原有样式全为浅色硬编码，深色皮肤下白卡片 + 浅色文字不可读 ===== */
+html.t-dark{--dc-panel:#0d1626;--dc-panel2:#121c30;--dc-line:rgba(122,168,255,.16);--dc-ink:#e8eefb;--dc-ink2:#9aabc7;--dc-ink3:#6b7a97;--dc-acc:#4f8cff}
+html.t-dark body{color:var(--dc-ink)}
+html.t-dark .hero{background:linear-gradient(112deg,rgba(16,25,42,.96),rgba(13,22,38,.96) 55%,rgba(11,30,36,.96));border-color:rgba(122,168,255,.2);box-shadow:0 26px 60px -40px rgba(0,0,0,.9),inset 0 1px 0 rgba(160,200,255,.08)}
+html.t-dark .hero:after{background:linear-gradient(145deg,rgba(124,92,255,.16),rgba(34,211,238,.12))}
+html.t-dark .eyebrow{color:#8fa5e0}
+html.t-dark .hero h1{color:var(--dc-ink)}
+html.t-dark .lede{color:var(--dc-ink2)}
+html.t-dark .stamp{background:rgba(18,28,48,.8);border-color:var(--dc-line);color:var(--dc-ink2)}
+html.t-dark .stamp strong{color:var(--dc-ink)}
+html.t-dark .window{color:var(--dc-ink3)}
+html.t-dark .window span{background:rgba(18,28,48,.8);border-color:var(--dc-line);color:var(--dc-ink2)}
+html.t-dark .window .readonly{color:#22d3ee;background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.3)}
+html.t-dark .metric{background:var(--dc-panel);border-color:var(--dc-line);box-shadow:none}
+html.t-dark .metric small{color:var(--dc-ink3)}
+html.t-dark .metric b{color:var(--dc-ink)}
+html.t-dark .metric span{color:var(--dc-ink2)}
+html.t-dark .nav a{background:var(--dc-panel);border-color:var(--dc-line);color:var(--dc-ink2)}
+html.t-dark .nav a:hover{color:#9ec1ff;border-color:rgba(79,140,255,.5)}
+html.t-dark .btn{background:var(--dc-panel2);border-color:var(--dc-line);color:var(--dc-ink2);box-shadow:none}
+html.t-dark .btn.primary{color:#fff;background:linear-gradient(135deg,#3d63e0,#6a52d8);border-color:#4f8cff}
+html.t-dark .section{background:var(--dc-panel);border-color:var(--dc-line);box-shadow:none}
+html.t-dark .section h2{color:var(--dc-ink)}
+html.t-dark .sub{color:var(--dc-ink3)}
+html.t-dark .mark{background:rgba(79,140,255,.16);color:#9ec1ff}
+html.t-dark .mark.green{background:rgba(46,189,133,.16);color:#5ee0ac}
+html.t-dark .mark.gold{background:rgba(240,185,11,.16);color:#f0c451}
+html.t-dark .status{background:rgba(79,140,255,.14);color:#9ec1ff;border-color:rgba(79,140,255,.3)}
+html.t-dark .status.ok{background:rgba(46,189,133,.16);color:#5ee0ac;border-color:rgba(46,189,133,.34)}
+html.t-dark .status.warn{background:rgba(240,185,11,.16);color:#f0c451;border-color:rgba(240,185,11,.34)}
+html.t-dark .notice{background:linear-gradient(105deg,rgba(20,30,52,.92),rgba(14,34,40,.92));border-color:var(--dc-line)}
+html.t-dark .notice strong{color:var(--dc-ink)}
+html.t-dark .notice p{color:var(--dc-ink2)}
+html.t-dark .item{background:var(--dc-panel2);border-color:var(--dc-line)}
+html.t-dark .item h3{color:var(--dc-ink)}
+html.t-dark .item p{color:var(--dc-ink2)}
+html.t-dark .badge{background:rgba(124,92,255,.18);color:#c3aaff;border-color:rgba(124,92,255,.34)}
+html.t-dark .links a{color:#7fa8ff}
+html.t-dark .company{background:linear-gradient(150deg,var(--dc-panel),var(--dc-panel2));border-color:var(--dc-line)}
+html.t-dark .company h3{color:var(--dc-ink)}
+html.t-dark .company>p{color:var(--dc-ink2)}
+html.t-dark .company a{color:#7fa8ff}
+html.t-dark .company-icon{background:rgba(79,140,255,.16);color:#9ec1ff}
+html.t-dark .company-item{background:var(--dc-panel2);border-color:var(--dc-line)}
+html.t-dark .company-item h4{color:var(--dc-ink)}
+html.t-dark .company-item p{color:var(--dc-ink2)}
+html.t-dark .company-item.unverified{background:rgba(240,185,11,.09);border-color:rgba(240,185,11,.34)}
+html.t-dark .credibility{background:rgba(46,189,133,.16);color:#5ee0ac}
+html.t-dark .company-item.unverified .credibility{background:rgba(240,185,11,.18);color:#f0c451}
+html.t-dark .fund{background:linear-gradient(145deg,var(--dc-panel),var(--dc-panel2));border-color:var(--dc-line)}
+html.t-dark .fund.changed{background:linear-gradient(145deg,rgba(240,185,11,.1),var(--dc-panel));border-color:rgba(240,185,11,.36)}
+html.t-dark .fund h3{color:var(--dc-ink)}
+html.t-dark .code{color:var(--dc-ink3)}
+html.t-dark .limit{color:#c3d4f7}
+html.t-dark .delta{color:var(--dc-ink2)}
+html.t-dark .delta.changed{color:#f0c451}
+html.t-dark .weekend{background:rgba(240,185,11,.1);border-color:rgba(240,185,11,.32);color:#f0c451}
+html.t-dark .source{background:var(--dc-panel);border-color:var(--dc-line);color:var(--dc-ink2)}
+html.t-dark .source:hover{color:#9ec1ff;border-color:rgba(79,140,255,.5)}
+html.t-dark .foot{color:var(--dc-ink3)}
+html.t-dark .foot strong{color:var(--dc-ink2)}
+/* 兜底：深色卡片内所有文本默认取浅色，避免遗漏元素白底浅字/深底深字 */
+html.t-dark .hero,html.t-dark .section,html.t-dark .metric,html.t-dark .item,html.t-dark .company,html.t-dark .company-item,html.t-dark .fund,html.t-dark .notice,html.t-dark .source{color:var(--dc-ink)}
+html.t-dark a{color:#7fa8ff}
+html.t-dark .nav a,html.t-dark .btn,html.t-dark .source,html.t-dark .window span,html.t-dark .stamp{color:var(--dc-ink2)}
 </style>
 <link rel="stylesheet" href="./assets/tech-ui.css?v=20260927160002">
 <script>(function(){try{var t=localStorage.getItem("tech-theme");if(t==="light"||t==="dark")document.documentElement.className="t-"+t;else document.documentElement.className="t-light";}catch(e){document.documentElement.className="t-light";}})();</script>
@@ -68,6 +133,31 @@ render();
 
 </script>
 <script src="./assets/tech-ui.js?v=20260927160002"></script>
+<!-- VER-BLOCK -->
+<script>var PAGE_VER="20261020095218";</script>
+<script>
+/* 版本自检：与 version.json 核对，若线上版本更新则带时间戳重取，绕过 Pages CDN 缓存。
+   apply-report.mjs 每次写日报会同步更新这里与 version.json 的版本号。 */
+(function () {
+  var nm = location.pathname.split("/").pop() || "index.html";
+  if (!/^https?:$/.test(location.protocol) || typeof PAGE_VER === "undefined") return;
+  var n = 0, t0 = 0, tv = "";
+  try { var p = (localStorage.getItem("wbHop") || "").split("|"); tv = p[0] || ""; n = +(p[1] || 0) || 0; t0 = +(p[2] || 0) || 0; } catch (e) {}
+  fetch("./version.json?t=" + Date.now(), { cache: "no-store" })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      var latest = j && j[nm];
+      if (!latest || String(latest) === PAGE_VER) return;
+      var now = Date.now();
+      if (tv !== String(latest) || now - t0 > 600000) n = 0;
+      if (n >= 5) return;
+      try { localStorage.setItem("wbHop", String(latest) + "|" + (n + 1) + "|" + now); } catch (e) {}
+      location.replace(location.pathname + "?t=" + now);
+    })
+    .catch(function () {});
+})();
+</script>
+<!-- /VER-BLOCK -->
 </body>
 </html>
 

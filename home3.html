@@ -584,25 +584,37 @@
     });
   })();
 
-  // DeepSeek 余额卡片：读云端记录，展示当前余额与过去 24 小时使用额
+  // DeepSeek 余额卡片：优先云端记录，缺失时回退同源 data/deepseek.json
+  // （GitHub Pages 上云网关有域名白名单，浏览器跨域读写会 403，发布版以文件为准）
   (function () {
+    var FILE_ROWS = [];
+    function rows() {
+      var out = [], have = {};
+      var d = (window.WB && WB.ready) ? WB.data : {};
+      for (var k in d) {
+        if (!Object.prototype.hasOwnProperty.call(d, k) || k.indexOf("deepseek:") !== 0) continue;
+        var v = d[k];
+        if (!v || typeof v !== "object" || typeof v.bal !== "number") continue;
+        out.push({ date: k.slice(9), bal: v.bal });
+        have[k.slice(9)] = 1;
+      }
+      FILE_ROWS.forEach(function (r) {
+        if (!r || !r.date || typeof r.bal !== "number" || have[r.date]) return;
+        out.push({ date: r.date, bal: r.bal });
+        have[r.date] = 1;
+      });
+      out.sort(function (a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
+      for (var i = 1; i < out.length; i++) out[i].used = +(out[i - 1].bal - out[i].bal).toFixed(2);
+      return out;
+    }
     function fill() {
       var eBal = document.getElementById("dsBal");
       var eUsed = document.getElementById("dsUsed");
       var eMeta = document.getElementById("dsMeta");
-      var d = (window.WB && WB.ready) ? WB.data : {};
-      var keys = [];
-      for (var k in d) {
-        if (k.indexOf("deepseek:") === 0 && Object.prototype.hasOwnProperty.call(d, k)) keys.push(k);
-      }
-      keys.sort();
-      var bal = null, used = null;
-      if (keys.length) {
-        var last = d[keys[keys.length - 1]];
-        var prev = keys.length > 1 ? d[keys[keys.length - 2]] : null;
-        if (last && typeof last.bal === "number") bal = last.bal;
-        if (bal !== null && prev && typeof prev.bal === "number") used = +(prev.bal - bal).toFixed(2);
-      }
+      var r = rows();
+      var last = r.length ? r[r.length - 1] : null;
+      var bal = last ? last.bal : null;
+      var used = (last && typeof last.used === "number") ? last.used : null;
       if (eBal) {
         eBal.textContent = (bal === null) ? "\u2014" : ("\u00A5" + bal.toFixed(2));
         eBal.className = (bal !== null && bal < 50) ? "up" : "dsbal";
@@ -613,15 +625,23 @@
         else { eUsed.textContent = "充值 \u00A5" + (-used).toFixed(2); eUsed.className = "down"; }
       }
       if (eMeta) {
-        if (!keys.length) { eMeta.textContent = "\u2014"; }
+        if (!r.length) { eMeta.textContent = "\u2014"; }
         else {
-          var day = keys[keys.length - 1].slice(9).split("-");
-          eMeta.textContent = "最近 " + (+day[1]) + "/" + (+day[2]) + " · 共 " + keys.length + " 天";
+          var day = last.date.split("-");
+          eMeta.textContent = "最近 " + (+day[1]) + "/" + (+day[2]) + " · 共 " + r.length + " 天";
         }
       }
     }
     fill();
     if (window.WB) WB.onReady(fill);
+    fetch("./data/deepseek.json", { cache: "no-store" })
+      .then(function (x) { return x.ok ? x.json() : null; })
+      .then(function (j) {
+        if (!j || !j.records || !j.records.length) return;
+        FILE_ROWS = j.records;
+        fill();
+      })
+      .catch(function () {});
   })();
 </script>
 
@@ -634,7 +654,7 @@
 
 
 <!-- VER-BLOCK -->
-<script>var PAGE_VER="20260927160002";</script>
+<script>var PAGE_VER="20261020100000";</script>
 <script>
 /* 版本自检 + 地址栏净化：
    1) 主页加载后立即把地址栏规范为站点根地址 /（根地址是跳转壳，刷新永远安全）；
