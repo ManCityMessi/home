@@ -64,7 +64,7 @@
   "fundYearDates": "胡、杨均 2026-11-03",
   "dailyScope": "securities",
   "sourceScope": "最近一个交易日仅统计证券账户，不含理财通基金；年内与历史收益取自投资收益看板（2026-11-05 行情口径，含基金），毛收益不扣机会成本。",
-  "generatedAt": "2026-11-05T11:02:15.735Z",
+  "generatedAt": "2026-11-05T11:02:56.650Z",
   "sourceSnapshotSha256": "a4aa46babfdc2d37d4379ad41f76009fe7c26f727c0a38d303dc501f73100dda",
   "tradingDay": "2026-11-05",
   "dailyGross": 34659,

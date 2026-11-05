@@ -1,0 +1,967 @@
+{
+  "updated": "2026-10-12T19:30:42.815Z",
+  "state": {
+    "gain:2026-09-22": 14519,
+    "signals:jili": {
+      "core": {
+        "sharesTxt": "5,000股",
+        "cost": 16.93,
+        "buy": 14.3,
+        "sell": 28.6,
+        "tone": "mid"
+      },
+      "swing": {
+        "sharesTxt": "1,000/2,000股",
+        "rule": "3个月新低买入，盈利15%卖出",
+        "buy": 16.38,
+        "sell": 18.8,
+        "tone": "buy"
+      },
+      "val": {
+        "pe": "PE10",
+        "growth": "增长15%",
+        "report": "26Q2A"
+      }
+    },
+    "signals:hik": {
+      "core": {
+        "sharesTxt": "4,000股",
+        "cost": 46.19,
+        "buy": 24.18,
+        "sell": 48.35,
+        "tone": "mid"
+      },
+      "swing": {
+        "sharesTxt": "1000/1,000股",
+        "rule": "3个月新低买入，盈利10%卖出",
+        "buy": 32,
+        "sell": 35,
+        "tone": "mid"
+      },
+      "val": {
+        "pe": "PE 20",
+        "growth": "增长10%",
+        "report": "26Q2A"
+      }
+    },
+    "signals:tencent": {
+      "val": {
+        "pe": "PE 20",
+        "growth": "增长10%",
+        "report": "26Q2A"
+      },
+      "core": {
+        "buy": 462.6,
+        "cost": 471.4,
+        "sell": 925.3,
+        "tone": "buy",
+        "sharesTxt": "600股"
+      },
+      "swing": {
+        "buy": 424,
+        "rule": "低于成本10%买入，25%波段仓，盈利10%卖出",
+        "sell": 466,
+        "tone": "mid",
+        "sharesTxt": "100/200股"
+      }
+    },
+    "signals:maotai": {
+      "val": {
+        "pe": "PE20",
+        "growth": "增长5%",
+        "report": "26Q2A"
+      },
+      "core": {
+        "buy": 753.5,
+        "cost": 1501.3,
+        "sell": 1507.1,
+        "tone": "mid",
+        "sharesTxt": "200股"
+      },
+      "swing": {
+        "buy": 1150,
+        "rule": "1年新低买入，盈利10%卖出",
+        "sell": 1265,
+        "tone": "mid",
+        "sharesTxt": "0/100股"
+      }
+    },
+    "signals:meituan": {
+      "val": {
+        "pe": "PE 20",
+        "growth": "增长20%",
+        "report": "26Q2A"
+      },
+      "core": {
+        "buy": -131.1,
+        "cost": 130.6,
+        "sell": -262.1,
+        "tone": "na",
+        "sharesTxt": "500股"
+      },
+      "swing": {
+        "buy": 63.65,
+        "rule": "3个月新低买入，盈利15%卖出",
+        "sell": 73.2,
+        "tone": "sell",
+        "sharesTxt": "0/200股"
+      }
+    },
+    "gain:2026-09-23": -8573,
+    "deepseek:2026-09-23": {
+      "ts": "2026-09-23T23:52:00+08:00",
+      "bal": 423.9,
+      "grt": 0,
+      "top": 423.9
+    },
+    "deepseek:2026-09-24": {
+      "ts": "2026-09-24T16:47:19+08:00",
+      "bal": 405.63,
+      "grt": 0,
+      "top": 405.63
+    },
+    "work:2026-09-24": [],
+    "gain:2026-09-24": -5854,
+    "deepseek:2026-09-25": {
+      "ts": "2026-09-25T00:27:32+08:00",
+      "bal": 400.56,
+      "grt": 0,
+      "top": 400.56
+    },
+    "work:2026-09-25": [
+      {
+        "c": 1790179597292,
+        "d": false,
+        "t": "新Local宣传册材料",
+        "id": "mueaplnwdmvlg",
+        "from": "2026-09-24"
+      },
+      {
+        "c": 1790179828453,
+        "d": false,
+        "t": "COFFEE TALK PPT和讲稿",
+        "id": "mueauk116kn4i",
+        "from": "2026-09-24"
+      },
+      {
+        "id": "muezhwx2j0xyi",
+        "t": "3D空分工艺流程",
+        "d": false,
+        "c": 1790221229030,
+        "from": "2026-09-24"
+      }
+    ],
+    "gain:2026-09-25": -2805,
+    "deepseek:2026-09-26": {
+      "ts": "2026-09-26T00:32:32+08:00",
+      "bal": 378.02,
+      "grt": 0,
+      "top": 378.02
+    },
+    "travel:yy:v1": {
+      "version": 1,
+      "records": [
+        {
+          "id": "ae9e1b9e-fdf0-4461-a002-34f2971f242a",
+          "placeId": "cn-bj",
+          "name": "北京",
+          "scope": "domestic",
+          "lat": 39.9042,
+          "lon": 116.4074,
+          "createdAt": "2026-09-26T14:27:18.038Z"
+        },
+        {
+          "id": "3f94813f-7b83-4d57-8da0-286b81a80f64",
+          "placeId": "cn-sh",
+          "name": "上海",
+          "scope": "domestic",
+          "lat": 31.2304,
+          "lon": 121.4737,
+          "createdAt": "2026-09-26T14:27:27.463Z"
+        },
+        {
+          "id": "17ef5b94-22b5-40f0-bfbe-0145c068f5f8",
+          "placeId": "cn-cq",
+          "name": "重庆",
+          "scope": "domestic",
+          "lat": 29.4316,
+          "lon": 106.9123,
+          "createdAt": "2026-09-26T14:27:31.074Z"
+        },
+        {
+          "id": "7157a283-a1b0-4178-9f91-6ff7c6139a93",
+          "placeId": "cn-hebei",
+          "name": "河北",
+          "scope": "domestic",
+          "lat": 38.0428,
+          "lon": 114.5149,
+          "createdAt": "2026-09-26T14:27:34.430Z"
+        },
+        {
+          "id": "3bd93b81-86b8-4333-8ece-0030373eda95",
+          "placeId": "cn-jiangsu",
+          "name": "江苏",
+          "scope": "domestic",
+          "lat": 32.0603,
+          "lon": 118.7969,
+          "createdAt": "2026-09-26T14:27:38.603Z"
+        },
+        {
+          "id": "72eec65f-a9de-4fac-9db9-0b61c5d80ab0",
+          "placeId": "cn-zhejiang",
+          "name": "浙江",
+          "scope": "domestic",
+          "lat": 30.2741,
+          "lon": 120.1551,
+          "createdAt": "2026-09-26T14:27:41.074Z"
+        },
+        {
+          "id": "12744581-f2a3-4ed9-8e4a-1f510e5cbbad",
+          "placeId": "cn-anhui",
+          "name": "安徽",
+          "scope": "domestic",
+          "lat": 31.8206,
+          "lon": 117.2272,
+          "createdAt": "2026-09-26T14:27:47.888Z"
+        },
+        {
+          "id": "7ffef24c-59e2-489c-bd7b-513ae3952e31",
+          "placeId": "cn-shandong",
+          "name": "山东",
+          "scope": "domestic",
+          "lat": 36.6512,
+          "lon": 117.1201,
+          "createdAt": "2026-09-26T14:27:52.060Z"
+        },
+        {
+          "id": "26351fbb-c25e-4ab1-b67b-416a6b67ba5c",
+          "placeId": "cn-henan",
+          "name": "河南",
+          "scope": "domestic",
+          "lat": 34.7466,
+          "lon": 113.6253,
+          "createdAt": "2026-09-26T14:27:56.544Z"
+        },
+        {
+          "id": "62c45c6b-9965-4367-a879-316ab6df9e42",
+          "placeId": "cn-hubei",
+          "name": "湖北",
+          "scope": "domestic",
+          "lat": 30.5928,
+          "lon": 114.3055,
+          "createdAt": "2026-09-26T14:27:59.241Z"
+        },
+        {
+          "id": "76f19f60-3394-4789-a1e1-5b3ee8043f1d",
+          "placeId": "cn-hunan",
+          "name": "湖南",
+          "scope": "domestic",
+          "lat": 28.2282,
+          "lon": 112.9388,
+          "createdAt": "2026-09-26T14:28:01.275Z"
+        },
+        {
+          "id": "d349e653-e1d0-4b7b-a6ef-66ddaaa6feb7",
+          "placeId": "cn-guangdong",
+          "name": "广东",
+          "scope": "domestic",
+          "lat": 23.1291,
+          "lon": 113.2644,
+          "createdAt": "2026-09-26T14:28:05.343Z"
+        },
+        {
+          "id": "c028fe3a-d5cd-4caf-8dda-c0227f2d7869",
+          "placeId": "cn-sichuan",
+          "name": "四川",
+          "scope": "domestic",
+          "lat": 30.5728,
+          "lon": 104.0668,
+          "createdAt": "2026-09-26T14:28:10.852Z"
+        },
+        {
+          "id": "ff0aca84-7502-48b0-9503-117de586af2a",
+          "placeId": "cn-guangxi",
+          "name": "广西",
+          "scope": "domestic",
+          "lat": 22.817,
+          "lon": 108.3665,
+          "createdAt": "2026-09-26T14:28:21.535Z"
+        },
+        {
+          "id": "68474f97-355b-4e14-9cd1-78f3acdee5d8",
+          "placeId": "cn-ningxia",
+          "name": "宁夏",
+          "scope": "domestic",
+          "lat": 38.4872,
+          "lon": 106.2309,
+          "createdAt": "2026-09-26T14:28:28.517Z"
+        },
+        {
+          "id": "c7ccab63-0d03-4aac-bade-e87ca423c129",
+          "placeId": "cn-hongkong",
+          "name": "香港",
+          "scope": "domestic",
+          "lat": 22.3193,
+          "lon": 114.1694,
+          "createdAt": "2026-09-26T14:28:31.255Z"
+        },
+        {
+          "id": "416107b3-26fa-4154-a010-1b2c79cf7049",
+          "placeId": "sg",
+          "name": "新加坡",
+          "scope": "international",
+          "lat": 1.3521,
+          "lon": 103.8198,
+          "createdAt": "2026-09-26T14:31:31.648Z"
+        },
+        {
+          "id": "cd3545ed-99c8-47a3-a543-0e5e3fd2c94e",
+          "placeId": "kr",
+          "name": "韩国",
+          "scope": "international",
+          "lat": 35.9078,
+          "lon": 127.7669,
+          "createdAt": "2026-09-26T14:31:34.605Z"
+        },
+        {
+          "id": "88122306-d04c-4660-bff4-3c467437a01a",
+          "placeId": "my",
+          "name": "马来西亚",
+          "scope": "international",
+          "lat": 4.2105,
+          "lon": 101.9758,
+          "createdAt": "2026-09-26T14:32:10.809Z"
+        },
+        {
+          "id": "801d29c6-204b-462a-8eb1-01b99b24b359",
+          "placeId": "cn",
+          "name": "中国",
+          "scope": "international",
+          "lat": 35,
+          "lon": 105,
+          "createdAt": "2026-09-26T16:33:24.067Z"
+        }
+      ],
+      "deletedIds": [
+        "666b1781-dc52-439c-9d87-e30b5318868e"
+      ]
+    },
+    "travel:evelyn:v1": {
+      "version": 1,
+      "records": [
+        {
+          "id": "6256c503-7ee6-4d5b-9d10-18a252025bc0",
+          "placeId": "cn-bj",
+          "name": "北京",
+          "scope": "domestic",
+          "lat": 39.9042,
+          "lon": 116.4074,
+          "createdAt": "2026-09-26T14:29:13.604Z"
+        },
+        {
+          "id": "53434737-94b2-4de6-8e66-ddfdd65ba891",
+          "placeId": "cn-sh",
+          "name": "上海",
+          "scope": "domestic",
+          "lat": 31.2304,
+          "lon": 121.4737,
+          "createdAt": "2026-09-26T14:29:22.834Z"
+        },
+        {
+          "id": "7ebd254e-f3df-4703-af72-0f3d3cee4fdc",
+          "placeId": "cn-cq",
+          "name": "重庆",
+          "scope": "domestic",
+          "lat": 29.4316,
+          "lon": 106.9123,
+          "createdAt": "2026-09-26T14:29:27.440Z"
+        },
+        {
+          "id": "585d714c-dac4-4e08-9fbe-90a195a7a511",
+          "placeId": "cn-heilongjiang",
+          "name": "黑龙江",
+          "scope": "domestic",
+          "lat": 45.8038,
+          "lon": 126.535,
+          "createdAt": "2026-09-26T14:29:34.115Z"
+        },
+        {
+          "id": "a32ddb6e-7fa0-4d35-888f-3b63570ed58d",
+          "placeId": "cn-jiangsu",
+          "name": "江苏",
+          "scope": "domestic",
+          "lat": 32.0603,
+          "lon": 118.7969,
+          "createdAt": "2026-09-26T14:29:36.416Z"
+        },
+        {
+          "id": "77ea85a4-8cff-4df4-a937-3537c4200557",
+          "placeId": "cn-zhejiang",
+          "name": "浙江",
+          "scope": "domestic",
+          "lat": 30.2741,
+          "lon": 120.1551,
+          "createdAt": "2026-09-26T14:29:38.747Z"
+        },
+        {
+          "id": "eed405d9-e375-4b1a-b6e4-f83d2bfce2dd",
+          "placeId": "cn-anhui",
+          "name": "安徽",
+          "scope": "domestic",
+          "lat": 31.8206,
+          "lon": 117.2272,
+          "createdAt": "2026-09-26T14:29:43.270Z"
+        },
+        {
+          "id": "df33f8a9-dba9-4344-9e43-edec0c4de37f",
+          "placeId": "cn-fujian",
+          "name": "福建",
+          "scope": "domestic",
+          "lat": 26.0745,
+          "lon": 119.2965,
+          "createdAt": "2026-09-26T14:29:45.412Z"
+        },
+        {
+          "id": "621bd2f9-7a49-422d-9468-5528b0181e93",
+          "placeId": "cn-jiangxi",
+          "name": "江西",
+          "scope": "domestic",
+          "lat": 28.682,
+          "lon": 115.8579,
+          "createdAt": "2026-09-26T14:29:48.179Z"
+        },
+        {
+          "id": "8d058ada-cee6-42ce-b505-012360bec6ee",
+          "placeId": "cn-shandong",
+          "name": "山东",
+          "scope": "domestic",
+          "lat": 36.6512,
+          "lon": 117.1201,
+          "createdAt": "2026-09-26T14:29:50.685Z"
+        },
+        {
+          "id": "9dd95f32-c0a0-49aa-8013-ba5f2e023a7a",
+          "placeId": "cn-henan",
+          "name": "河南",
+          "scope": "domestic",
+          "lat": 34.7466,
+          "lon": 113.6253,
+          "createdAt": "2026-09-26T14:29:53.999Z"
+        },
+        {
+          "id": "316614fb-ed3e-4daf-80b1-75d286c5ccd2",
+          "placeId": "cn-hubei",
+          "name": "湖北",
+          "scope": "domestic",
+          "lat": 30.5928,
+          "lon": 114.3055,
+          "createdAt": "2026-09-26T14:29:57.956Z"
+        },
+        {
+          "id": "b457eb7e-ac93-4b1c-98ef-c68d88015f04",
+          "placeId": "cn-hunan",
+          "name": "湖南",
+          "scope": "domestic",
+          "lat": 28.2282,
+          "lon": 112.9388,
+          "createdAt": "2026-09-26T14:30:00.564Z"
+        },
+        {
+          "id": "c18550a8-e24b-478e-9861-1a2475402021",
+          "placeId": "cn-guangdong",
+          "name": "广东",
+          "scope": "domestic",
+          "lat": 23.1291,
+          "lon": 113.2644,
+          "createdAt": "2026-09-26T14:30:04.368Z"
+        },
+        {
+          "id": "d6ce7fe0-968b-482f-b2ee-745b77b02acd",
+          "placeId": "cn-hainan",
+          "name": "海南",
+          "scope": "domestic",
+          "lat": 20.044,
+          "lon": 110.199,
+          "createdAt": "2026-09-26T14:30:16.965Z"
+        },
+        {
+          "id": "d304bcdf-9704-4d99-8825-51baec578285",
+          "placeId": "cn-sichuan",
+          "name": "四川",
+          "scope": "domestic",
+          "lat": 30.5728,
+          "lon": 104.0668,
+          "createdAt": "2026-09-26T14:30:20.411Z"
+        },
+        {
+          "id": "d84358dc-2c6f-449c-970b-7a49ca65448b",
+          "placeId": "cn-yunnan",
+          "name": "云南",
+          "scope": "domestic",
+          "lat": 25.0389,
+          "lon": 102.7183,
+          "createdAt": "2026-09-26T14:30:29.723Z"
+        },
+        {
+          "id": "bdaf3d88-27e7-4c30-a933-fa5612bce0e8",
+          "placeId": "cn-shaanxi",
+          "name": "陕西",
+          "scope": "domestic",
+          "lat": 34.3416,
+          "lon": 108.9398,
+          "createdAt": "2026-09-26T14:30:37.481Z"
+        },
+        {
+          "id": "a99be164-285f-4a1f-9620-c3f85188308c",
+          "placeId": "cn-xinjiang",
+          "name": "新疆",
+          "scope": "domestic",
+          "lat": 43.8256,
+          "lon": 87.6168,
+          "createdAt": "2026-09-26T14:30:41.694Z"
+        },
+        {
+          "id": "54a6bdfc-1d3d-4c30-9770-08e1e9be4831",
+          "placeId": "cn-ningxia",
+          "name": "宁夏",
+          "scope": "domestic",
+          "lat": 38.4872,
+          "lon": 106.2309,
+          "createdAt": "2026-09-26T14:30:45.296Z"
+        },
+        {
+          "id": "02326492-8b52-438d-9190-3018628bb350",
+          "placeId": "cn-neimenggu",
+          "name": "内蒙古",
+          "scope": "domestic",
+          "lat": 40.8426,
+          "lon": 111.7492,
+          "createdAt": "2026-09-26T14:30:48.034Z"
+        },
+        {
+          "id": "8077fd2d-6cfb-4a98-b0fe-522cba1104bf",
+          "placeId": "cn-hongkong",
+          "name": "香港",
+          "scope": "domestic",
+          "lat": 22.3193,
+          "lon": 114.1694,
+          "createdAt": "2026-09-26T14:30:59.811Z"
+        },
+        {
+          "id": "0b832e6c-5cf4-4a96-8f83-9962211d5a57",
+          "placeId": "jp",
+          "name": "日本",
+          "scope": "international",
+          "lat": 36.2048,
+          "lon": 138.2529,
+          "createdAt": "2026-09-26T14:32:39.809Z"
+        },
+        {
+          "id": "83960070-3a26-4a80-81d9-d84bb00043f9",
+          "placeId": "sg",
+          "name": "新加坡",
+          "scope": "international",
+          "lat": 1.3521,
+          "lon": 103.8198,
+          "createdAt": "2026-09-26T14:32:42.907Z"
+        },
+        {
+          "id": "2301dfa6-2a20-48c3-9405-c5a564eb07ad",
+          "placeId": "my",
+          "name": "马来西亚",
+          "scope": "international",
+          "lat": 4.2105,
+          "lon": 101.9758,
+          "createdAt": "2026-09-26T14:32:45.054Z"
+        },
+        {
+          "id": "127bd6c6-09eb-4449-b20c-05122f773562",
+          "placeId": "th",
+          "name": "泰国",
+          "scope": "international",
+          "lat": 15.87,
+          "lon": 100.9925,
+          "createdAt": "2026-09-26T14:33:14.058Z"
+        },
+        {
+          "id": "0f6e11a8-05bd-4d61-90cd-17fc3f13b8d6",
+          "placeId": "qa",
+          "name": "卡塔尔",
+          "scope": "international",
+          "lat": 25.5,
+          "lon": 51.25,
+          "createdAt": "2026-09-26T16:30:08.786Z"
+        },
+        {
+          "id": "ad311dd1-7264-4308-8d07-034d9b590e89",
+          "placeId": "cn",
+          "name": "中国",
+          "scope": "international",
+          "lat": 35,
+          "lon": 105,
+          "createdAt": "2026-09-26T16:30:45.885Z"
+        },
+        {
+          "id": "f533935f-8953-4fea-ae4c-f7f8b176c77f",
+          "placeId": "tr",
+          "name": "土耳其",
+          "scope": "international",
+          "lat": 39,
+          "lon": 35,
+          "createdAt": "2026-09-26T16:30:55.402Z"
+        },
+        {
+          "id": "37c30983-9d6d-4803-82f3-fb28affa0f38",
+          "placeId": "ae",
+          "name": "阿拉伯联合酋长国",
+          "scope": "international",
+          "lat": 24,
+          "lon": 54,
+          "createdAt": "2026-09-26T16:31:07.641Z"
+        },
+        {
+          "id": "4874532e-4bd2-4627-9488-06c017cfb113",
+          "placeId": "mx",
+          "name": "墨西哥",
+          "scope": "international",
+          "lat": 23,
+          "lon": -102,
+          "createdAt": "2026-09-26T16:31:29.249Z"
+        },
+        {
+          "id": "4384ef71-bc3e-41ad-b4f8-b881991a6ae5",
+          "placeId": "us",
+          "name": "美国",
+          "scope": "international",
+          "lat": 38,
+          "lon": -97,
+          "createdAt": "2026-09-26T16:31:30.177Z"
+        },
+        {
+          "id": "b76f0fc3-29a4-4aab-9f42-9d8da11dd1a9",
+          "placeId": "ca",
+          "name": "加拿大",
+          "scope": "international",
+          "lat": 60,
+          "lon": -95,
+          "createdAt": "2026-09-26T16:31:30.707Z"
+        },
+        {
+          "id": "55fb2c5d-1d9a-48e9-92cc-f4158cf9f8b7",
+          "placeId": "cr",
+          "name": "哥斯达黎加",
+          "scope": "international",
+          "lat": 10,
+          "lon": -84,
+          "createdAt": "2026-09-26T16:31:41.838Z"
+        },
+        {
+          "id": "71ed49bd-1ab7-459c-bd42-5fe9deaa7ed9",
+          "placeId": "pa",
+          "name": "巴拿马",
+          "scope": "international",
+          "lat": 9,
+          "lon": -80,
+          "createdAt": "2026-09-26T16:31:43.555Z"
+        },
+        {
+          "id": "a8de50f9-ebd7-49b5-9e52-e2162df73082",
+          "placeId": "ar",
+          "name": "阿根廷",
+          "scope": "international",
+          "lat": -34,
+          "lon": -64,
+          "createdAt": "2026-09-26T16:31:47.424Z"
+        },
+        {
+          "id": "bed6c022-68d8-48ec-a81d-edada18310e8",
+          "placeId": "br",
+          "name": "巴西",
+          "scope": "international",
+          "lat": -10,
+          "lon": -55,
+          "createdAt": "2026-09-26T16:31:54.029Z"
+        },
+        {
+          "id": "8bdc3622-2350-4156-989c-493bddcfcbd4",
+          "placeId": "ec",
+          "name": "厄瓜多尔",
+          "scope": "international",
+          "lat": -2,
+          "lon": -77.5,
+          "createdAt": "2026-09-26T16:31:57.481Z"
+        },
+        {
+          "id": "eff002a7-9600-40f2-be18-03f20ed2582c",
+          "placeId": "co",
+          "name": "哥伦比亚",
+          "scope": "international",
+          "lat": 4,
+          "lon": -72,
+          "createdAt": "2026-09-26T16:31:59.100Z"
+        },
+        {
+          "id": "303ba67a-180e-41a0-ac68-62b78750e62a",
+          "placeId": "pe",
+          "name": "秘鲁",
+          "scope": "international",
+          "lat": -10,
+          "lon": -76,
+          "createdAt": "2026-09-26T16:32:00.572Z"
+        },
+        {
+          "id": "2cbe97c0-660a-468f-b0f7-0a251f52ddd2",
+          "placeId": "cl",
+          "name": "智利",
+          "scope": "international",
+          "lat": -30,
+          "lon": -71,
+          "createdAt": "2026-09-26T16:32:05.862Z"
+        },
+        {
+          "id": "750ed4fd-00a7-469f-bbea-64e9551a8d42",
+          "placeId": "uy",
+          "name": "乌拉圭",
+          "scope": "international",
+          "lat": -33,
+          "lon": -56,
+          "createdAt": "2026-09-26T16:32:07.991Z"
+        },
+        {
+          "id": "82f8f079-96d0-4fe4-a367-f21524aaa1f4",
+          "placeId": "in",
+          "name": "印度",
+          "scope": "international",
+          "lat": 20,
+          "lon": 77,
+          "createdAt": "2026-09-26T16:32:19.647Z"
+        },
+        {
+          "id": "38a2b05b-cc74-4052-96de-932e81871216",
+          "placeId": "al",
+          "name": "阿尔巴尼亚",
+          "scope": "international",
+          "lat": 41,
+          "lon": 20,
+          "createdAt": "2026-09-26T16:32:24.565Z"
+        },
+        {
+          "id": "675db3b7-ee3a-4712-a14b-d11f89d37e22",
+          "placeId": "ie",
+          "name": "爱尔兰",
+          "scope": "international",
+          "lat": 53,
+          "lon": -8,
+          "createdAt": "2026-09-26T16:32:29.147Z"
+        },
+        {
+          "id": "2cda7e4a-de90-40a4-a708-1cdee13db1c0",
+          "placeId": "pl",
+          "name": "波兰",
+          "scope": "international",
+          "lat": 52,
+          "lon": 20,
+          "createdAt": "2026-09-26T16:32:32.789Z"
+        },
+        {
+          "id": "73bd4438-0a39-47ed-876f-7b9ee96c702d",
+          "placeId": "dk",
+          "name": "丹麦",
+          "scope": "international",
+          "lat": 56,
+          "lon": 10,
+          "createdAt": "2026-09-26T16:32:36.763Z"
+        },
+        {
+          "id": "00481e52-76bd-413f-8c04-f611f5fa6e04",
+          "placeId": "de",
+          "name": "德国",
+          "scope": "international",
+          "lat": 51,
+          "lon": 9,
+          "createdAt": "2026-09-26T16:32:37.315Z"
+        },
+        {
+          "id": "0de87ec3-d441-422c-9700-ad7c6b846a60",
+          "placeId": "fr",
+          "name": "法国",
+          "scope": "international",
+          "lat": 46,
+          "lon": 2,
+          "createdAt": "2026-09-26T16:32:41.963Z"
+        },
+        {
+          "id": "c74c962d-b474-4c7e-bcaa-2675b234cb34",
+          "placeId": "nl",
+          "name": "荷兰",
+          "scope": "international",
+          "lat": 52.5,
+          "lon": 5.75,
+          "createdAt": "2026-09-26T16:32:43.231Z"
+        },
+        {
+          "id": "be3ba90d-9aa2-41bc-9554-f127b54551d5",
+          "placeId": "rs",
+          "name": "塞尔维亚",
+          "scope": "international",
+          "lat": 44,
+          "lon": 21,
+          "createdAt": "2026-09-26T16:33:03.161Z"
+        },
+        {
+          "id": "8747b04a-5ce3-4e6f-b5b2-4a2970b22a48",
+          "placeId": "es",
+          "name": "西班牙",
+          "scope": "international",
+          "lat": 40,
+          "lon": -4,
+          "createdAt": "2026-09-26T16:33:06.805Z"
+        },
+        {
+          "id": "af23c36c-26b1-4999-a87f-9997f7b9abfc",
+          "placeId": "it",
+          "name": "意大利",
+          "scope": "international",
+          "lat": 42.83333333,
+          "lon": 12.83333333,
+          "createdAt": "2026-09-26T16:33:09.919Z"
+        },
+        {
+          "id": "a5be0bde-6cd4-4009-8872-7b761ddd164b",
+          "placeId": "gb",
+          "name": "英国",
+          "scope": "international",
+          "lat": 54,
+          "lon": -2,
+          "createdAt": "2026-09-26T16:33:10.439Z"
+        },
+        {
+          "id": "9cab4b5a-9231-4134-9187-657920c93376",
+          "placeId": "ro",
+          "name": "罗马尼亚",
+          "scope": "international",
+          "lat": 46,
+          "lon": 25,
+          "createdAt": "2026-09-26T16:33:15.459Z"
+        },
+        {
+          "id": "b8a2e698-36ed-4f27-8a66-063b67ad4b5c",
+          "placeId": "au",
+          "name": "澳大利亚",
+          "scope": "international",
+          "lat": -27,
+          "lon": 133,
+          "createdAt": "2026-09-26T16:33:43.302Z"
+        }
+      ],
+      "deletedIds": [
+        "fd4dbf7b-dcfb-4289-84e4-e79d63bac95c"
+      ]
+    },
+    "deepseek:2026-09-27": {
+      "ts": "2026-09-27T00:03:00+08:00",
+      "bal": 670.54,
+      "grt": 0,
+      "top": 670.54
+    },
+    "deepseek:2026-09-28": {
+      "ts": "2026-09-28T08:22:27+08:00",
+      "bal": 661.25,
+      "grt": 0,
+      "top": 661.25
+    },
+    "gain:2026-09-28": 6640,
+    "deepseek:2026-09-29": {
+      "ts": "2026-09-29T09:18:04+08:00",
+      "bal": 654.31,
+      "grt": 0,
+      "top": 654.31
+    },
+    "gain:2026-09-29": -17331,
+    "deepseek:2026-09-30": {
+      "ts": "2026-09-30T06:24:41+08:00",
+      "bal": 654.23,
+      "grt": 0,
+      "top": 654.23
+    },
+    "gain:2026-09-30": 6276,
+    "deepseek:2026-10-01": {
+      "ts": "2026-10-01T12:29:41+08:00",
+      "bal": 650.64,
+      "grt": 0,
+      "top": 650.64
+    },
+    "deepseek:2026-10-02": {
+      "ts": "2026-10-02T06:09:08+08:00",
+      "bal": 647.95,
+      "grt": 0,
+      "top": 647.95
+    },
+    "gain:2026-10-02": -6427,
+    "deepseek:2026-10-03": {
+      "ts": "2026-10-03T14:58:18+08:00",
+      "bal": 646.9,
+      "grt": 0,
+      "top": 646.9
+    },
+    "deepseek:2026-10-04": {
+      "ts": "2026-10-04T08:17:35+08:00",
+      "bal": 646.9,
+      "grt": 0,
+      "top": 646.9
+    },
+    "deepseek:2026-10-05": {
+      "ts": "2026-10-05T03:01:47+08:00",
+      "bal": 642.58,
+      "grt": 0,
+      "top": 642.58
+    },
+    "gain:2026-10-05": 2495,
+    "deepseek:2026-10-06": {
+      "ts": "2026-10-06T12:29:58+08:00",
+      "bal": 639.88,
+      "grt": 0,
+      "top": 639.88
+    },
+    "gain:2026-10-06": 4275,
+    "deepseek:2026-10-07": {
+      "ts": "2026-10-07T07:58:49+08:00",
+      "bal": 636.77,
+      "grt": 0,
+      "top": 636.77
+    },
+    "gain:2026-10-07": -5642,
+    "deepseek:2026-10-08": {
+      "ts": "2026-10-08T06:47:38+08:00",
+      "bal": 619.61,
+      "grt": 0,
+      "top": 619.61
+    },
+    "gain:2026-10-08": -5415,
+    "deepseek:2026-10-09": {
+      "ts": "2026-10-09T05:21:46+08:00",
+      "bal": 619.55,
+      "grt": 0,
+      "top": 619.55
+    },
+    "gain:2026-10-09": 14250,
+    "deepseek:2026-10-10": {
+      "ts": "2026-10-10T06:36:42+08:00",
+      "bal": 618.72,
+      "grt": 0,
+      "top": 618.72
+    },
+    "deepseek:2026-10-12": {
+      "ts": "2026-10-12T06:02:51+08:00",
+      "bal": 610.11,
+      "grt": 0,
+      "top": 610.11
+    },
+    "deepseek:2026-10-13": {
+      "ts": "2026-10-13T03:30:40+08:00",
+      "bal": 610.11,
+      "grt": 0,
+      "top": 610.11
+    }
+  }
+}
