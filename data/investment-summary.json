@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "baseYearGross": 0,
   "before2026Gross": -20085,
-  "yearGross": 58628,
+  "yearGross": 59710,
   "positions": [
     {
       "recordId": "card-total",
@@ -12,7 +12,7 @@
       "symbol": "cardtotal",
       "quantity": 1,
       "snapshotPrice": 0,
-      "snapshotValue": 1514076,
+      "snapshotValue": 1514197,
       "currency": "CNY"
     }
   ],
@@ -20,11 +20,11 @@
     "cardtotal": {
       "symbol": "cardtotal",
       "name": "合计",
-      "price": 1572704,
-      "previousClose": 1538045,
-      "time": "20261105161453",
-      "change": 34659,
-      "changeRate": 2.25
+      "price": 1573907,
+      "previousClose": 1539190,
+      "time": "20261105161500",
+      "change": 34717,
+      "changeRate": 2.26
     }
   },
   "fx": {
@@ -63,12 +63,12 @@
   ],
   "fundYearDates": "胡、杨均 2026-11-03",
   "dailyScope": "securities",
-  "sourceScope": "最近一个交易日仅统计证券账户，不含理财通基金；年内与历史收益取自投资收益看板（2026-11-05 行情口径，含基金），毛收益不扣机会成本。",
-  "generatedAt": "2026-11-05T11:02:56.650Z",
-  "sourceSnapshotSha256": "a4aa46babfdc2d37d4379ad41f76009fe7c26f727c0a38d303dc501f73100dda",
+  "sourceScope": "最近一个交易日仅统计证券账户，不含理财通基金；年内与历史收益取自投资收益看板（2026-11-05 口径，含基金 11-03→11-05 差额 +1,024），毛收益不扣机会成本。",
+  "generatedAt": "2026-11-05T13:15:05.702Z",
+  "sourceSnapshotSha256": "cd07bd39d964af99d77bbe4cf9dcd55bea9ea5d0f3aa2668f9a932d2045dae19",
   "tradingDay": "2026-11-05",
-  "dailyGross": 34659,
-  "historyGross": 38543,
+  "dailyGross": 34717,
+  "historyGross": 39625,
   "complete": true,
   "dailyComplete": true,
   "fxRate": 0.8501
