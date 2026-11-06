@@ -1,75 +1,76 @@
 {
-  "schemaVersion": 1,
-  "baseYearGross": 0,
-  "before2026Gross": -20085,
-  "yearGross": 63854.85,
-  "positions": [
-    {
-      "recordId": "card-total",
-      "market": "a",
-      "account": "家庭合计",
-      "name": "证券与基金合计",
-      "symbol": "cardtotal",
-      "quantity": 1,
-      "snapshotPrice": 0,
-      "snapshotValue": 1828054.26,
-      "currency": "CNY"
-    }
-  ],
-  "quotes": {
-    "cardtotal": {
-      "symbol": "cardtotal",
-      "name": "合计",
-      "price": 1891909.11,
-      "previousClose": 1857174.19,
-      "time": "20261105161500",
-      "change": 34734.92,
-      "changeRate": 1.87
-    }
+ "schemaVersion": 1,
+ "baseYearGross": 0,
+ "before2026Gross": -20085,
+ "yearGross": 63854.85,
+ "positions": [
+  {
+   "recordId": "card-total",
+   "market": "a",
+   "account": "家庭合计",
+   "name": "证券与基金合计",
+   "symbol": "cardtotal",
+   "quantity": 1,
+   "snapshotPrice": 0,
+   "snapshotValue": 2010401.36,
+   "currency": "CNY"
+  }
+ ],
+ "quotes": {
+  "cardtotal": {
+   "symbol": "cardtotal",
+   "name": "合计",
+   "price": 2074256.21,
+   "previousClose": 2039521.29,
+   "time": "20261105161500",
+   "change": 34734.92,
+   "changeRate": 1.7
+  }
+ },
+ "fx": {
+  "rate": 0.8501,
+  "asOf": "2026-11-05"
+ },
+ "fundDaily": [
+  {
+   "recordId": "fund-detail-1",
+   "account": "胡的理财通",
+   "fund": "摩根标普500指数(QDII)A",
+   "asOf": "2026-11-06",
+   "dailyProfit": -1332.41
   },
-  "fx": {
-    "rate": 0.8501,
-    "asOf": "2026-11-05"
+  {
+   "recordId": "fund-detail-2",
+   "account": "胡的理财通",
+   "fund": "摩根纳斯达克100指数(QDII)人民币A",
+   "asOf": "2026-11-06",
+   "dailyProfit": -1707.02
   },
-  "fundDaily": [
-    {
-      "recordId": "fund-detail-1",
-      "account": "胡的理财通",
-      "fund": "摩根标普500指数(QDII)A",
-      "asOf": "2026-11-03",
-      "dailyProfit": -560.43
-    },
-    {
-      "recordId": "fund-detail-2",
-      "account": "胡的理财通",
-      "fund": "摩根纳斯达克100指数(QDII)人民币A",
-      "asOf": "2026-11-03",
-      "dailyProfit": -955.87
-    },
-    {
-      "recordId": "yang-sp500-fund",
-      "account": "杨的理财通",
-      "fund": "摩根标普500指数(QDII)人民币A",
-      "asOf": "2026-11-03",
-      "dailyProfit": -560.48
-    },
-    {
-      "recordId": "yang-nasdaq-fund",
-      "account": "杨的理财通",
-      "fund": "摩根纳斯达克100指数(QDII)人民币A",
-      "asOf": "2026-11-03",
-      "dailyProfit": -1008.86
-    }
-  ],
-  "fundYearDates": "胡、杨均 2026-11-03",
-  "dailyScope": "securities",
-  "sourceScope": "最近一个交易日仅统计证券账户，不含理财通基金；年内与历史收益取自投资收益看板（2026-11-05 口径，含基金 11-03→11-05 差额 +1,024），毛收益不扣机会成本。",
-  "generatedAt": "2026-11-05T15:34:50.885Z",
-  "sourceSnapshotSha256": "b21d40820cf06451865d2d5fcaad7444f77d9ccb4209a1115e36f99715d37186",
-  "tradingDay": "2026-11-05",
-  "dailyGross": 34734.92,
-  "historyGross": 43769.85,
-  "complete": true,
-  "dailyComplete": true,
-  "fxRate": 0.8501
+  {
+   "recordId": "yang-sp500-fund",
+   "account": "杨的理财通",
+   "fund": "摩根标普500指数(QDII)人民币A",
+   "asOf": "2026-11-06",
+   "dailyProfit": -1332.55
+  },
+  {
+   "recordId": "yang-nasdaq-fund",
+   "account": "杨的理财通",
+   "fund": "摩根纳斯达克100指数(QDII)人民币A",
+   "asOf": "2026-11-06",
+   "dailyProfit": -1801.52
+  }
+ ],
+ "fundYearDates": "胡、杨均 2026-11-06",
+ "dailyScope": "securities",
+ "sourceScope": "最近一个交易日仅统计证券账户，不含理财通基金；年内与历史收益取自投资收益看板（2026-11-05 口径，含基金 11-03→11-05 差额 +1,024），毛收益不扣机会成本。",
+ "generatedAt": "2026-11-06T15:55:46.087Z",
+ "sourceSnapshotSha256": "b21d40820cf06451865d2d5fcaad7444f77d9ccb4209a1115e36f99715d37186",
+ "tradingDay": "2026-11-05",
+ "dailyGross": 34734.92,
+ "historyGross": 43769.85,
+ "complete": true,
+ "dailyComplete": true,
+ "fxRate": 0.8501,
+ "note": "2026-11-06 同步：511260 双账户（胡 2100 / 杨 1300）+ 四只 QDII 基金 11-06 截图；合计按差额平移，年内与历史收益口径未重算。"
 }
