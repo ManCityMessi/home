@@ -12,7 +12,7 @@
    "symbol": "cardtotal",
    "quantity": 1,
    "snapshotPrice": 0,
-   "snapshotValue": 2192748.46,
+   "snapshotValue": 1878158.9,
    "currency": "CNY"
   }
  ],
@@ -20,11 +20,11 @@
   "cardtotal": {
    "symbol": "cardtotal",
    "name": "合计",
-   "price": 2256603.31,
-   "previousClose": 2221868.39,
-   "time": "20261105161500",
-   "change": 34734.92,
-   "changeRate": 1.56
+   "price": 1878158.9,
+   "previousClose": 1892708.94,
+   "time": "20261106161500",
+   "change": -14550.04,
+   "changeRate": -0.77
   }
  },
  "fx": {
@@ -67,10 +67,10 @@
  "generatedAt": "2026-11-06T16:02:01.666Z",
  "sourceSnapshotSha256": "b21d40820cf06451865d2d5fcaad7444f77d9ccb4209a1115e36f99715d37186",
  "tradingDay": "2026-11-05",
- "dailyGross": 34734.92,
+ "dailyGross": -14550.04,
  "historyGross": 43769.85,
  "complete": true,
  "dailyComplete": true,
  "fxRate": 0.8501,
- "note": "2026-11-06 同步：511260 双账户（胡 2100 / 杨 1300）+ 四只 QDII 基金 11-06 截图；合计按差额平移，年内与历史收益口径未重算。"
+ "note": "2026-11-06 收盘：美股基金 117,886.82、国债 788,184.90、A股 484,311.00、港股 487,776.18，合计 1,878,158.90（四市场相加，非差额平移）；国债含 511010 于 11-05 买入 1,000 份。"
 }
