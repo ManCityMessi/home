@@ -12,7 +12,7 @@
    "symbol": "cardtotal",
    "quantity": 1,
    "snapshotPrice": 0,
-   "snapshotValue": 2010401.36,
+   "snapshotValue": 2192748.46,
    "currency": "CNY"
   }
  ],
@@ -20,11 +20,11 @@
   "cardtotal": {
    "symbol": "cardtotal",
    "name": "合计",
-   "price": 2074256.21,
-   "previousClose": 2039521.29,
+   "price": 2256603.31,
+   "previousClose": 2221868.39,
    "time": "20261105161500",
    "change": 34734.92,
-   "changeRate": 1.7
+   "changeRate": 1.56
   }
  },
  "fx": {
@@ -64,7 +64,7 @@
  "fundYearDates": "胡、杨均 2026-11-06",
  "dailyScope": "securities",
  "sourceScope": "最近一个交易日仅统计证券账户，不含理财通基金；年内与历史收益取自投资收益看板（2026-11-05 口径，含基金 11-03→11-05 差额 +1,024），毛收益不扣机会成本。",
- "generatedAt": "2026-11-06T15:55:46.087Z",
+ "generatedAt": "2026-11-06T16:02:01.666Z",
  "sourceSnapshotSha256": "b21d40820cf06451865d2d5fcaad7444f77d9ccb4209a1115e36f99715d37186",
  "tradingDay": "2026-11-05",
  "dailyGross": 34734.92,
